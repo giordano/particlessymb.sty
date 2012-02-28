@@ -14,8 +14,11 @@
 %%  1.0 (27/02/2012)
 %%    - Start from heppennames2.sty
 %%    - Added support for kpfonts and fourier packages
+%%  1.1 (28/02/2012)
+%%    - Support for kpfonts and fourier rewritten thanks to Enrico Gregorio and
+%%      Claudio Beccari
 %%
-%%  Last Mod.  27 February 2012 Mosè Giordano
+%%  Last Mod.  28 February 2012 Mosè Giordano
 %%
 %%  This material is subject to the LaTeX Project Public License.
 %%  See http://www.ctan.org/tex-archive/help/Catalogue/licenses.lppl.html
@@ -23,8 +26,8 @@
 %%
 %%  -------------------------------------------------------------
 
-\def\fileversion{1.0}
-\def\filedate{2012/02/27}
+\def\fileversion{1.1}
+\def\filedate{2012/02/28}
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{particlessymb}[\filedate\space Elementary Particle
   Naming Scheme - Version (\fileversion)]
@@ -54,144 +57,146 @@
 \RequirePackage{xspace}
 \RequirePackage{amsmath}
 
-\@ifpackageloaded{kpfonts}
-{
-  \newcommand{\upalpha}{\alphaup}
-  \newcommand{\upbeta}{\betaup}
-  \newcommand{\upgamma}{\gammaup}
-  \newcommand{\updelta}{\deltaup}
-  \newcommand{\upepsilon}{\epsilonup}
-  \newcommand{\upzeta}{\zetaup}
-  \newcommand{\upeta}{\etaup}
-  \newcommand{\uptheta}{\thetaup}
-  \newcommand{\upiota}{\iotaup}
-  \newcommand{\upkappa}{\kappaup}
-  \newcommand{\uplambda}{\lambdaup}
-  \newcommand{\upmu}{\muup}
-  \newcommand{\upnu}{\nuup}
-  \newcommand{\upxi}{\xiup}
-  \newcommand{\uppi}{\piup}
-  \newcommand{\uprho}{\rhoup}
-  \newcommand{\upsigma}{\sigmaup}
-  \newcommand{\uptau}{\tauup}
-  \newcommand{\upupsilon}{\upsilonup}
-  \newcommand{\upphi}{\phiup}
-  \newcommand{\upchi}{\chiup}
-  \newcommand{\uppsi}{\psiup}
-  \newcommand{\upomega}{\omegaup}
+\def\upnames@kpfonts{
+  \protected\def\upalpha{\alphaup}
+  \protected\def\upbeta{\betaup}
+  \protected\def\upgamma{\gammaup}
+  \protected\def\updelta{\deltaup}
+  \protected\def\upepsilon{\epsilonup}
+  \protected\def\upzeta{\zetaup}
+  \protected\def\upeta{\etaup}
+  \protected\def\uptheta{\thetaup}
+  \protected\def\upiota{\iotaup}
+  \protected\def\upkappa{\kappaup}
+  \protected\def\uplambda{\lambdaup}
+  \protected\def\upmu{\muup}
+  \protected\def\upnu{\nuup}
+  \protected\def\upxi{\xiup}
+  \protected\def\uppi{\piup}
+  \protected\def\uprho{\rhoup}
+  \protected\def\upsigma{\sigmaup}
+  \protected\def\uptau{\tauup}
+  \protected\def\upupsilon{\upsilonup}
+  \protected\def\upphi{\phiup}
+  \protected\def\upchi{\chiup}
+  \protected\def\uppsi{\psiup}
+  \protected\def\upomega{\omegaup}
 
-  \newcommand{\upvarepsilon}{\varepsilonup}
-  \newcommand{\upvartheta}{\varthetaup}
-  \newcommand{\upvarpi}{\varphiup}
-  \newcommand{\upvarrho}{\varrhoup}
-  \newcommand{\upvarsigma}{\varsigmaup}
+  \protected\def\upvarepsilon{\varepsilonup}
+  \protected\def\upvartheta{\varthetaup}
+  \protected\def\upvarpi{\varphiup}
+  \protected\def\upvarrho{\varrhoup}
+  \protected\def\upvarsigma{\varsigmaup}
 
-  \newcommand{\Upgamma}{\Gammaup}
-  \newcommand{\Updelta}{\Deltaup}
-  \newcommand{\Uptheta}{\Thetaup}
-  \newcommand{\Uplambda}{\Lambdaup}
-  \newcommand{\Upxi}{\Xiup}
-  \newcommand{\Uppi}{\Piup}
-  \newcommand{\Upsigma}{\Sigmaup}
-  \newcommand{\Upupsilon}{\Upsilonup}
-  \newcommand{\Upphi}{\Phiup}
-  \newcommand{\Uppsi}{\Psiup}
-  \newcommand{\Upomega}{\Omegaup}
+  \protected\def\Upgamma{\Gammaup}
+  \protected\def\Updelta{\Deltaup}
+  \protected\def\Uptheta{\Thetaup}
+  \protected\def\Uplambda{\Lambdaup}
+  \protected\def\Upxi{\Xiup}
+  \protected\def\Uppi{\Piup}
+  \protected\def\Upsigma{\Sigmaup}
+  \protected\def\Upupsilon{\Upsilonup}
+  \protected\def\Upphi{\Phiup}
+  \protected\def\Uppsi{\Psiup}
+  \protected\def\Upomega{\Omegaup}
 }
-{
-  \@ifpackageloaded{fourier}
-  {
-    \newcommand{\UP}[1]{\csname\ifsloped other\fi#1\endcsname}
+\def\upnames@fourier{
+  \def\UP##1{\csname\ifsloped other\fi##1\endcsname}
+  \protected\def\upalpha{\UP{alpha}}
+  \protected\def\upbeta{\UP{beta}}
+  \protected\def\upgamma{\UP{gamma}}
+  \protected\def\updelta{\UP{delta}}
+  \protected\def\upepsilon{\UP{epsilon}}
+  \protected\def\upzeta{\UP{zeta}}
+  \protected\def\upeta{\UP{eta}}
+  \protected\def\uptheta{\UP{theta}}
+  \protected\def\upiota{\UP{iota}}
+  \protected\def\upkappa{\UP{kappa}}
+  \protected\def\uplambda{\UP{lambda}}
+  \protected\def\upmu{\UP{mu}}
+  \protected\def\upnu{\UP{nu}}
+  \protected\def\upxi{\UP{xi}}
+  \protected\def\uppi{\UP{pi}}
+  \protected\def\uprho{\UP{rho}}
+  \protected\def\upsigma{\UP{sigma}}
+  \protected\def\uptau{\UP{tau}}
+  \protected\def\upupsilon{\UP{upsilon}}
+  \protected\def\upphi{\UP{phi}}
+  \protected\def\upchi{\UP{chi}}
+  \protected\def\uppsi{\UP{psi}}
+  \protected\def\upomega{\UP{omega}}
 
-    \newcommand{\upalpha}{\UP{alpha}}
-    \newcommand{\upbeta}{\UP{beta}}
-    \newcommand{\upgamma}{\UP{gamma}}
-    \newcommand{\updelta}{\UP{delta}}
-    \newcommand{\upepsilon}{\UP{epsilon}}
-    \newcommand{\upzeta}{\UP{zeta}}
-    \newcommand{\upeta}{\UP{eta}}
-    \newcommand{\uptheta}{\UP{theta}}
-    \newcommand{\upiota}{\UP{iota}}
-    \newcommand{\upkappa}{\UP{kappa}}
-    \newcommand{\uplambda}{\UP{lambda}}
-    \newcommand{\upmu}{\UP{mu}}
-    \newcommand{\upnu}{\UP{nu}}
-    \newcommand{\upxi}{\UP{xi}}
-    \newcommand{\uppi}{\UP{pi}}
-    \newcommand{\uprho}{\UP{rho}}
-    \newcommand{\upsigma}{\UP{sigma}}
-    \newcommand{\uptau}{\UP{tau}}
-    \newcommand{\upupsilon}{\UP{upsilon}}
-    \newcommand{\upphi}{\UP{phi}}
-    \newcommand{\upchi}{\UP{chi}}
-    \newcommand{\uppsi}{\UP{psi}}
-    \newcommand{\upomega}{\UP{omega}}
+  \protected\def\upvarepsilon{\UP{varepsilon}}
+  \protected\def\upvartheta{\UP{vartheta}}
+  \protected\def\upvarpi{\UP{varphi}}
+  \protected\def\upvarrho{\UP{varrho}}
+  \protected\def\upvarsigma{\UP{varsigma}}
 
-    \newcommand{\upvarepsilon}{\UP{varepsilon}}
-    \newcommand{\upvartheta}{\UP{vartheta}}
-    \newcommand{\upvarpi}{\UP{varphi}}
-    \newcommand{\upvarrho}{\UP{varrho}}
-    \newcommand{\upvarsigma}{\UP{varsigma}}
-
-    \newcommand{\Upgamma}{\UP{Gamma}}
-    \newcommand{\Updelta}{\UP{Delta}}
-    \newcommand{\Uptheta}{\UP{Theta}}
-    \newcommand{\Uplambda}{\UP{Lambda}}
-    \newcommand{\Upxi}{\UP{Xi}}
-    \newcommand{\Uppi}{\UP{Pi}}
-    \newcommand{\Upsigma}{\UP{Sigma}}
-    \newcommand{\Upupsilon}{\UP{Upsilon}}
-    \newcommand{\Upphi}{\UP{Phi}}
-    \newcommand{\Uppsi}{\UP{Psi}}
-    \newcommand{\Upomega}{\UP{Omega}}
-  }
-  {
-    \message{Declaring upgreek from Symbol scaled 90\%}
-    \DeclareFontFamily{U}{fsy}{}
-    \DeclareFontShape{U}{fsy}{m}{n}{<->s*[.9]psyr}{}
-    \DeclareSymbolFont{ugrf@m}{U}{fsy}{m}{n}
-    \DeclareMathSymbol{\upalpha}{\mathord}{ugrf@m}{`a}
-    \DeclareMathSymbol{\upbeta}{\mathord}{ugrf@m}{`b}
-    \DeclareMathSymbol{\upgamma}{\mathord}{ugrf@m}{`g}
-    \DeclareMathSymbol{\updelta}{\mathord}{ugrf@m}{`d}
-    \DeclareMathSymbol{\upepsilon}{\mathord}{ugrf@m}{`e}
-    \DeclareMathSymbol{\upzeta}{\mathord}{ugrf@m}{`z}
-    \DeclareMathSymbol{\upeta}{\mathord}{ugrf@m}{`h}
-    \DeclareMathSymbol{\uptheta}{\mathord}{ugrf@m}{`q}
-    \DeclareMathSymbol{\upiota}{\mathord}{ugrf@m}{`i}
-    \DeclareMathSymbol{\upkappa}{\mathord}{ugrf@m}{`k}
-    \DeclareMathSymbol{\uplambda}{\mathord}{ugrf@m}{`l}
-    \DeclareMathSymbol{\upmu}{\mathord}{ugrf@m}{`m}
-    \DeclareMathSymbol{\upnu}{\mathord}{ugrf@m}{`n}
-    \DeclareMathSymbol{\upxi}{\mathord}{ugrf@m}{`x}
-    \DeclareMathSymbol{\uppi}{\mathord}{ugrf@m}{`p}
-    \DeclareMathSymbol{\uprho}{\mathord}{ugrf@m}{`r}
-    \DeclareMathSymbol{\upsigma}{\mathord}{ugrf@m}{`s}
-    \DeclareMathSymbol{\uptau}{\mathord}{ugrf@m}{`t}
-    \DeclareMathSymbol{\upupsilon}{\mathord}{ugrf@m}{`u}
-    \DeclareMathSymbol{\upphi}{\mathord}{ugrf@m}{`f}
-    \DeclareMathSymbol{\upchi}{\mathord}{ugrf@m}{`c}
-    \DeclareMathSymbol{\uppsi}{\mathord}{ugrf@m}{`y}
-    \DeclareMathSymbol{\upomega}{\mathord}{ugrf@m}{`w}
-    \let\upvarepsilon\upepsilon
-    \DeclareMathSymbol{\upvartheta}{\mathord}{ugrf@m}{`J}
-    \DeclareMathSymbol{\upvarpi}{\mathord}{ugrf@m}{`v}
-    \let\upvarrho\uprho
-    \let\upvarsigma\upsigma
-    \DeclareMathSymbol{\upvarphi}{\mathord}{ugrf@m}{`j}
-    \DeclareMathSymbol{\Upgamma}{\mathord}{ugrf@m}{`G}
-    \DeclareMathSymbol{\Updelta}{\mathord}{ugrf@m}{`D}
-    \DeclareMathSymbol{\Uptheta}{\mathord}{ugrf@m}{`Q}
-    \DeclareMathSymbol{\Uplambda}{\mathord}{ugrf@m}{`L}
-    \DeclareMathSymbol{\Upxi}{\mathord}{ugrf@m}{`X}
-    \DeclareMathSymbol{\Uppi}{\mathord}{ugrf@m}{`P}
-    \DeclareMathSymbol{\Upsigma}{\mathord}{ugrf@m}{`S}
-    \DeclareMathSymbol{\Upupsilon}{\mathord}{ugrf@m}{`U}
-    \DeclareMathSymbol{\Upphi}{\mathord}{ugrf@m}{`F}
-    \DeclareMathSymbol{\Uppsi}{\mathord}{ugrf@m}{`Y}
-    \DeclareMathSymbol{\Upomega}{\mathord}{ugrf@m}{`W}
-  }
+  \protected\def\Upgamma{\UP{Gamma}}
+  \protected\def\Updelta{\UP{Delta}}
+  \protected\def\Uptheta{\UP{Theta}}
+  \protected\def\Uplambda{\UP{Lambda}}
+  \protected\def\Upxi{\UP{Xi}}
+  \protected\def\Uppi{\UP{Pi}}
+  \protected\def\Upsigma{\UP{Sigma}}
+  \protected\def\Upupsilon{\UP{Upsilon}}
+  \protected\def\Upphi{\UP{Phi}}
+  \protected\def\Uppsi{\UP{Psi}}
+  \protected\def\Upomega{\UP{Omega}}
 }
+\def\upnames@default{
+  \message{Declaring upgreek from Symbol scaled 90\%}
+  \DeclareFontFamily{U}{fsy}{}
+  \DeclareFontShape{U}{fsy}{m}{n}{<->s*[.9]psyr}{}
+  \DeclareSymbolFont{ugrf@m}{U}{fsy}{m}{n}
+  \DeclareMathSymbol{\upalpha}{\mathord}{ugrf@m}{`a}
+  \DeclareMathSymbol{\upbeta}{\mathord}{ugrf@m}{`b}
+  \DeclareMathSymbol{\upgamma}{\mathord}{ugrf@m}{`g}
+  \DeclareMathSymbol{\updelta}{\mathord}{ugrf@m}{`d}
+  \DeclareMathSymbol{\upepsilon}{\mathord}{ugrf@m}{`e}
+  \DeclareMathSymbol{\upzeta}{\mathord}{ugrf@m}{`z}
+  \DeclareMathSymbol{\upeta}{\mathord}{ugrf@m}{`h}
+  \DeclareMathSymbol{\uptheta}{\mathord}{ugrf@m}{`q}
+  \DeclareMathSymbol{\upiota}{\mathord}{ugrf@m}{`i}
+  \DeclareMathSymbol{\upkappa}{\mathord}{ugrf@m}{`k}
+  \DeclareMathSymbol{\uplambda}{\mathord}{ugrf@m}{`l}
+  \DeclareMathSymbol{\upmu}{\mathord}{ugrf@m}{`m}
+  \DeclareMathSymbol{\upnu}{\mathord}{ugrf@m}{`n}
+  \DeclareMathSymbol{\upxi}{\mathord}{ugrf@m}{`x}
+  \DeclareMathSymbol{\uppi}{\mathord}{ugrf@m}{`p}
+  \DeclareMathSymbol{\uprho}{\mathord}{ugrf@m}{`r}
+  \DeclareMathSymbol{\upsigma}{\mathord}{ugrf@m}{`s}
+  \DeclareMathSymbol{\uptau}{\mathord}{ugrf@m}{`t}
+  \DeclareMathSymbol{\upupsilon}{\mathord}{ugrf@m}{`u}
+  \DeclareMathSymbol{\upphi}{\mathord}{ugrf@m}{`f}
+  \DeclareMathSymbol{\upchi}{\mathord}{ugrf@m}{`c}
+  \DeclareMathSymbol{\uppsi}{\mathord}{ugrf@m}{`y}
+  \DeclareMathSymbol{\upomega}{\mathord}{ugrf@m}{`w}
+  \let\upvarepsilon\upepsilon
+  \DeclareMathSymbol{\upvartheta}{\mathord}{ugrf@m}{`J}
+  \DeclareMathSymbol{\upvarpi}{\mathord}{ugrf@m}{`v}
+  \let\upvarrho\uprho
+  \let\upvarsigma\upsigma
+  \DeclareMathSymbol{\upvarphi}{\mathord}{ugrf@m}{`j}
+  \DeclareMathSymbol{\Upgamma}{\mathord}{ugrf@m}{`G}
+  \DeclareMathSymbol{\Updelta}{\mathord}{ugrf@m}{`D}
+  \DeclareMathSymbol{\Uptheta}{\mathord}{ugrf@m}{`Q}
+  \DeclareMathSymbol{\Uplambda}{\mathord}{ugrf@m}{`L}
+  \DeclareMathSymbol{\Upxi}{\mathord}{ugrf@m}{`X}
+  \DeclareMathSymbol{\Uppi}{\mathord}{ugrf@m}{`P}
+  \DeclareMathSymbol{\Upsigma}{\mathord}{ugrf@m}{`S}
+  \DeclareMathSymbol{\Upupsilon}{\mathord}{ugrf@m}{`U}
+  \DeclareMathSymbol{\Upphi}{\mathord}{ugrf@m}{`F}
+  \DeclareMathSymbol{\Uppsi}{\mathord}{ugrf@m}{`Y}
+  \DeclareMathSymbol{\Upomega}{\mathord}{ugrf@m}{`W}
+}
+\@tempswafalse
+\@ifpackageloaded{kpfonts}{\upnames@kpfonts\@tempswatrue}{}
+\@ifpackageloaded{fourier}{\upnames@fourier\@tempswatrue}{}
+\if@tempswa\else\upnames@default\fi
+\@onlypreamble\upnames@kpfonts
+\@onlypreamble\upnames@fourier
+\@onlypreamble\upnames@default
 
 \let\Xspace\xspace
 
