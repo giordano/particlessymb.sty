@@ -1,15 +1,24 @@
 %%
-%%  particlessymb: An improved version of heppennames2.sty of Michel Goossens.
-%%                 This package supports greek upright letters from kpfonts and
-%%                 fourier packages
+%% particlessymb: Package for typesetting elementary particles symbols in
+%%                 LaTeX.  This package supports greek upright letters from
+%%                 kpfonts and fourier packages
 %%
 %%                 The principle of the naming scheme is described in
-%%                 <http://xml.web.cern.ch/XML/pennames/heppennames2.pdf>
+%%                 <http://xml.web.cern.ch/XML/pennames/heppennames2.pdf>.
+%%
+%%                 This work is derived from heppennames2.sty
+%%                 (<http://xml.web.cern.ch/XML/pennames/heppennames2.sty>) by
+%%                 Michel Goossens, released under the terms of the LaTeX
+%%                 Project Public License, and contains code taken from
+%%                 upgreek.sty by Walter Schmidt, released under the terms of
+%%                 the of LaTeX Project Public License, version 1.2 or any later
+%%                 version.
 %%
 %%  Author: Mosè Giordano
 %%          Michel Goossens <michel.goossens@cern.ch> (for heppennames2.sty)
 %%          Andy Buckley <andy@insectnation.org> (for heppennames.sty)
 %%          Michel Goossens and Eric van Herwijnen (for original pennames.sty)
+%%          Walter Schmidt (for upgreek.sty)
 %%
 %%  1.0 (27/02/2012) Mosè Giordano
 %%    - Start from heppennames2.sty
@@ -23,11 +32,18 @@
 %%    - Fixed other definitions (\PGtpr, \PGtprm, \PGtprp, \PAGn, \PAp, \PAn,
 %%      \PNp, \PNz, \PGhpr, \PSHpmpm and \PSGm)
 %%
-%%  Last Modified  11 July 2012 Mosè Giordano
+%%  Last modified: 11 July 2012 Mosè Giordano
 %%
-%%  This material is subject to the LaTeX Project Public License.
-%%  See http://www.ctan.org/tex-archive/help/Catalogue/licenses.lppl.html
-%%  for the details of that license.
+%%  This work may be distributed and/or modified under the conditions of the
+%%  LaTeX Project Public License, either version 1.3 of this license or (at your
+%%  option) any later version.  The latest version of this license is in
+%%    http://www.latex-project.org/lppl.txt
+%%  and version 1.3 or later is part of all distributions of LaTeX version
+%%  2005/12/01 or later.
+%%
+%%  This work has the LPPL maintenance status `maintained'.
+%%
+%%  The Current Maintainer of this work is Mosè Giordano.
 %%
 %%  -------------------------------------------------------------
 
@@ -149,6 +165,8 @@
   \protected\def\Uppsi{\UP{Psi}}
   \protected\def\Upomega{\UP{Omega}}
 }
+
+% Code taken from upgreek.sty package by Walter Schmidt
 \def\upnames@default{
   \message{Declaring upgreek from Symbol scaled 90\%}
   \DeclareFontFamily{U}{fsy}{}
