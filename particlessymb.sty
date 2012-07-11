@@ -281,9 +281,9 @@
 \DeclareRobustCommand{\PGtm}{\HepParticle{\PGt}{}{-}\Xspace} % tau lepton
 \DeclareRobustCommand{\PGtp}{\HepParticle{\PGt}{}{+}\Xspace} % anti-tau
 
-\DeclareRobustCommand{\PGtpr}{\HepParticle{\uptau}{}{}\Xspace} % tau
-\DeclareRobustCommand{\PGtprm}{\HepParticle{\PGt}{}{-}\Xspace} % tau lepton
-\DeclareRobustCommand{\PGtprp}{\HepParticle{\PGt}{}{+}\Xspace} % anti-tau
+\DeclareRobustCommand{\PGtpr}{\HepParticle{\PGt}{}{\prime}\Xspace} % tau prime
+\DeclareRobustCommand{\PGtprm}{\HepParticle{\PGt}{}{\prime{}-}\Xspace} % tau prime lepton
+\DeclareRobustCommand{\PGtprp}{\HepParticle{\PGt}{}{\prime{}+}\Xspace} % anti-tau prime
 
 \DeclareRobustCommand{\PGn}{\HepParticle{\upnu}{}{}\Xspace} % neutrino
 \DeclareRobustCommand{\PGne}{\HepParticle{\PGn}{\!\Pe}{}\Xspace} % electron neutrino
@@ -291,7 +291,7 @@
 \DeclareRobustCommand{\PGnGt}{\HepParticle{\PGn}{\!\PGt}{}\Xspace} % tau neutrino
 \DeclareRobustCommand{\PGnGtpr}{\HepParticle{\PGn}{\!\PGtpr}{}\Xspace} % tau prime neutrino
 
-\DeclareRobustCommand{\PAGn}{\HepAntiParticle{\upnu}{}{}\Xspace} % anti-neutrino
+\DeclareRobustCommand{\PAGn}{\HepAntiParticle{\PGn}{}{}\Xspace} % anti-neutrino
 \DeclareRobustCommand{\PAGne}{\HepAntiParticle{\PGn}{\!\Pe}{}\Xspace} % electron anti-neutrino
 \DeclareRobustCommand{\PAGnGm}{\HepAntiParticle{\PGn}{\!\PGm}{}\Xspace} % muon anti-neutrino
 \DeclareRobustCommand{\PAGnGt}{\HepAntiParticle{\PGn}{\!\PGt}{}\Xspace} % tau anti-neutrino
@@ -357,14 +357,14 @@
 % Nucleons
 \DeclareRobustCommand{\Pp}{\HepParticle{p}{}{}\Xspace} % proton
 \DeclareRobustCommand{\Pn}{\HepParticle{n}{}{}\Xspace} % neutron
-\DeclareRobustCommand{\PAp}{\HepAntiParticle{p}{}{}\Xspace} % anti-proton
-\DeclareRobustCommand{\PAn}{\HepAntiParticle{n}{}{}\Xspace} % anti-neutron
+\DeclareRobustCommand{\PAp}{\HepAntiParticle{\Pp}{}{}\Xspace} % anti-proton
+\DeclareRobustCommand{\PAn}{\HepAntiParticle{\Pn}{}{}\Xspace} % anti-neutron
 \DeclareRobustCommand{\PGa}{\HepParticle{\upalpha}{}{}\Xspace} % alpha
 
 %% N resonances
 \DeclareRobustCommand{\PN}{\HepParticle{N}{}{}\Xspace}
-\DeclareRobustCommand{\PNp}{\HepParticle{N}{}{+}\Xspace}
-\DeclareRobustCommand{\PNz}{\HepParticle{N}{}{0}\Xspace}
+\DeclareRobustCommand{\PNp}{\HepParticle{\PN}{}{+}\Xspace}
+\DeclareRobustCommand{\PNz}{\HepParticle{\PN}{}{0}\Xspace}
 \DeclareRobustCommand{\PNP}[1]{\HepParticleResonance{\PN}{#1}{}{}\Xspace}
 \DeclareRobustCommand{\PNpP}[1]{\HepParticleResonance{\PN}{#1}{}{+}\Xspace}
 \DeclareRobustCommand{\PNzP}[1]{\HepParticleResonance{\PN}{#1}{}{-}\Xspace}
@@ -406,7 +406,6 @@
 \DeclareRobustCommand{\PGSm}{\HepParticle{\PGS}{}{-}\Xspace}
 \DeclareRobustCommand{\PGSp}{\HepParticle{\PGS}{}{+}\Xspace}
 \DeclareRobustCommand{\PGSz}{\HepParticle{\PGS}{}{0}\Xspace}
-\DeclareRobustCommand{\PGSpm}{\HepParticle{\PGS}{}{\pm}\Xspace} %% charged Sigma
 \DeclareRobustCommand{\PGSstm}{\HepParticle{\PGS}{}{\ast-}\Xspace}
 \DeclareRobustCommand{\PGSstp}{\HepParticle{\PGS}{}{\ast+}\Xspace}
 \DeclareRobustCommand{\PGSstz}{\HepParticle{\PGS}{}{\ast0}\Xspace}
@@ -594,7 +593,7 @@
 
 %% Eta mesons
 \DeclareRobustCommand{\PGh}{\HepParticle{\upeta}{}{}\Xspace}% eta
-\DeclareRobustCommand{\PGhpr}{\HepParticle{\PGh}{}{\prime}{}\Xspace}% eta prime
+\DeclareRobustCommand{\PGhpr}{\HepParticle{\PGh}{}{\prime}\Xspace}% eta prime
 \DeclareRobustCommand{\PGhP}[1]{\HepParticleResonance{\PGh}{#1}{}{}\Xspace}% eta resonance
 \DeclareRobustCommand{\PGhprP}[1]{\HepParticleResonance{\PGhpr}{#1}{}{}\Xspace}% eta resonance
 \DeclareRobustCommand{\PGhDtP}[1]{\HepParticleResonanceFull{\PGh}{2}{}{#1}{}{}\Xspace}% eta 2 resonance
@@ -927,7 +926,7 @@
 \DeclareRobustCommand{\PSHpm}{\HepParticle{\PSH}{}{\pm}\Xspace}
 \DeclareRobustCommand{\PSHp}{\HepParticle{\PSH}{}{+}\Xspace}
 \DeclareRobustCommand{\PSHm}{\HepParticle{\PSH}{}{-}\Xspace}
-\DeclareRobustCommand{\PSHpmpm}{\HepParticle{\PSH}{}{\pm}\Xspace} % doubly charged Higgs
+\DeclareRobustCommand{\PSHpmpm}{\HepParticle{\PSH}{}{\pm\pm}\Xspace} % doubly charged Higgs
 
 \DeclareRobustCommand{\PSh}{\HepParticle{h}{}{}\Xspace} % light Higgs
 \DeclareRobustCommand{\PShz}{\HepParticle{\PSh}{}{0}\Xspace} % explicitly neutral light Higgs
@@ -980,7 +979,7 @@
 \DeclareRobustCommand{\PSeL}{\HepSusyParticle{\Pe}{L}{}\Xspace}
 \DeclareRobustCommand{\PSeR}{\HepSusyParticle{\Pe}{R}{}\Xspace}
 
-\DeclareRobustCommand{\PSGm}{\HepSusyParticle{\upmu}{}{}\Xspace} % smuon
+\DeclareRobustCommand{\PSGm}{\HepSusyParticle{\PGm}{}{}\Xspace} % smuon
 \DeclareRobustCommand{\PSGmmL}{\HepSusyParticle{\PGm}{L}{-}\Xspace}
 \DeclareRobustCommand{\PSGmmR}{\HepSusyParticle{\PGm}{R}{-}\Xspace}
 \DeclareRobustCommand{\PSGmL}{\HepSusyParticle{\PGm}{L}{}\Xspace}
