@@ -1,18 +1,16 @@
 %%
-%% particlessymb: Package for typesetting elementary particles symbols in
+%%  particlessymb: Package for typesetting elementary particles symbols in
 %%                 LaTeX.  This package supports greek upright letters from
 %%                 kpfonts and fourier packages
 %%
-%%                 The principle of the naming scheme is described in
-%%                 <http://xml.web.cern.ch/XML/pennames/heppennames2.pdf>.
+%%  The principle of the naming scheme is described in
+%%  <http://xml.web.cern.ch/XML/pennames/heppennames2.pdf>.
 %%
-%%                 This work is derived from heppennames2.sty
-%%                 (<http://xml.web.cern.ch/XML/pennames/heppennames2.sty>) by
-%%                 Michel Goossens, released under the terms of the LaTeX
-%%                 Project Public License, and contains code taken from
-%%                 upgreek.sty by Walter Schmidt, released under the terms of
-%%                 the of LaTeX Project Public License, version 1.2 or any later
-%%                 version.
+%%  This work is derived from heppennames2.sty
+%%  (<http://xml.web.cern.ch/XML/pennames/heppennames2.sty>) by Michel Goossens,
+%%  released under the terms of the LaTeX Project Public License, and contains
+%%  code taken from upgreek.sty by Walter Schmidt, released under the terms of
+%%  the of LaTeX Project Public License, version 1.2 or any later version.
 %%
 %%  Author: Mosè Giordano
 %%          Michel Goossens <michel.goossens@cern.ch> (for heppennames2.sty)
@@ -25,14 +23,20 @@
 %%    - Added support for kpfonts and fourier packages
 %%  1.1 (28/02/2012) Mosè Giordano
 %%    - Support for kpfonts and fourier rewritten thanks to Enrico Gregorio and
-%%      Claudio Beccari
+%%      Claudio Beccari.
 %%  1.2 (29/02/2012) Mosè Giordano
-%%    - Fixed Delta baryons commands
+%%    - Fixed Delta baryons commands.
 %%  1.3 (11/07/2012) Mosè Giordano
 %%    - Fixed other definitions (\PGtpr, \PGtprm, \PGtprp, \PAGn, \PAp, \PAn,
-%%      \PNp, \PNz, \PGhpr, \PSHpmpm and \PSGm)
+%%      \PNp, \PNz, \PGhpr, \PSHpmpm and \PSGm).
+%%  1.4 (13/07/2012) Mosè Giordano
+%%    - Reflected further corrections introduced by Michel Goosens in version
+%%      1.7 of heppennames2.sty:
+%%      more consistent definition of \PGtprm, \PGtprp, \PGDpp, \PGDp, \PGDz,
+%%      \PGDm commands;
+%%      \PSHpp and \PSHmm commands added.
 %%
-%%  Last modified: 11 July 2012 Mosè Giordano
+%%  Last modified: 13 July 2012 Mosè Giordano
 %%
 %%  This work may be distributed and/or modified under the conditions of the
 %%  LaTeX Project Public License, either version 1.3 of this license or (at your
@@ -47,8 +51,8 @@
 %%
 %%  -------------------------------------------------------------
 
-\def\fileversion{1.3}
-\def\filedate{2012/07/11}
+\def\fileversion{1.4}
+\def\filedate{2012/07/13}
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{particlessymb}[\filedate\space Elementary Particle
   Naming Scheme - Version (\fileversion)]
@@ -305,8 +309,8 @@
 \DeclareRobustCommand{\PGtp}{\HepParticle{\PGt}{}{+}\Xspace} % anti-tau
 
 \DeclareRobustCommand{\PGtpr}{\HepParticle{\PGt}{}{\prime}\Xspace} % tau prime
-\DeclareRobustCommand{\PGtprm}{\HepParticle{\PGt}{}{\prime{}-}\Xspace} % tau prime lepton
-\DeclareRobustCommand{\PGtprp}{\HepParticle{\PGt}{}{\prime{}+}\Xspace} % anti-tau prime
+\DeclareRobustCommand{\PGtprm}{\HepParticle{\PGtpr}{}{-}\Xspace} % tau prime lepton
+\DeclareRobustCommand{\PGtprp}{\HepParticle{\PGtpr}{}{+}\Xspace} % anti-tau prime
 
 \DeclareRobustCommand{\PGn}{\HepParticle{\upnu}{}{}\Xspace} % neutrino
 \DeclareRobustCommand{\PGne}{\HepParticle{\PGn}{\!\Pe}{}\Xspace} % electron neutrino
@@ -394,10 +398,10 @@
 
 %% Delta baryons
 \DeclareRobustCommand{\PGD}{\HepParticle{\Updelta}{}{}\Xspace}
-\DeclareRobustCommand{\PGDpp}{\HepParticle{\Updelta}{}{++}\Xspace}
-\DeclareRobustCommand{\PGDp}{\HepParticle{\Updelta}{}{+}\Xspace}
-\DeclareRobustCommand{\PGDz}{\HepParticle{\Updelta}{}{0}\Xspace}
-\DeclareRobustCommand{\PGDm}{\HepParticle{\Updelta}{}{-}\Xspace}
+\DeclareRobustCommand{\PGDpp}{\HepParticle{\PGD}{}{++}\Xspace}
+\DeclareRobustCommand{\PGDp}{\HepParticle{\PGD}{}{+}\Xspace}
+\DeclareRobustCommand{\PGDz}{\HepParticle{\PGD}{}{0}\Xspace}
+\DeclareRobustCommand{\PGDm}{\HepParticle{\PGD}{}{-}\Xspace}
 \DeclareRobustCommand{\PGDP}[1]{\HepParticleResonance{\PGD}{#1}{}{}\Xspace}
 \DeclareRobustCommand{\PGDppP}[1]{\HepParticleResonanceFull{\PGD}{}{}{#1}{}{++}\Xspace}
 \DeclareRobustCommand{\PGDpP}[1]{\HepParticleResonanceFull{\PGD}{}{}{#1}{}{+}\Xspace}
@@ -949,7 +953,9 @@
 \DeclareRobustCommand{\PSHpm}{\HepParticle{\PSH}{}{\pm}\Xspace}
 \DeclareRobustCommand{\PSHp}{\HepParticle{\PSH}{}{+}\Xspace}
 \DeclareRobustCommand{\PSHm}{\HepParticle{\PSH}{}{-}\Xspace}
-\DeclareRobustCommand{\PSHpmpm}{\HepParticle{\PSH}{}{\pm\pm}\Xspace} % doubly charged Higgs
+\DeclareRobustCommand{\PSHpmpm}{\HepParticle{\PSH}{}{\pm\pm}\Xspace} % doubly charged Higgs +-
+\DeclareRobustCommand{\PSHpp}{\HepParticle{\PSH}{}{++}\Xspace}% doubly charged Higgs ++
+\DeclareRobustCommand{\PSHmm}{\HepParticle{\PSH}{}{--}\Xspace}% doubly charged Higgs --
 
 \DeclareRobustCommand{\PSh}{\HepParticle{h}{}{}\Xspace} % light Higgs
 \DeclareRobustCommand{\PShz}{\HepParticle{\PSh}{}{0}\Xspace} % explicitly neutral light Higgs
