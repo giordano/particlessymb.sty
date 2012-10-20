@@ -81,6 +81,7 @@
 \RequirePackage{hepparticles}
 \RequirePackage{xspace}
 \RequirePackage{amsmath}
+\RequirePackage{xparse}
 
 \def\upnames@kpfonts{
   \protected\def\upalpha{\alphaup}
@@ -227,6 +228,24 @@
 
 \let\Xspace\xspace
 
+% commands for defining new particles and antiparticles
+\DeclareDocumentCommand\NewParticle{ m m m m }%
+{\DeclareRobustCommand{#1}{\HepParticle{#2}{#3}{#4}\Xspace}}
+\DeclareDocumentCommand\NewAntiParticle{ m m m m }%
+{\DeclareRobustCommand{#1}{\HepAntiParticle{#2}{#3}{#4}\Xspace}}
+
+% commands for defining new particles with resonance
+\DeclareDocumentCommand\NewParticleResonance{ m o m m m m }%
+{\DeclareRobustCommand{#1}[#2]{\HepParticleResonance{#3}{#4}{#5}{#6}\Xspace}}
+\DeclareDocumentCommand\NewParticleResonanceFull{ m o m m m m m m }%
+{\DeclareRobustCommand{#1}[#2]{\HepParticleResonanceFull{#3}{#4}{#5}{#6}{#7}{#8}\Xspace}}
+
+% commands for defining new SUSY particles and antiparticles
+\DeclareDocumentCommand\NewSusyParticle{ m m m m }%
+{\DeclareRobustCommand{\PSGmmR}{\HepSusyParticle{\PGm}{R}{-}\Xspace}}
+\DeclareDocumentCommand\NewSusyAntiParticle{ m m m m }%
+{\DeclareRobustCommand{\PASQR}{\HepSusyAntiParticle{\PQq}{R}{}\Xspace}}
+
 %% -------------------------------------------------------------
 %% The particles...
 %% -------------------------------------------------------------
@@ -236,362 +255,362 @@
 % ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 %% W and Z bosons
-\DeclareRobustCommand{\Pg}{\HepParticle{g}{}{}\Xspace} % gluon
-\DeclareRobustCommand{\PGg}{\HepParticle{\upgamma}{}{}\Xspace} % photon
+\NewParticle{\Pg}{g}{}{} % gluon
+\NewParticle{\PGg}{\upgamma}{}{} % photon
 
-\DeclareRobustCommand{\PW}{\HepParticle{W}{}{}\Xspace} % W boson
-\DeclareRobustCommand{\PWpm}{\HepParticle{\PW}{}{\pm}\Xspace} % charged W boson
-\DeclareRobustCommand{\PWmp}{\HepParticle{\PW}{}{\mp}\Xspace} % charged W boson
-\DeclareRobustCommand{\PWp}{\HepParticle{\PW}{}{+}\Xspace} % W-plus
-\DeclareRobustCommand{\PWm}{\HepParticle{\PW}{}{-}\Xspace} % W-minus
+\NewParticle{\PW}{W}{}{} % W boson
+\NewParticle{\PWpm}{\PW}{}{\pm} % charged W boson
+\NewParticle{\PWmp}{\PW}{}{\mp} % charged W boson
+\NewParticle{\PWp}{\PW}{}{+} % W-plus
+\NewParticle{\PWm}{\PW}{}{-} % W-minus
 
-\DeclareRobustCommand{\PZ}{\HepParticle{Z}{}{}\Xspace} % Z boson
-\DeclareRobustCommand{\PZz}{\HepParticle{\PZ}{}{0}\Xspace} % neutral Z boson
+\NewParticle{\PZ}{Z}{}{} % Z boson
+\NewParticle{\PZz}{\PZ}{}{0} % neutral Z boson
 
 %% Higgs
-\DeclareRobustCommand{\PH}{\HepParticle{H}{}{}\Xspace} % standard/heavy Higgs
-\DeclareRobustCommand{\PHz}{\HepParticle{\PH}{}{0}\Xspace} % explicitly neutral standard/heavy Higgs
+\NewParticle{\PH}{H}{}{} % standard/heavy Higgs
+\NewParticle{\PHz}{\PH}{}{0} % explicitly neutral standard/heavy Higgs
 
 % ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 %            W and Z Bosons outside Standard Model               +
 % ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-\DeclareRobustCommand{\PWDt}{\HepParticle{\PW}{2}{}\Xspace}% W2
-\DeclareRobustCommand{\PWpDt}{\HepParticle{\PW}{2}{+}\Xspace}% W2 +
-\DeclareRobustCommand{\PWpr}{\HepParticle{\PW}{}{\prime}\Xspace} % W'
-\DeclareRobustCommand{\PWL}{\HepParticle{\PW}{L}{}\Xspace}
-\DeclareRobustCommand{\PWR}{\HepParticle{\PW}{R}{}\Xspace}
+\NewParticle{\PWDt}{\PW}{2}{}% W2
+\NewParticle{\PWpDt}{\PW}{2}{+}% W2 +
+\NewParticle{\PWpr}{\PW}{}{\prime} % W'
+\NewParticle{\PWL}{\PW}{L}{}
+\NewParticle{\PWR}{\PW}{R}{}
 
-\DeclareRobustCommand{\PZpr}{\HepParticle{\PZ}{}{\prime}\Xspace} % Z'
-\DeclareRobustCommand{\PZprpr}{\HepParticle{\PZ}{}{\prime\prime}\Xspace}% Z"
-\DeclareRobustCommand{\PZst}{\HepParticle{\PZ}{}{\ast}\Xspace} % Z*
-\DeclareRobustCommand{\PZzDt}{\HepParticle{\PZ}{2}{0}\Xspace} % Z-zero 2
-\DeclareRobustCommand{\PZzDT}{\HepParticle{\PZ}{3}{0}\Xspace} % Z-zero 3
-\DeclareRobustCommand{\PZL}{\HepParticle{\PZ}{L}{}\Xspace}
-\DeclareRobustCommand{\PZLR}{\HepParticle{\PZ}{LR}{}\Xspace}
-\DeclareRobustCommand{\PZR}{\HepParticle{\PZ}{R}{}\Xspace}
-\DeclareRobustCommand{\PZGc}{\HepParticle{\PZ}{\upchi}{}\Xspace}
-\DeclareRobustCommand{\PZGe}{\HepParticle{\PZ}{\upeta}{}\Xspace}
-\DeclareRobustCommand{\PZGy}{\HepParticle{\PZ}{\uppsi}{}\Xspace}
+\NewParticle{\PZpr}{\PZ}{}{\prime} % Z'
+\NewParticle{\PZprpr}{\PZ}{}{\prime\prime}% Z"
+\NewParticle{\PZst}{\PZ}{}{\ast} % Z*
+\NewParticle{\PZzDt}{\PZ}{2}{0} % Z-zero 2
+\NewParticle{\PZzDT}{\PZ}{3}{0} % Z-zero 3
+\NewParticle{\PZL}{\PZ}{L}{}
+\NewParticle{\PZLR}{\PZ}{LR}{}
+\NewParticle{\PZR}{\PZ}{R}{}
+\NewParticle{\PZGc}{\PZ}{\upchi}{}
+\NewParticle{\PZGe}{\PZ}{\upeta}{}
+\NewParticle{\PZGy}{\PZ}{\uppsi}{}
 
 % ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 %                          LEPTONS                               +
 % ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-\DeclareRobustCommand{\Pl}{\HepParticle{l}{}{}\Xspace} % lepton
-\DeclareRobustCommand{\PlR}{\HepParticle{\Pl}{R}{}\Xspace} % right-handed lepton
-\DeclareRobustCommand{\Plpm}{\HepParticle{\Pl}{}{\pm}\Xspace} % charged lepton
-\DeclareRobustCommand{\Plp}{\HepParticle{\Pl}{}{+}\Xspace} % positive lepton
-\DeclareRobustCommand{\Plm}{\HepParticle{\Pl}{}{-}\Xspace} % negative lepton
-\DeclareRobustCommand{\PlmR}{\HepParticle{\Pl}{R}{-}\Xspace} % right-handed negative lepton
-\DeclareRobustCommand{\PAl}{\HepAntiParticle{\Pl}{}{}\Xspace} % anti-lepton
-\DeclareRobustCommand{\PGnl}{\HepParticle{\PGn}{l}{}\Xspace} % neutrino (for lepton l)
-\DeclareRobustCommand{\PAGnl}{\HepAntiParticle{\PGn}{l}{}\Xspace} % anti-neutrino (for lepton l)
+\NewParticle{\Pl}{l}{}{} % lepton
+\NewParticle{\PlR}{\Pl}{R}{} % right-handed lepton
+\NewParticle{\Plpm}{\Pl}{}{\pm} % charged lepton
+\NewParticle{\Plp}{\Pl}{}{+} % positive lepton
+\NewParticle{\Plm}{\Pl}{}{-} % negative lepton
+\NewParticle{\PlmR}{\Pl}{R}{-} % right-handed negative lepton
+\NewAntiParticle{\PAl}{\Pl}{}{} % anti-lepton
+\NewParticle{\PGnl}{\PGn}{l}{} % neutrino (for lepton l)
+\NewAntiParticle{\PAGnl}{\PGn}{l}{} % anti-neutrino (for lepton l)
 
-\DeclareRobustCommand{\Pe}{\HepParticle{e}{}{}\Xspace} % electron
-\DeclareRobustCommand{\Pepm}{\HepParticle{\Pe}{}{\pm}\Xspace} % e plus/minus
-\DeclareRobustCommand{\Pemp}{\HepParticle{\Pe}{}{\mp}\Xspace} % e minus/plus
-\DeclareRobustCommand{\Pem}{\HepParticle{\Pe}{}{-}\Xspace} % electron
-\DeclareRobustCommand{\Pep}{\HepParticle{\Pe}{}{+}\Xspace} % positron
+\NewParticle{\Pe}{e}{}{} % electron
+\NewParticle{\Pepm}{\Pe}{}{\pm} % e plus/minus
+\NewParticle{\Pemp}{\Pe}{}{\mp} % e minus/plus
+\NewParticle{\Pem}{\Pe}{}{-} % electron
+\NewParticle{\Pep}{\Pe}{}{+} % positron
 %%% For nuclear physics: beta decay
-\DeclareRobustCommand{\PGb}{\HepParticle{\upbeta}{}{}\Xspace} % beta
-\DeclareRobustCommand{\PGbm}{\HepParticle{\PGb}{}{-}\Xspace} % beta-
-\DeclareRobustCommand{\PGbp}{\HepParticle{\PGb}{}{+}\Xspace} % beta+
+\NewParticle{\PGb}{\upbeta}{}{} % beta
+\NewParticle{\PGbm}{\PGb}{}{-} % beta-
+\NewParticle{\PGbp}{\PGb}{}{+} % beta+
 
-\DeclareRobustCommand{\PGm}{\HepParticle{\upmu}{}{}\Xspace} % muon
-\DeclareRobustCommand{\PGmpm}{\HepParticle{\PGm}{}{\pm}\Xspace} % mu plus/minus
-\DeclareRobustCommand{\PGmm}{\HepParticle{\PGm}{}{-}\Xspace} % muon
-\DeclareRobustCommand{\PGmp}{\HepParticle{\PGm}{}{+}\Xspace} % anti-muon
+\NewParticle{\PGm}{\upmu}{}{} % muon
+\NewParticle{\PGmpm}{\PGm}{}{\pm} % mu plus/minus
+\NewParticle{\PGmm}{\PGm}{}{-} % muon
+\NewParticle{\PGmp}{\PGm}{}{+} % anti-muon
 
-\DeclareRobustCommand{\PGt}{\HepParticle{\uptau}{}{}\Xspace} % tau
-\DeclareRobustCommand{\PGtpm}{\HepParticle{\PGt}{}{\pm}\Xspace} % tau plus/minus
-\DeclareRobustCommand{\PGtm}{\HepParticle{\PGt}{}{-}\Xspace} % tau lepton
-\DeclareRobustCommand{\PGtp}{\HepParticle{\PGt}{}{+}\Xspace} % anti-tau
+\NewParticle{\PGt}{\uptau}{}{} % tau
+\NewParticle{\PGtpm}{\PGt}{}{\pm} % tau plus/minus
+\NewParticle{\PGtm}{\PGt}{}{-} % tau lepton
+\NewParticle{\PGtp}{\PGt}{}{+} % anti-tau
 
-\DeclareRobustCommand{\PGtpr}{\HepParticle{\PGt}{}{\prime}\Xspace} % tau prime
-\DeclareRobustCommand{\PGtprm}{\HepParticle{\PGtpr}{}{-}\Xspace} % tau prime lepton
-\DeclareRobustCommand{\PGtprp}{\HepParticle{\PGtpr}{}{+}\Xspace} % anti-tau prime
+\NewParticle{\PGtpr}{\PGt}{}{\prime} % tau prime
+\NewParticle{\PGtprm}{\PGtpr}{}{-} % tau prime lepton
+\NewParticle{\PGtprp}{\PGtpr}{}{+} % anti-tau prime
 
-\DeclareRobustCommand{\PGn}{\HepParticle{\upnu}{}{}\Xspace} % neutrino
-\DeclareRobustCommand{\PGne}{\HepParticle{\PGn}{\!\Pe}{}\Xspace} % electron neutrino
-\DeclareRobustCommand{\PGnGm}{\HepParticle{\PGn}{\!\PGm}{}\Xspace} % muon neutrino
-\DeclareRobustCommand{\PGnGt}{\HepParticle{\PGn}{\!\PGt}{}\Xspace} % tau neutrino
-\DeclareRobustCommand{\PGnGtpr}{\HepParticle{\PGn}{\!\PGtpr}{}\Xspace} % tau prime neutrino
+\NewParticle{\PGn}{\upnu}{}{} % neutrino
+\NewParticle{\PGne}{\PGn}{\!\Pe}{} % electron neutrino
+\NewParticle{\PGnGm}{\PGn}{\!\PGm}{} % muon neutrino
+\NewParticle{\PGnGt}{\PGn}{\!\PGt}{} % tau neutrino
+\NewParticle{\PGnGtpr}{\PGn}{\!\PGtpr}{} % tau prime neutrino
 
-\DeclareRobustCommand{\PAGn}{\HepAntiParticle{\PGn}{}{}\Xspace} % anti-neutrino
-\DeclareRobustCommand{\PAGne}{\HepAntiParticle{\PGn}{\!\Pe}{}\Xspace} % electron anti-neutrino
-\DeclareRobustCommand{\PAGnGm}{\HepAntiParticle{\PGn}{\!\PGm}{}\Xspace} % muon anti-neutrino
-\DeclareRobustCommand{\PAGnGt}{\HepAntiParticle{\PGn}{\!\PGt}{}\Xspace} % tau anti-neutrino
-\DeclareRobustCommand{\PAGnGtpr}{\HepAntiParticle{\PGn}{\!\PGtpr}{}\Xspace} % tau prime anti-neutrino
+\NewAntiParticle{\PAGn}{\PGn}{}{} % anti-neutrino
+\NewAntiParticle{\PAGne}{\PGn}{\!\Pe}{} % electron anti-neutrino
+\NewAntiParticle{\PAGnGm}{\PGn}{\!\PGm}{} % muon anti-neutrino
+\NewAntiParticle{\PAGnGt}{\PGn}{\!\PGt}{} % tau anti-neutrino
+\NewAntiParticle{\PAGnGtpr}{\PGn}{\!\PGtpr}{} % tau prime anti-neutrino
 
 %%% Heavy leptons
-\DeclareRobustCommand{\PL}{\HepParticle{L}{}{}\Xspace}
-\DeclareRobustCommand{\PLm}{\HepParticle{L}{}{\mspace{-1mu}-}\Xspace}
-\DeclareRobustCommand{\PLp}{\HepParticle{L}{}{\mspace{-1mu}+}\Xspace}
-\DeclareRobustCommand{\PLz}{\HepParticle{L}{}{\mspace{-1mu}0}\Xspace}
-\DeclareRobustCommand{\PLpm}{\HepParticle{L}{}{\mspace{-1mu}\pm}\Xspace}
-\DeclareRobustCommand{\PAL}{\HepAntiParticle{L}{}{}\Xspace}
+\NewParticle{\PL}{L}{}{}
+\NewParticle{\PLm}{L}{}{\mspace{-1mu}-}
+\NewParticle{\PLp}{L}{}{\mspace{-1mu}+}
+\NewParticle{\PLz}{L}{}{\mspace{-1mu}0}
+\NewParticle{\PLpm}{L}{}{\mspace{-1mu}\pm}
+\NewAntiParticle{\PAL}{L}{}{}
 
 % ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 %                          QUARKS                                +
 % ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-\DeclareRobustCommand{\PQq}{\HepParticle{q}{}{}\Xspace} % quark (generic)
-\DeclareRobustCommand{\PQd}{\HepParticle{d}{}{}\Xspace} % down quark
-\DeclareRobustCommand{\PQu}{\HepParticle{u}{}{}\Xspace} % up quark
-\DeclareRobustCommand{\PQs}{\HepParticle{s}{}{}\Xspace} % strange quark
-\DeclareRobustCommand{\PQc}{\HepParticle{c}{}{}\Xspace} % charm quark
-\DeclareRobustCommand{\PQb}{\HepParticle{b}{}{}\Xspace} % bottom quark
-\DeclareRobustCommand{\PQt}{\HepParticle{t}{}{}\Xspace} % top quark
-\DeclareRobustCommand{\PQbpr}{\HepParticle{\PQb}{}{\prime}\Xspace} % bottom prime quark
-\DeclareRobustCommand{\PQtpr}{\HepParticle{\PQt}{}{\prime}\Xspace} % top prime quark
+\NewParticle{\PQq}{q}{}{} % quark (generic)
+\NewParticle{\PQd}{d}{}{} % down quark
+\NewParticle{\PQu}{u}{}{} % up quark
+\NewParticle{\PQs}{s}{}{} % strange quark
+\NewParticle{\PQc}{c}{}{} % charm quark
+\NewParticle{\PQb}{b}{}{} % bottom quark
+\NewParticle{\PQt}{t}{}{} % top quark
+\NewParticle{\PQbpr}{\PQb}{}{\prime} % bottom prime quark
+\NewParticle{\PQtpr}{\PQt}{}{\prime} % top prime quark
 
-\DeclareRobustCommand{\PAQq}{\HepAntiParticle{\PQq}{}{}\Xspace} % anti-quark (generic)
-\DeclareRobustCommand{\PAQd}{\HepAntiParticle{\PQd}{}{}\Xspace} % down anti-quark
-\DeclareRobustCommand{\PAQu}{\HepAntiParticle{\PQu}{}{}\Xspace} % up anti-quark
-\DeclareRobustCommand{\PAQs}{\HepAntiParticle{\PQs}{}{}\Xspace} % strange anti-quark
-\DeclareRobustCommand{\PAQc}{\HepAntiParticle{\PQc}{}{}\Xspace} % charm anti-quark
-\DeclareRobustCommand{\PAQb}{\HepAntiParticle{\PQb}{}{}\Xspace} % bottom anti-quark
-\DeclareRobustCommand{\PAQt}{\HepAntiParticle{\PQt}{}{}\Xspace} % top anti-quark
-\DeclareRobustCommand{\PAQbpr}{\HepAntiParticle{\PQb}{}{\prime}\Xspace} % bottom prime anti-quark
-\DeclareRobustCommand{\PAQtpr}{\HepAntiParticle{\PQt}{}{\prime}\Xspace} % top prime anti-quark
+\NewAntiParticle{\PAQq}{\PQq}{}{} % anti-quark (generic)
+\NewAntiParticle{\PAQd}{\PQd}{}{} % down anti-quark
+\NewAntiParticle{\PAQu}{\PQu}{}{} % up anti-quark
+\NewAntiParticle{\PAQs}{\PQs}{}{} % strange anti-quark
+\NewAntiParticle{\PAQc}{\PQc}{}{} % charm anti-quark
+\NewAntiParticle{\PAQb}{\PQb}{}{} % bottom anti-quark
+\NewAntiParticle{\PAQt}{\PQt}{}{} % top anti-quark
+\NewAntiParticle{\PAQbpr}{\PQb}{}{\prime} % bottom prime anti-quark
+\NewAntiParticle{\PAQtpr}{\PQt}{}{\prime} % top prime anti-quark
 
 % Versions generic quark with quark identifier as subscript
-\DeclareRobustCommand{\PQqb}{\HepParticle{\PQq}{\PQb}{}\Xspace}
-\DeclareRobustCommand{\PQqbpr}{\HepParticle{\PQq}{\PQbpr}{}\Xspace}
-\DeclareRobustCommand{\PQqc}{\HepParticle{\PQq}{\PQc}{}\Xspace}
-\DeclareRobustCommand{\PQqd}{\HepParticle{\PQq}{\PQd}{}\Xspace}
-\DeclareRobustCommand{\PQqdR}{\HepParticle{\PQq}{{\PQd}R}{}\Xspace}
-\DeclareRobustCommand{\PQqs}{\HepParticle{\PQq}{\PQs}{}\Xspace}
-\DeclareRobustCommand{\PQqt}{\HepParticle{\PQq}{\PQt}{}\Xspace}
-\DeclareRobustCommand{\PQqtpr}{\HepParticle{\PQq}{\PQtpr}{}\Xspace}
-\DeclareRobustCommand{\PQqu}{\HepParticle{\PQq}{\PQu}{}\Xspace}
-\DeclareRobustCommand{\PQquR}{\HepParticle{\PQq}{{\PQu}R}{}\Xspace}
+\NewParticle{\PQqb}{\PQq}{\PQb}{}
+\NewParticle{\PQqbpr}{\PQq}{\PQbpr}{}
+\NewParticle{\PQqc}{\PQq}{\PQc}{}
+\NewParticle{\PQqd}{\PQq}{\PQd}{}
+\NewParticle{\PQqdR}{\PQq}{{\PQd}R}{}
+\NewParticle{\PQqs}{\PQq}{\PQs}{}
+\NewParticle{\PQqt}{\PQq}{\PQt}{}
+\NewParticle{\PQqtpr}{\PQq}{\PQtpr}{}
+\NewParticle{\PQqu}{\PQq}{\PQu}{}
+\NewParticle{\PQquR}{\PQq}{{\PQu}R}{}
 
-\DeclareRobustCommand{\PAQqb}{\HepAntiParticle{\PQq}{\PQb}{}\Xspace}
-\DeclareRobustCommand{\PAQqbpr}{\HepAntiParticle{\PQq}{\PQbpr}{}\Xspace}
-\DeclareRobustCommand{\PAQqc}{\HepAntiParticle{\PQq}{\PQc}{}\Xspace}
-\DeclareRobustCommand{\PAQqd}{\HepAntiParticle{\PQq}{\PQd}{}\Xspace}
-\DeclareRobustCommand{\PAQqs}{\HepAntiParticle{\PQq}{\PQs}{}\Xspace}
-\DeclareRobustCommand{\PAQqt}{\HepAntiParticle{\PQq}{\PQt}{}\Xspace}
-\DeclareRobustCommand{\PAQqtpr}{\HepAntiParticle{\PQq}{\PQtpr}{}\Xspace}
-\DeclareRobustCommand{\PAQqu}{\HepAntiParticle{\PQq}{\PQu}{}\Xspace}
+\NewAntiParticle{\PAQqb}{\PQq}{\PQb}{}
+\NewAntiParticle{\PAQqbpr}{\PQq}{\PQbpr}{}
+\NewAntiParticle{\PAQqc}{\PQq}{\PQc}{}
+\NewAntiParticle{\PAQqd}{\PQq}{\PQd}{}
+\NewAntiParticle{\PAQqs}{\PQq}{\PQs}{}
+\NewAntiParticle{\PAQqt}{\PQq}{\PQt}{}
+\NewAntiParticle{\PAQqtpr}{\PQq}{\PQtpr}{}
+\NewAntiParticle{\PAQqu}{\PQq}{\PQu}{}
 
 % ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 %                          BARYONS                               +
 % ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 % Nucleons
-\DeclareRobustCommand{\Pp}{\HepParticle{p}{}{}\Xspace} % proton
-\DeclareRobustCommand{\Pn}{\HepParticle{n}{}{}\Xspace} % neutron
-\DeclareRobustCommand{\PAp}{\HepAntiParticle{\Pp}{}{}\Xspace} % anti-proton
-\DeclareRobustCommand{\PAn}{\HepAntiParticle{\Pn}{}{}\Xspace} % anti-neutron
-\DeclareRobustCommand{\PGa}{\HepParticle{\upalpha}{}{}\Xspace} % alpha
+\NewParticle{\Pp}{p}{}{} % proton
+\NewParticle{\Pn}{n}{}{} % neutron
+\NewAntiParticle{\PAp}{\Pp}{}{} % anti-proton
+\NewAntiParticle{\PAn}{\Pn}{}{} % anti-neutron
+\NewParticle{\PGa}{\upalpha}{}{} % alpha
 
 %% N resonances
-\DeclareRobustCommand{\PN}{\HepParticle{N}{}{}\Xspace}
-\DeclareRobustCommand{\PNp}{\HepParticle{\PN}{}{+}\Xspace}
-\DeclareRobustCommand{\PNz}{\HepParticle{\PN}{}{0}\Xspace}
-\DeclareRobustCommand{\PNP}[1]{\HepParticleResonance{\PN}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PNpP}[1]{\HepParticleResonance{\PN}{#1}{}{+}\Xspace}
-\DeclareRobustCommand{\PNzP}[1]{\HepParticleResonance{\PN}{#1}{}{-}\Xspace}
+\NewParticle{\PN}{N}{}{}
+\NewParticle{\PNp}{\PN}{}{+}
+\NewParticle{\PNz}{\PN}{}{0}
+\NewParticleResonance{\PNP}[1]{\PN}{#1}{}{}
+\NewParticleResonance{\PNpP}[1]{\PN}{#1}{}{+}
+\NewParticleResonance{\PNzP}[1]{\PN}{#1}{}{-}
 
 %% Delta baryons
-\DeclareRobustCommand{\PGD}{\HepParticle{\Updelta}{}{}\Xspace}
-\DeclareRobustCommand{\PGDpp}{\HepParticle{\PGD}{}{++}\Xspace}
-\DeclareRobustCommand{\PGDp}{\HepParticle{\PGD}{}{+}\Xspace}
-\DeclareRobustCommand{\PGDz}{\HepParticle{\PGD}{}{0}\Xspace}
-\DeclareRobustCommand{\PGDm}{\HepParticle{\PGD}{}{-}\Xspace}
-\DeclareRobustCommand{\PGDP}[1]{\HepParticleResonance{\PGD}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PGDppP}[1]{\HepParticleResonanceFull{\PGD}{}{}{#1}{}{++}\Xspace}
-\DeclareRobustCommand{\PGDpP}[1]{\HepParticleResonanceFull{\PGD}{}{}{#1}{}{+}\Xspace}
-\DeclareRobustCommand{\PGDzP}[1]{\HepParticleResonanceFull{\PGD}{}{}{#1}{}{0}\Xspace}
-\DeclareRobustCommand{\PGDmP}[1]{\HepParticleResonanceFull{\PGD}{}{}{#1}{}{-}\Xspace}
+\NewParticle{\PGD}{\Updelta}{}{}
+\NewParticle{\PGDpp}{\PGD}{}{++}
+\NewParticle{\PGDp}{\PGD}{}{+}
+\NewParticle{\PGDz}{\PGD}{}{0}
+\NewParticle{\PGDm}{\PGD}{}{-}
+\NewParticleResonance{\PGDP}[1]{\PGD}{#1}{}{}
+\NewParticleResonanceFull{\PGDppP}[1]{\PGD}{}{}{#1}{}{++}
+\NewParticleResonanceFull{\PGDpP}[1]{\PGD}{}{}{#1}{}{+}
+\NewParticleResonanceFull{\PGDzP}[1]{\PGD}{}{}{#1}{}{0}
+\NewParticleResonanceFull{\PGDmP}[1]{\PGD}{}{}{#1}{}{-}
 
 %% Theta and fi resonances
-\DeclareRobustCommand{\PGQpP}[1]{\HepParticleResonanceFull{\Uptheta}{}{}{#1}{}{+}\Xspace}
-\DeclareRobustCommand{\PGFP}[1]{\HepParticleResonanceFull{\Upphi}{}{}{#1}{}{}\Xspace}
+\NewParticleResonanceFull{\PGQpP}[1]{\Uptheta}{}{}{#1}{}{+}
+\NewParticleResonanceFull{\PGFP}[1]{\Upphi}{}{}{#1}{}{}
 
 %% Lambda strange
-\DeclareRobustCommand{\PGL}{\HepParticle{\Uplambda}{}{}\Xspace} %% Lambda
-\DeclareRobustCommand{\PAGL}{\HepAntiParticle{\PGL}{}{}\Xspace} %% Anti-lambda
-\DeclareRobustCommand{\PGLP}[1]{\HepParticleResonance{\PGL}{#1}{}{}\Xspace}
+\NewParticle{\PGL}{\Uplambda}{}{} %% Lambda
+\NewAntiParticle{\PAGL}{\PGL}{}{} %% Anti-lambda
+\NewParticleResonance{\PGLP}[1]{\PGL}{#1}{}{}
 
 %% Lambda charmed
-\DeclareRobustCommand{\PGLc}{\HepParticle{\PGL}{c}{}\Xspace} %% Lambda_c
-\DeclareRobustCommand{\PGLpc}{\HepParticle{\PGL}{c}{+}\Xspace} %% Lambda_c +
-\DeclareRobustCommand{\PGLpcP}[1]{\HepParticleResonance{\PGLc}{#1}{}{+}\Xspace}
+\NewParticle{\PGLc}{\PGL}{c}{} %% Lambda_c
+\NewParticle{\PGLpc}{\PGL}{c}{+} %% Lambda_c +
+\NewParticleResonance{\PGLpcP}[1]{\PGLc}{#1}{}{+}
 
 %% Lambda bottom
-\DeclareRobustCommand{\PGLb}{\HepParticle{\PGL}{b}{}\Xspace}
-\DeclareRobustCommand{\PGLzb}{\HepParticle{\PGL}{b}{0}\Xspace}
+\NewParticle{\PGLb}{\PGL}{b}{}
+\NewParticle{\PGLzb}{\PGL}{b}{0}
 
 %% Sigma strange
-\DeclareRobustCommand{\PGS}{\HepParticle{\Upsigma}{}{}\Xspace} %% Sigma
-\DeclareRobustCommand{\PAGS}{\HepAntiParticle{\PGS}{}{}\Xspace}
-\DeclareRobustCommand{\PGSpm}{\HepParticle{\PGS}{}{\pm}\Xspace} %% charged Sigma
-\DeclareRobustCommand{\PGSm}{\HepParticle{\PGS}{}{-}\Xspace}
-\DeclareRobustCommand{\PGSp}{\HepParticle{\PGS}{}{+}\Xspace}
-\DeclareRobustCommand{\PGSz}{\HepParticle{\PGS}{}{0}\Xspace}
-\DeclareRobustCommand{\PGSstm}{\HepParticle{\PGS}{}{\ast-}\Xspace}
-\DeclareRobustCommand{\PGSstp}{\HepParticle{\PGS}{}{\ast+}\Xspace}
-\DeclareRobustCommand{\PGSstz}{\HepParticle{\PGS}{}{\ast0}\Xspace}
-\DeclareRobustCommand{\PGSP}[1]{\HepParticleResonance{\PGS}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PGSmP}[1]{\HepParticleResonanceFull{\PGS}{}{}{#1}{}{-}\Xspace}
-\DeclareRobustCommand{\PGSpP}[1]{\HepParticleResonanceFull{\PGS}{}{}{#1}{}{+}\Xspace}
-\DeclareRobustCommand{\PGSzP}[1]{\HepParticleResonanceFull{\PGS}{}{}{#1}{}{0}\Xspace}
+\NewParticle{\PGS}{\Upsigma}{}{} %% Sigma
+\NewAntiParticle{\PAGS}{\PGS}{}{}
+\NewParticle{\PGSpm}{\PGS}{}{\pm} %% charged Sigma
+\NewParticle{\PGSm}{\PGS}{}{-}
+\NewParticle{\PGSp}{\PGS}{}{+}
+\NewParticle{\PGSz}{\PGS}{}{0}
+\NewParticle{\PGSstm}{\PGS}{}{\ast-}
+\NewParticle{\PGSstp}{\PGS}{}{\ast+}
+\NewParticle{\PGSstz}{\PGS}{}{\ast0}
+\NewParticleResonance{\PGSP}[1]{\PGS}{#1}{}{}
+\NewParticleResonanceFull{\PGSmP}[1]{\PGS}{}{}{#1}{}{-}
+\NewParticleResonanceFull{\PGSpP}[1]{\PGS}{}{}{#1}{}{+}
+\NewParticleResonanceFull{\PGSzP}[1]{\PGS}{}{}{#1}{}{0}
 %% Sigma charm
-\DeclareRobustCommand{\PGSc}{\HepParticle{\PGS}{c}{}\Xspace}
-\DeclareRobustCommand{\PGSppc}{\HepParticle{\PGS}{c}{++}\Xspace}
-\DeclareRobustCommand{\PGSpc}{\HepParticle{\PGS}{c}{+}\Xspace}
-\DeclareRobustCommand{\PGSzc}{\HepParticle{\PGS}{c}{0}\Xspace}
-\DeclareRobustCommand{\PGScP}[1]{\HepParticleResonance{\PGSc}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PGSppcP}[1]{\HepParticleResonance{\PGSc}{#1}{}{++}\Xspace}
-\DeclareRobustCommand{\PGSpcP}[1]{\HepParticleResonance{\PGSc}{#1}{}{+}\Xspace}
-\DeclareRobustCommand{\PGSzcP}[1]{\HepParticleResonance{\PGSc}{#1}{}{0}\Xspace}
-\DeclareRobustCommand{\PGSstc}{\HepParticle{\PGSc}{}{\ast}\Xspace}
-\DeclareRobustCommand{\PGSstppc}{\HepParticle{\PGSstc}{}{++}\Xspace}
-\DeclareRobustCommand{\PGSstpc}{\HepParticle{\PGSstc}{}{+}\Xspace}
-\DeclareRobustCommand{\PGSstzc}{\HepParticle{\PGSstc}{}{0}\Xspace}
-\DeclareRobustCommand{\PGSstcP}[1]{\HepParticleResonance{\PGSstc}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PGSstppcP}[1]{\HepParticleResonance{\PGSstc}{#1}{}{++}\Xspace}
-\DeclareRobustCommand{\PGSstpcP}[1]{\HepParticleResonance{\PGSstc}{#1}{}{+}\Xspace}
-\DeclareRobustCommand{\PGSstzcP}[1]{\HepParticleResonance{\PGSstc}{#1}{}{0}\Xspace}
+\NewParticle{\PGSc}{\PGS}{c}{}
+\NewParticle{\PGSppc}{\PGS}{c}{++}
+\NewParticle{\PGSpc}{\PGS}{c}{+}
+\NewParticle{\PGSzc}{\PGS}{c}{0}
+\NewParticleResonance{\PGScP}[1]{\PGSc}{#1}{}{}
+\NewParticleResonance{\PGSppcP}[1]{\PGSc}{#1}{}{++}
+\NewParticleResonance{\PGSpcP}[1]{\PGSc}{#1}{}{+}
+\NewParticleResonance{\PGSzcP}[1]{\PGSc}{#1}{}{0}
+\NewParticle{\PGSstc}{\PGSc}{}{\ast}
+\NewParticle{\PGSstppc}{\PGSstc}{}{++}
+\NewParticle{\PGSstpc}{\PGSstc}{}{+}
+\NewParticle{\PGSstzc}{\PGSstc}{}{0}
+\NewParticleResonance{\PGSstcP}[1]{\PGSstc}{#1}{}{}
+\NewParticleResonance{\PGSstppcP}[1]{\PGSstc}{#1}{}{++}
+\NewParticleResonance{\PGSstpcP}[1]{\PGSstc}{#1}{}{+}
+\NewParticleResonance{\PGSstzcP}[1]{\PGSstc}{#1}{}{0}
 %% Sigma bottom
-\DeclareRobustCommand{\PGSb}{\HepParticle{\PGS}{b}{}\Xspace}
-\DeclareRobustCommand{\PGSmb}{\HepParticle{\PGS}{b}{-}\Xspace}
-\DeclareRobustCommand{\PGSpb}{\HepParticle{\PGS}{b}{+}\Xspace}
-\DeclareRobustCommand{\PGSzb}{\HepParticle{\PGS}{b}{0}\Xspace}
-\DeclareRobustCommand{\PGSstb}{\HepParticle{\PGS}{b}{\ast}\Xspace}
-\DeclareRobustCommand{\PGSstmb}{\HepParticle{\PGS}{b}{\ast{}-}\Xspace}
-\DeclareRobustCommand{\PGSstpb}{\HepParticle{\PGS}{b}{\ast{}+}\Xspace}
-\DeclareRobustCommand{\PGSstzb}{\HepParticle{\PGS}{b}{\ast{}0}\Xspace}
+\NewParticle{\PGSb}{\PGS}{b}{}
+\NewParticle{\PGSmb}{\PGS}{b}{-}
+\NewParticle{\PGSpb}{\PGS}{b}{+}
+\NewParticle{\PGSzb}{\PGS}{b}{0}
+\NewParticle{\PGSstb}{\PGS}{b}{\ast}
+\NewParticle{\PGSstmb}{\PGS}{b}{\ast{}-}
+\NewParticle{\PGSstpb}{\PGS}{b}{\ast{}+}
+\NewParticle{\PGSstzb}{\PGS}{b}{\ast{}0}
 
 %% Xi
-\DeclareRobustCommand{\PGX}{\HepParticle{\Upxi}{}{}\Xspace}
-\DeclareRobustCommand{\PAGX}{\HepAntiParticle{\PGX}{}{}\Xspace}
+\NewParticle{\PGX}{\Upxi}{}{}
+\NewAntiParticle{\PAGX}{\PGX}{}{}
 %% Xi strange
-\DeclareRobustCommand{\PGXm}{\HepParticle{\PGX}{}{-}\Xspace}
-\DeclareRobustCommand{\PGXz}{\HepParticle{\PGX}{}{0}\Xspace}
-\DeclareRobustCommand{\PGXstm}{\HepParticle{\PGX}{}{\ast-}\Xspace}
-\DeclareRobustCommand{\PGXstz}{\HepParticle{\PGX}{}{\ast0}\Xspace}
-\DeclareRobustCommand{\PGXP}[1]{\HepParticleResonanceFull{\PGX}{}{}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PGXmP}[1]{\HepParticleResonanceFull{\PGX}{}{}{#1}{}{-}\Xspace}
-\DeclareRobustCommand{\PGXzP}[1]{\HepParticleResonanceFull{\PGX}{}{}{#1}{}{0}\Xspace}
-\DeclareRobustCommand{\PGXstmP}[1]{\HepParticleResonanceFull{\PGX}{}{\ast}{#1}{}{-}\Xspace}
-\DeclareRobustCommand{\PGXstzP}[1]{\HepParticleResonanceFull{\PGX}{}{\ast}{#1}{}{0}\Xspace}
+\NewParticle{\PGXm}{\PGX}{}{-}
+\NewParticle{\PGXz}{\PGX}{}{0}
+\NewParticle{\PGXstm}{\PGX}{}{\ast-}
+\NewParticle{\PGXstz}{\PGX}{}{\ast0}
+\NewParticleResonanceFull{\PGXP}[1]{\PGX}{}{}{#1}{}{}
+\NewParticleResonanceFull{\PGXmP}[1]{\PGX}{}{}{#1}{}{-}
+\NewParticleResonanceFull{\PGXzP}[1]{\PGX}{}{}{#1}{}{0}
+\NewParticleResonanceFull{\PGXstmP}[1]{\PGX}{}{\ast}{#1}{}{-}
+\NewParticleResonanceFull{\PGXstzP}[1]{\PGX}{}{\ast}{#1}{}{0}
 
 %% Xi charm
-\DeclareRobustCommand{\PGXc}{\HepParticle{\PGX}{c}{}\Xspace}
-\DeclareRobustCommand{\PGXpc}{\HepParticle{\PGX}{c}{+}\Xspace}
-\DeclareRobustCommand{\PGXzc}{\HepParticle{\PGX}{c}{0}\Xspace}
-\DeclareRobustCommand{\PGXcP}[1]{\HepParticleResonanceFull{\PGX}{c}{}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PGXprc}{\HepParticle{\PGX}{c}{\prime{}}\Xspace}
-\DeclareRobustCommand{\PGXprpc}{\HepParticle{\PGX}{c}{\prime{}+}\Xspace}
-\DeclareRobustCommand{\PGXprzc}{\HepParticle{\PGX}{c}{\prime{}0}\Xspace}
-\DeclareRobustCommand{\PGXstc}{\HepParticle{\PGX}{c}{\ast{}}\Xspace}
-\DeclareRobustCommand{\PGXstpc}{\HepParticle{\PGX}{c}{\ast{}+}\Xspace}
-\DeclareRobustCommand{\PGXstzc}{\HepParticle{\PGX}{c}{\ast{}0}\Xspace}
+\NewParticle{\PGXc}{\PGX}{c}{}
+\NewParticle{\PGXpc}{\PGX}{c}{+}
+\NewParticle{\PGXzc}{\PGX}{c}{0}
+\NewParticleResonanceFull{\PGXcP}[1]{\PGX}{c}{}{#1}{}{}
+\NewParticle{\PGXprc}{\PGX}{c}{\prime{}}
+\NewParticle{\PGXprpc}{\PGX}{c}{\prime{}+}
+\NewParticle{\PGXprzc}{\PGX}{c}{\prime{}0}
+\NewParticle{\PGXstc}{\PGX}{c}{\ast{}}
+\NewParticle{\PGXstpc}{\PGX}{c}{\ast{}+}
+\NewParticle{\PGXstzc}{\PGX}{c}{\ast{}0}
 %% Xi double charm
-\DeclareRobustCommand{\PGXcc}{\HepParticle{\PGX}{cc}{}\Xspace}
-\DeclareRobustCommand{\PGXpcc}{\HepParticle{\PGX}{cc}{+}\Xspace}
-\DeclareRobustCommand{\PGXppcc}{\HepParticle{\PGX}{cc}{++}\Xspace}
-\DeclareRobustCommand{\PGXstcc}{\HepParticle{\PGX}{cc}{\ast{}+}\Xspace}
-\DeclareRobustCommand{\PGXstpcc}{\HepParticle{\PGX}{cc}{\ast{}+}\Xspace}
-\DeclareRobustCommand{\PGXstppcc}{\HepParticle{\PGX}{cc}{\ast{}++}\Xspace}
+\NewParticle{\PGXcc}{\PGX}{cc}{}
+\NewParticle{\PGXpcc}{\PGX}{cc}{+}
+\NewParticle{\PGXppcc}{\PGX}{cc}{++}
+\NewParticle{\PGXstcc}{\PGX}{cc}{\ast{}+}
+\NewParticle{\PGXstpcc}{\PGX}{cc}{\ast{}+}
+\NewParticle{\PGXstppcc}{\PGX}{cc}{\ast{}++}
 
 %% Xi bottom
-\DeclareRobustCommand{\PGXb}{\HepParticle{\PGX}{b}{}\Xspace}
-\DeclareRobustCommand{\PGXmb}{\HepParticle{\PGX}{b}{-}\Xspace}
-\DeclareRobustCommand{\PGXzb}{\HepParticle{\PGX}{b}{0}\Xspace}
-\DeclareRobustCommand{\PGXprb}{\HepParticle{\PGX}{b}{\prime{}}\Xspace}
-\DeclareRobustCommand{\PGXprmb}{\HepParticle{\PGX}{b}{\prime{}-}\Xspace}
-\DeclareRobustCommand{\PGXprzb}{\HepParticle{\PGX}{b}{\prime{}0}\Xspace}
-\DeclareRobustCommand{\PGXstb}{\HepParticle{\PGX}{b}{\ast{}}\Xspace}
-\DeclareRobustCommand{\PGXstmb}{\HepParticle{\PGX}{b}{\ast{}-}\Xspace}
-\DeclareRobustCommand{\PGXstzb}{\HepParticle{\PGX}{b}{\ast{}0}\Xspace}
+\NewParticle{\PGXb}{\PGX}{b}{}
+\NewParticle{\PGXmb}{\PGX}{b}{-}
+\NewParticle{\PGXzb}{\PGX}{b}{0}
+\NewParticle{\PGXprb}{\PGX}{b}{\prime{}}
+\NewParticle{\PGXprmb}{\PGX}{b}{\prime{}-}
+\NewParticle{\PGXprzb}{\PGX}{b}{\prime{}0}
+\NewParticle{\PGXstb}{\PGX}{b}{\ast{}}
+\NewParticle{\PGXstmb}{\PGX}{b}{\ast{}-}
+\NewParticle{\PGXstzb}{\PGX}{b}{\ast{}0}
 
 %% Xi bottom-charm
-\DeclareRobustCommand{\PGXbc}{\HepParticle{\PGX}{bc}{}\Xspace}
-\DeclareRobustCommand{\PGXpbc}{\HepParticle{\PGX}{bc}{+}\Xspace}
-\DeclareRobustCommand{\PGXzbc}{\HepParticle{\PGX}{bc}{0}\Xspace}
-\DeclareRobustCommand{\PGXprbc}{\HepParticle{\PGX}{bc}{\prime{}}\Xspace}
-\DeclareRobustCommand{\PGXprpbc}{\HepParticle{\PGX}{bc}{\prime{}+}\Xspace}
-\DeclareRobustCommand{\PGXprzbc}{\HepParticle{\PGX}{bc}{\prime{}0}\Xspace}
-\DeclareRobustCommand{\PGXstbc}{\HepParticle{\PGX}{bc}{\ast{}}\Xspace}
-\DeclareRobustCommand{\PGXstpbc}{\HepParticle{\PGX}{bc}{\ast{}+}\Xspace}
-\DeclareRobustCommand{\PGXstzbc}{\HepParticle{\PGX}{bc}{\ast{}0}\Xspace}
+\NewParticle{\PGXbc}{\PGX}{bc}{}
+\NewParticle{\PGXpbc}{\PGX}{bc}{+}
+\NewParticle{\PGXzbc}{\PGX}{bc}{0}
+\NewParticle{\PGXprbc}{\PGX}{bc}{\prime{}}
+\NewParticle{\PGXprpbc}{\PGX}{bc}{\prime{}+}
+\NewParticle{\PGXprzbc}{\PGX}{bc}{\prime{}0}
+\NewParticle{\PGXstbc}{\PGX}{bc}{\ast{}}
+\NewParticle{\PGXstpbc}{\PGX}{bc}{\ast{}+}
+\NewParticle{\PGXstzbc}{\PGX}{bc}{\ast{}0}
 
 %% Xi bottom-bottom
-\DeclareRobustCommand{\PGXbb}{\HepParticle{\PGX}{bb}{}\Xspace}
-\DeclareRobustCommand{\PGXmbb}{\HepParticle{\PGX}{bb}{-}\Xspace}
-\DeclareRobustCommand{\PGXzbb}{\HepParticle{\PGX}{bb}{0}\Xspace}
-\DeclareRobustCommand{\PGXstbb}{\HepParticle{\PGX}{bb}{\ast{}}\Xspace}
-\DeclareRobustCommand{\PGXstmbb}{\HepParticle{\PGX}{bb}{\ast{}-}\Xspace}
-\DeclareRobustCommand{\PGXstzbb}{\HepParticle{\PGX}{bb}{\ast{}0}\Xspace}
+\NewParticle{\PGXbb}{\PGX}{bb}{}
+\NewParticle{\PGXmbb}{\PGX}{bb}{-}
+\NewParticle{\PGXzbb}{\PGX}{bb}{0}
+\NewParticle{\PGXstbb}{\PGX}{bb}{\ast{}}
+\NewParticle{\PGXstmbb}{\PGX}{bb}{\ast{}-}
+\NewParticle{\PGXstzbb}{\PGX}{bb}{\ast{}0}
 
 %% Omega strange
-\DeclareRobustCommand{\PGO}{\HepParticle{\Upomega}{}{}\Xspace} %% Omega
-\DeclareRobustCommand{\PAGO}{\HepAntiParticle{\PGO}{}{}\Xspace} % new %% anti-Omega
-\DeclareRobustCommand{\PGOm}{\HepParticle{\PGO}{}{-}\Xspace} %% Omega-minus
-\DeclareRobustCommand{\PGOP}[1]{\HepParticleResonanceFull{\PGO}{}{}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PGOmP}[1]{\HepParticleResonanceFull{\PGO}{}{}{#1}{}{-}\Xspace}
+\NewParticle{\PGO}{\Upomega}{}{} %% Omega
+\NewAntiParticle{\PAGO}{\PGO}{}{} % new %% anti-Omega
+\NewParticle{\PGOm}{\PGO}{}{-} %% Omega-minus
+\NewParticleResonanceFull{\PGOP}[1]{\PGO}{}{}{#1}{}{}
+\NewParticleResonanceFull{\PGOmP}[1]{\PGO}{}{}{#1}{}{-}
 
 %% Omega charm
-\DeclareRobustCommand{\PGOc}{\HepParticle{\PGO}{c}{}\Xspace}
-\DeclareRobustCommand{\PGOzc}{\HepParticle{\PGO}{c}{0}\Xspace}
-\DeclareRobustCommand{\PGOstc}{\HepParticle{\PGO}{c}{\ast{}}\Xspace}
-\DeclareRobustCommand{\PGOstzc}{\HepParticle{\PGO}{c}{\ast{}0}\Xspace}
+\NewParticle{\PGOc}{\PGO}{c}{}
+\NewParticle{\PGOzc}{\PGO}{c}{0}
+\NewParticle{\PGOstc}{\PGO}{c}{\ast{}}
+\NewParticle{\PGOstzc}{\PGO}{c}{\ast{}0}
 %% Omega double charm
-\DeclareRobustCommand{\PGOcc}{\HepParticle{\PGO}{cc}{}\Xspace}
-\DeclareRobustCommand{\PGOpcc}{\HepParticle{\PGO}{cc}{+}\Xspace}
-\DeclareRobustCommand{\PGOstcc}{\HepParticle{\PGO}{cc}{\ast{}}\Xspace}
-\DeclareRobustCommand{\PGOstpcc}{\HepParticle{\PGO}{cc}{\ast{}+}\Xspace}
+\NewParticle{\PGOcc}{\PGO}{cc}{}
+\NewParticle{\PGOpcc}{\PGO}{cc}{+}
+\NewParticle{\PGOstcc}{\PGO}{cc}{\ast{}}
+\NewParticle{\PGOstpcc}{\PGO}{cc}{\ast{}+}
 %% Omega triple charm
-\DeclareRobustCommand{\PGOccc}{\HepParticle{\PGO}{ccc}{}\Xspace}
-\DeclareRobustCommand{\PGOppccc}{\HepParticle{\PGO}{ccc}{++}\Xspace}
+\NewParticle{\PGOccc}{\PGO}{ccc}{}
+\NewParticle{\PGOppccc}{\PGO}{ccc}{++}
 
 %% Omega bottom
-\DeclareRobustCommand{\PGOb}{\HepParticle{\PGO}{b}{}\Xspace}
-\DeclareRobustCommand{\PGOmb}{\HepParticle{\PGO}{b}{-}\Xspace}
-\DeclareRobustCommand{\PGOstb}{\HepParticle{\PGO}{b}{\ast{}}\Xspace}
-\DeclareRobustCommand{\PGOstmb}{\HepParticle{\PGO}{b}{\ast{}-}\Xspace}
+\NewParticle{\PGOb}{\PGO}{b}{}
+\NewParticle{\PGOmb}{\PGO}{b}{-}
+\NewParticle{\PGOstb}{\PGO}{b}{\ast{}}
+\NewParticle{\PGOstmb}{\PGO}{b}{\ast{}-}
 %% Omega bottom-charm
-\DeclareRobustCommand{\PGObc}{\HepParticle{\PGO}{bc}{}\Xspace}
-\DeclareRobustCommand{\PGOzbc}{\HepParticle{\PGO}{bc}{0}\Xspace}
-\DeclareRobustCommand{\PGOprbc}{\HepParticle{\PGO}{bc}{\prime{}}\Xspace}
-\DeclareRobustCommand{\PGOprzbc}{\HepParticle{\PGO}{bc}{\prime{}0}\Xspace}
-\DeclareRobustCommand{\PGOstbc}{\HepParticle{\PGO}{bc}{\ast{}}\Xspace}
-\DeclareRobustCommand{\PGOstzbc}{\HepParticle{\PGO}{bc}{\ast{}0}\Xspace}
+\NewParticle{\PGObc}{\PGO}{bc}{}
+\NewParticle{\PGOzbc}{\PGO}{bc}{0}
+\NewParticle{\PGOprbc}{\PGO}{bc}{\prime{}}
+\NewParticle{\PGOprzbc}{\PGO}{bc}{\prime{}0}
+\NewParticle{\PGOstbc}{\PGO}{bc}{\ast{}}
+\NewParticle{\PGOstzbc}{\PGO}{bc}{\ast{}0}
 %% Omega bottom-double charm
-\DeclareRobustCommand{\PGObcc}{\HepParticle{\PGO}{bcc}{}\Xspace}
-\DeclareRobustCommand{\PGOpbcc}{\HepParticle{\PGO}{bcc}{+}\Xspace}
-\DeclareRobustCommand{\PGOstbcc}{\HepParticle{\PGO}{bcc}{\ast{}}\Xspace}
-\DeclareRobustCommand{\PGOstpbcc}{\HepParticle{\PGO}{bcc}{\ast{}+}\Xspace}
+\NewParticle{\PGObcc}{\PGO}{bcc}{}
+\NewParticle{\PGOpbcc}{\PGO}{bcc}{+}
+\NewParticle{\PGOstbcc}{\PGO}{bcc}{\ast{}}
+\NewParticle{\PGOstpbcc}{\PGO}{bcc}{\ast{}+}
 %% Omega double bottom
-\DeclareRobustCommand{\PGObb}{\HepParticle{\PGO}{bb}{}\Xspace}
-\DeclareRobustCommand{\PGOmbb}{\HepParticle{\PGO}{bb}{-}\Xspace}
-\DeclareRobustCommand{\PGOstbb}{\HepParticle{\PGO}{bb}{\ast{}}\Xspace}
-\DeclareRobustCommand{\PGOstmbb}{\HepParticle{\PGO}{bb}{\ast{}-}\Xspace}
+\NewParticle{\PGObb}{\PGO}{bb}{}
+\NewParticle{\PGOmbb}{\PGO}{bb}{-}
+\NewParticle{\PGOstbb}{\PGO}{bb}{\ast{}}
+\NewParticle{\PGOstmbb}{\PGO}{bb}{\ast{}-}
 %% Omega duble bottom-charm
-\DeclareRobustCommand{\PGObbc}{\HepParticle{\PGO}{bbc}{}\Xspace}
-\DeclareRobustCommand{\PGOzbbc}{\HepParticle{\PGO}{bbc}{0}\Xspace}
-\DeclareRobustCommand{\PGOstbbc}{\HepParticle{\PGO}{bbc}{\ast{}}\Xspace}
-\DeclareRobustCommand{\PGOstzbbc}{\HepParticle{\PGO}{bbc}{\ast{}0}\Xspace}
+\NewParticle{\PGObbc}{\PGO}{bbc}{}
+\NewParticle{\PGOzbbc}{\PGO}{bbc}{0}
+\NewParticle{\PGOstbbc}{\PGO}{bbc}{\ast{}}
+\NewParticle{\PGOstzbbc}{\PGO}{bbc}{\ast{}0}
 %% Omega trile bottom
-\DeclareRobustCommand{\PGObbb}{\HepParticle{\PGO}{bbb}{}\Xspace}
-\DeclareRobustCommand{\PGOmbbb}{\HepParticle{\PGO}{bbb}{-}\Xspace}
+\NewParticle{\PGObbb}{\PGO}{bbb}{}
+\NewParticle{\PGOmbbb}{\PGO}{bbb}{-}
 
 % ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 %                       PENTAQUARKS                              +
 % ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 %% Theta +
-\DeclareRobustCommand{\PGT}{\HepParticle{\Uptheta}{}{}\Xspace}
-\DeclareRobustCommand{\PGTp}{\HepParticle{\PGT}{}{+}\Xspace}
+\NewParticle{\PGT}{\Uptheta}{}{}
+\NewParticle{\PGTp}{\PGT}{}{+}
 %% Phi --
-\DeclareRobustCommand{\PGF}{\HepParticle{\Upphi}{}{}\Xspace}
-\DeclareRobustCommand{\PGFmm}{\HepParticle{\PGF}{}{--}\Xspace}
+\NewParticle{\PGF}{\Upphi}{}{}
+\NewParticle{\PGFmm}{\PGF}{}{--}
 
 % ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 %                          MESONS                                +
@@ -602,191 +621,191 @@
 % ---------------------------------------------------------------+
 
 %% Pions
-\DeclareRobustCommand{\PGp}{\HepParticle{\uppi}{}{}\Xspace} % pion
-\DeclareRobustCommand{\PGppm}{\HepParticle{\PGp}{}{\pm}\Xspace} % charged pion
-\DeclareRobustCommand{\PGpmp}{\HepParticle{\PGp}{}{\mp}\Xspace} % charged pion
-\DeclareRobustCommand{\PGpm}{\HepParticle{\PGp}{}{-}\Xspace} % negative pion
-\DeclareRobustCommand{\PGpp}{\HepParticle{\PGp}{}{+}\Xspace} % positive pion
-\DeclareRobustCommand{\PGpz}{\HepParticle{\PGp}{}{0}\Xspace} % neutral pion
-\DeclareRobustCommand{\PGpP}[1]{\HepParticleResonanceFull{\PGp}{}{}{#1}{}{}\Xspace}% pi resonance
-\DeclareRobustCommand{\PGppP}[1]{\HepParticleResonanceFull{\PGp}{}{+}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PGpzP}[1]{\HepParticleResonanceFull{\PGp}{}{0}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PGpDoP}[1]{\HepParticleResonanceFull{\PGp}{1}{}{#1}{}{}\Xspace}% pi one resonance
-\DeclareRobustCommand{\PGppDoP}[1]{\HepParticleResonanceFull{\PGp}{1}{+}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PGpzDoP}[1]{\HepParticleResonanceFull{\PGp}{1}{0}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PGpDtP}[1]{\HepParticleResonanceFull{\PGp}{2}{}{#1}{}{}\Xspace}% pi two resonance
-\DeclareRobustCommand{\PGppDtP}[1]{\HepParticleResonanceFull{\PGp}{2}{+}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PGpzDtP}[1]{\HepParticleResonanceFull{\PGp}{2}{0}{#1}{}{}\Xspace}
+\NewParticle{\PGp}{\uppi}{}{} % pion
+\NewParticle{\PGppm}{\PGp}{}{\pm} % charged pion
+\NewParticle{\PGpmp}{\PGp}{}{\mp} % charged pion
+\NewParticle{\PGpm}{\PGp}{}{-} % negative pion
+\NewParticle{\PGpp}{\PGp}{}{+} % positive pion
+\NewParticle{\PGpz}{\PGp}{}{0} % neutral pion
+\NewParticleResonanceFull{\PGpP}[1]{\PGp}{}{}{#1}{}{}% pi resonance
+\NewParticleResonanceFull{\PGppP}[1]{\PGp}{}{+}{#1}{}{}
+\NewParticleResonanceFull{\PGpzP}[1]{\PGp}{}{0}{#1}{}{}
+\NewParticleResonanceFull{\PGpDoP}[1]{\PGp}{1}{}{#1}{}{}% pi one resonance
+\NewParticleResonanceFull{\PGppDoP}[1]{\PGp}{1}{+}{#1}{}{}
+\NewParticleResonanceFull{\PGpzDoP}[1]{\PGp}{1}{0}{#1}{}{}
+\NewParticleResonanceFull{\PGpDtP}[1]{\PGp}{2}{}{#1}{}{}% pi two resonance
+\NewParticleResonanceFull{\PGppDtP}[1]{\PGp}{2}{+}{#1}{}{}
+\NewParticleResonanceFull{\PGpzDtP}[1]{\PGp}{2}{0}{#1}{}{}
 
 %% Eta mesons
-\DeclareRobustCommand{\PGh}{\HepParticle{\upeta}{}{}\Xspace}% eta
-\DeclareRobustCommand{\PGhpr}{\HepParticle{\PGh}{}{\prime}\Xspace}% eta prime
-\DeclareRobustCommand{\PGhP}[1]{\HepParticleResonance{\PGh}{#1}{}{}\Xspace}% eta resonance
-\DeclareRobustCommand{\PGhprP}[1]{\HepParticleResonance{\PGhpr}{#1}{}{}\Xspace}% eta resonance
-\DeclareRobustCommand{\PGhDtP}[1]{\HepParticleResonanceFull{\PGh}{2}{}{#1}{}{}\Xspace}% eta 2 resonance
+\NewParticle{\PGh}{\upeta}{}{}% eta
+\NewParticle{\PGhpr}{\PGh}{}{\prime}% eta prime
+\NewParticleResonance{\PGhP}[1]{\PGh}{#1}{}{}% eta resonance
+\NewParticleResonance{\PGhprP}[1]{\PGhpr}{#1}{}{}% eta resonance
+\NewParticleResonanceFull{\PGhDtP}[1]{\PGh}{2}{}{#1}{}{}% eta 2 resonance
 
 %% f mesons
-\DeclareRobustCommand{\Pf}{\HepParticle{f}{}{}\Xspace}% f
-\DeclareRobustCommand{\PfDzP}[1]{\HepParticleResonanceFull{\Pf}{0}{}{#1}{}{}\Xspace}% f zero resonance
-\DeclareRobustCommand{\PfDoP}[1]{\HepParticleResonanceFull{\Pf}{1}{}{#1}{}{}\Xspace}% f one resonance
-\DeclareRobustCommand{\PfDtP}[1]{\HepParticleResonanceFull{\Pf}{2}{}{#1}{}{}\Xspace}% f two resonance
-\DeclareRobustCommand{\PfprDtP}[1]{\HepParticleResonanceFull{\Pf}{2}{\prime}{#1}{}{}\Xspace}% f prime two resonance
-\DeclareRobustCommand{\PfDfP}[1]{\HepParticleResonanceFull{\Pf}{4}{}{#1}{}{}\Xspace}% f four resonance
-\DeclareRobustCommand{\PfDsP}[1]{\HepParticleResonanceFull{\Pf}{6}{}{#1}{}{}\Xspace}% f six resonance
-\DeclareRobustCommand{\PfJP}[1]{\HepParticleResonanceFull{\Pf}{\,J}{}{#1}{}{}\Xspace}% f J resonance
+\NewParticle{\Pf}{f}{}{}% f
+\NewParticleResonanceFull{\PfDzP}[1]{\Pf}{0}{}{#1}{}{}% f zero resonance
+\NewParticleResonanceFull{\PfDoP}[1]{\Pf}{1}{}{#1}{}{}% f one resonance
+\NewParticleResonanceFull{\PfDtP}[1]{\Pf}{2}{}{#1}{}{}% f two resonance
+\NewParticleResonanceFull{\PfprDtP}[1]{\Pf}{2}{\prime}{#1}{}{}% f prime two resonance
+\NewParticleResonanceFull{\PfDfP}[1]{\Pf}{4}{}{#1}{}{}% f four resonance
+\NewParticleResonanceFull{\PfDsP}[1]{\Pf}{6}{}{#1}{}{}% f six resonance
+\NewParticleResonanceFull{\PfJP}[1]{\Pf}{\,J}{}{#1}{}{}% f J resonance
 
 %% rho mesons
-\DeclareRobustCommand{\PGr}{\HepParticle{\uprho}{}{}\Xspace}
-\DeclareRobustCommand{\PGrP}[1]{\HepParticleResonanceFull{\PGr}{}{}{#1}{}{}\Xspace}% rho resonance
-\DeclareRobustCommand{\PGrpP}[1]{\HepParticleResonanceFull{\PGr}{}{+}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PGrzP}[1]{\HepParticleResonanceFull{\PGr}{}{0}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PGrDTP}[1]{\HepParticleResonanceFull{\PGr}{3}{}{#1}{}{}\Xspace}% rho three resonance
-\DeclareRobustCommand{\PGrpDTP}[1]{\HepParticleResonanceFull{\PGr}{3}{+}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PGrzDTP}[1]{\HepParticleResonanceFull{\PGr}{3}{0}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PGrDFP}[1]{\HepParticleResonanceFull{\PGr}{5}{}{#1}{}{}\Xspace}% rho five resonance
-\DeclareRobustCommand{\PGrpDFP}[1]{\HepParticleResonanceFull{\PGr}{5}{+}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PGrzDFP}[1]{\HepParticleResonanceFull{\PGr}{5}{0}{#1}{}{}\Xspace}
+\NewParticle{\PGr}{\uprho}{}{}
+\NewParticleResonanceFull{\PGrP}[1]{\PGr}{}{}{#1}{}{}% rho resonance
+\NewParticleResonanceFull{\PGrpP}[1]{\PGr}{}{+}{#1}{}{}
+\NewParticleResonanceFull{\PGrzP}[1]{\PGr}{}{0}{#1}{}{}
+\NewParticleResonanceFull{\PGrDTP}[1]{\PGr}{3}{}{#1}{}{}% rho three resonance
+\NewParticleResonanceFull{\PGrpDTP}[1]{\PGr}{3}{+}{#1}{}{}
+\NewParticleResonanceFull{\PGrzDTP}[1]{\PGr}{3}{0}{#1}{}{}
+\NewParticleResonanceFull{\PGrDFP}[1]{\PGr}{5}{}{#1}{}{}% rho five resonance
+\NewParticleResonanceFull{\PGrpDFP}[1]{\PGr}{5}{+}{#1}{}{}
+\NewParticleResonanceFull{\PGrzDFP}[1]{\PGr}{5}{0}{#1}{}{}
 
 %% omega mesons
-\DeclareRobustCommand{\PGo}{\HepParticle{\upomega}{}{}\Xspace}
-\DeclareRobustCommand{\PGoP}[1]{\HepParticleResonance{\PGo}{#1}{}{}\Xspace}% omega resonance
-\DeclareRobustCommand{\PGoDTP}[1]{\HepParticleResonanceFull{\PGo}{3}{}{#1}{}{}\Xspace}% omega three resonance
+\NewParticle{\PGo}{\upomega}{}{}
+\NewParticleResonance{\PGoP}[1]{\PGo}{#1}{}{}% omega resonance
+\NewParticleResonanceFull{\PGoDTP}[1]{\PGo}{3}{}{#1}{}{}% omega three resonance
 
 %% a mesons
-\DeclareRobustCommand{\Pa}{\HepParticle{a}{}{}\Xspace}% a
-\DeclareRobustCommand{\PaDzP}[1]{\HepParticleResonanceFull{\Pa}{0}{}{#1}{}{}\Xspace}% a zero resonance
-\DeclareRobustCommand{\PapDzP}[1]{\HepParticleResonanceFull{\Pa}{0}{+}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PazDzP}[1]{\HepParticleResonanceFull{\Pa}{0}{0}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PaDoP}[1]{\HepParticleResonanceFull{\Pa}{1}{}{#1}{}{}\Xspace}% a one resonance
-\DeclareRobustCommand{\PapDoP}[1]{\HepParticleResonanceFull{\Pa}{1}{+}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PazDoP}[1]{\HepParticleResonanceFull{\Pa}{1}{0}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PaDtP}[1]{\HepParticleResonanceFull{\Pa}{2}{}{#1}{}{}\Xspace}% a two resonance
-\DeclareRobustCommand{\PapDtP}[1]{\HepParticleResonanceFull{\Pa}{2}{+}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PazDtP}[1]{\HepParticleResonanceFull{\Pa}{2}{0}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PaDfP}[1]{\HepParticleResonanceFull{\Pa}{4}{}{#1}{}{}\Xspace}% a four resonance
-\DeclareRobustCommand{\PapDfP}[1]{\HepParticleResonanceFull{\Pa}{4}{+}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PazDfP}[1]{\HepParticleResonanceFull{\Pa}{4}{0}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PaDsP}[1]{\HepParticleResonanceFull{\Pa}{6}{}{#1}{}{}\Xspace}% a six resonance
-\DeclareRobustCommand{\PapDsP}[1]{\HepParticleResonanceFull{\Pa}{6}{+}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PazDsP}[1]{\HepParticleResonanceFull{\Pa}{6}{0}{#1}{}{}\Xspace}
+\NewParticle{\Pa}{a}{}{}% a
+\NewParticleResonanceFull{\PaDzP}[1]{\Pa}{0}{}{#1}{}{}% a zero resonance
+\NewParticleResonanceFull{\PapDzP}[1]{\Pa}{0}{+}{#1}{}{}
+\NewParticleResonanceFull{\PazDzP}[1]{\Pa}{0}{0}{#1}{}{}
+\NewParticleResonanceFull{\PaDoP}[1]{\Pa}{1}{}{#1}{}{}% a one resonance
+\NewParticleResonanceFull{\PapDoP}[1]{\Pa}{1}{+}{#1}{}{}
+\NewParticleResonanceFull{\PazDoP}[1]{\Pa}{1}{0}{#1}{}{}
+\NewParticleResonanceFull{\PaDtP}[1]{\Pa}{2}{}{#1}{}{}% a two resonance
+\NewParticleResonanceFull{\PapDtP}[1]{\Pa}{2}{+}{#1}{}{}
+\NewParticleResonanceFull{\PazDtP}[1]{\Pa}{2}{0}{#1}{}{}
+\NewParticleResonanceFull{\PaDfP}[1]{\Pa}{4}{}{#1}{}{}% a four resonance
+\NewParticleResonanceFull{\PapDfP}[1]{\Pa}{4}{+}{#1}{}{}
+\NewParticleResonanceFull{\PazDfP}[1]{\Pa}{4}{0}{#1}{}{}
+\NewParticleResonanceFull{\PaDsP}[1]{\Pa}{6}{}{#1}{}{}% a six resonance
+\NewParticleResonanceFull{\PapDsP}[1]{\Pa}{6}{+}{#1}{}{}
+\NewParticleResonanceFull{\PazDsP}[1]{\Pa}{6}{0}{#1}{}{}
 
 %% fi mesons
-\DeclareRobustCommand{\PGf}{\HepParticle{\upphi}{}{}\Xspace}
-\DeclareRobustCommand{\PGfP}[1]{\HepParticleResonance{\PGf}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PGfDTP}[1]{\HepParticleResonanceFull{\PGf}{3}{}{#1}{}{}\Xspace}
+\NewParticle{\PGf}{\upphi}{}{}
+\NewParticleResonance{\PGfP}[1]{\PGf}{#1}{}{}
+\NewParticleResonanceFull{\PGfDTP}[1]{\PGf}{3}{}{#1}{}{}
 
 %% h meson
-\DeclareRobustCommand{\Ph}{\HepParticle{h}{}{}\Xspace}% h
-\DeclareRobustCommand{\PhDoP}[1]{\HepParticleResonanceFull{\Ph}{1}{}{#1}{}{}\Xspace}% h one resonance
+\NewParticle{\Ph}{h}{}{}% h
+\NewParticleResonanceFull{\PhDoP}[1]{\Ph}{1}{}{#1}{}{}% h one resonance
 
 %% b meson
-\DeclareRobustCommand{\Pb}{\HepParticle{b}{}{}\Xspace}% b
-\DeclareRobustCommand{\PbDoP}[1]{\HepParticleResonanceFull{\Pb}{1}{}{#1}{}{}\Xspace}% b one resonance
-\DeclareRobustCommand{\PbpDoP}[1]{\HepParticleResonanceFull{\Pb}{1}{+}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PbzDoP}[1]{\HepParticleResonanceFull{\Pb}{1}{0}{#1}{}{}\Xspace}
+\NewParticle{\Pb}{b}{}{}% b
+\NewParticleResonanceFull{\PbDoP}[1]{\Pb}{1}{}{#1}{}{}% b one resonance
+\NewParticleResonanceFull{\PbpDoP}[1]{\Pb}{1}{+}{#1}{}{}
+\NewParticleResonanceFull{\PbzDoP}[1]{\Pb}{1}{0}{#1}{}{}
 
 % ---------------------------------------------------------------+
 %               Strange (S=+-1,C=B=0)                            +
 % ---------------------------------------------------------------+
 
 %% K mesons
-\DeclareRobustCommand{\PK}{\HepParticle{K}{}{}\Xspace} % kaon
-\DeclareRobustCommand{\PKpm}{\HepParticle{\PK}{}{\pm}\Xspace} % charged kaon
-\DeclareRobustCommand{\PKmp}{\HepParticle{\PK}{}{\mp}\Xspace} % charged kaon
-\DeclareRobustCommand{\PKm}{\HepParticle{\PK}{}{-}\Xspace} % negative kaon
-\DeclareRobustCommand{\PKp}{\HepParticle{\PK}{}{+}\Xspace} % positive kaon
-\DeclareRobustCommand{\PKL}{\HepParticle{\PK}{L}{}\Xspace} % K-long
-\DeclareRobustCommand{\PKS}{\HepParticle{\PK}{S}{}\Xspace} % K-short
-\DeclareRobustCommand{\PKst}{\HepParticle{\PK}{}{\ast}\Xspace} % K-star
-\DeclareRobustCommand{\PKz}{\HepParticle{\PK}{}{0}\Xspace} % neutral kaon
-\DeclareRobustCommand{\PKzL}{\HepParticle{\PK}{L}{0}\Xspace} % neutral K-long
-\DeclareRobustCommand{\PKzS}{\HepParticle{\PK}{S}{0}\Xspace} % neutral K-short
-\DeclareRobustCommand{\PAK}{\HepAntiParticle{\PK}{}{}\Xspace} % neutral anti-kaon
-\DeclareRobustCommand{\PAKst}{\HepAntiParticle{\PK}{}{\ast}\Xspace} % neutral anti-kaon
-\DeclareRobustCommand{\PAKz}{\HepAntiParticle{\PK}{}{0}\Xspace} % neutral anti-kaon
+\NewParticle{\PK}{K}{}{} % kaon
+\NewParticle{\PKpm}{\PK}{}{\pm} % charged kaon
+\NewParticle{\PKmp}{\PK}{}{\mp} % charged kaon
+\NewParticle{\PKm}{\PK}{}{-} % negative kaon
+\NewParticle{\PKp}{\PK}{}{+} % positive kaon
+\NewParticle{\PKL}{\PK}{L}{} % K-long
+\NewParticle{\PKS}{\PK}{S}{} % K-short
+\NewParticle{\PKst}{\PK}{}{\ast} % K-star
+\NewParticle{\PKz}{\PK}{}{0} % neutral kaon
+\NewParticle{\PKzL}{\PK}{L}{0} % neutral K-long
+\NewParticle{\PKzS}{\PK}{S}{0} % neutral K-short
+\NewAntiParticle{\PAK}{\PK}{}{} % neutral anti-kaon
+\NewAntiParticle{\PAKst}{\PK}{}{\ast} % neutral anti-kaon
+\NewAntiParticle{\PAKz}{\PK}{}{0} % neutral anti-kaon
 
-\DeclareRobustCommand{\PKP}[1]{\HepParticleResonanceFull{\PK}{}{}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PKDzP}[1]{\HepParticleResonanceFull{\PK}{0}{}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PKDoP}[1]{\HepParticleResonanceFull{\PK}{1}{}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PKDtP}[1]{\HepParticleResonanceFull{\PK}{2}{}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PKDTP}[1]{\HepParticleResonanceFull{\PK}{3}{}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PKDfP}[1]{\HepParticleResonanceFull{\PK}{4}{}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PKstP}[1]{\HepParticleResonanceFull{\PK}{}{\ast}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PKstDzP}[1]{\HepParticleResonanceFull{\PK}{0}{\ast}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PKstDoP}[1]{\HepParticleResonanceFull{\PK}{1}{\ast}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PKstDtP}[1]{\HepParticleResonanceFull{\PK}{2}{\ast}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PKstDTP}[1]{\HepParticleResonanceFull{\PK}{3}{\ast}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PKstDfP}[1]{\HepParticleResonanceFull{\PK}{4}{\ast}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PKstDFP}[1]{\HepParticleResonanceFull{\PK}{5}{\ast}{#1}{}{}\Xspace}
+\NewParticleResonanceFull{\PKP}[1]{\PK}{}{}{#1}{}{}
+\NewParticleResonanceFull{\PKDzP}[1]{\PK}{0}{}{#1}{}{}
+\NewParticleResonanceFull{\PKDoP}[1]{\PK}{1}{}{#1}{}{}
+\NewParticleResonanceFull{\PKDtP}[1]{\PK}{2}{}{#1}{}{}
+\NewParticleResonanceFull{\PKDTP}[1]{\PK}{3}{}{#1}{}{}
+\NewParticleResonanceFull{\PKDfP}[1]{\PK}{4}{}{#1}{}{}
+\NewParticleResonanceFull{\PKstP}[1]{\PK}{}{\ast}{#1}{}{}
+\NewParticleResonanceFull{\PKstDzP}[1]{\PK}{0}{\ast}{#1}{}{}
+\NewParticleResonanceFull{\PKstDoP}[1]{\PK}{1}{\ast}{#1}{}{}
+\NewParticleResonanceFull{\PKstDtP}[1]{\PK}{2}{\ast}{#1}{}{}
+\NewParticleResonanceFull{\PKstDTP}[1]{\PK}{3}{\ast}{#1}{}{}
+\NewParticleResonanceFull{\PKstDfP}[1]{\PK}{4}{\ast}{#1}{}{}
+\NewParticleResonanceFull{\PKstDFP}[1]{\PK}{5}{\ast}{#1}{}{}
 
-\DeclareRobustCommand{\PKeiii}{\HepParticle{\PK}{\Pe3}{}\Xspace}
-\DeclareRobustCommand{\PKgmiii}{\HepParticle{\PK}{\PGm3}{}\Xspace}
-\DeclareRobustCommand{\PKzeiii}{\HepParticle{\PK}{\Pe3}{0}\Xspace}
-\DeclareRobustCommand{\PKzgmiii}{\HepParticle{\PK}{\PGm3}{0}\Xspace}
+\NewParticle{\PKeiii}{\PK}{\Pe3}{}
+\NewParticle{\PKgmiii}{\PK}{\PGm3}{}
+\NewParticle{\PKzeiii}{\PK}{\Pe3}{0}
+\NewParticle{\PKzgmiii}{\PK}{\PGm3}{0}
 
 % ---------------------------------------------------------------+
 %               Charmed (C=+-1)                                  +
 % ---------------------------------------------------------------+
 
 %% D mesons
-\DeclareRobustCommand{\PD}{\HepParticle{D}{}{}\Xspace}
-\DeclareRobustCommand{\PDpm}{\HepParticle{\PD}{}{\pm}\Xspace}
-\DeclareRobustCommand{\PDmp}{\HepParticle{\PD}{}{\mp}\Xspace}
-\DeclareRobustCommand{\PDz}{\HepParticle{\PD}{}{0}\Xspace}
-\DeclareRobustCommand{\PDm}{\HepParticle{\PD}{}{-}\Xspace}
-\DeclareRobustCommand{\PDp}{\HepParticle{\PD}{}{+}\Xspace}
-\DeclareRobustCommand{\PDst}{\HepParticle{\PD}{}{\ast}\Xspace}
-\DeclareRobustCommand{\PDstm}{\HepParticle{\PD}{}{\ast-}\Xspace}
-\DeclareRobustCommand{\PDstp}{\HepParticle{\PD}{}{\ast+}\Xspace}
-\DeclareRobustCommand{\PDstpm}{\HepParticle{\PD}{}{\ast\pm}\Xspace}
-\DeclareRobustCommand{\PAD}{\HepAntiParticle{\PD}{}{}\Xspace}
-\DeclareRobustCommand{\PADz}{\HepAntiParticle{\PD}{}{0}\Xspace}
-\DeclareRobustCommand{\PDstzP}[1]{\HepParticleResonanceFull{\PD}{}{\ast}{#1}{}{0}\Xspace}
-\DeclareRobustCommand{\PDstpmP}[1]{\HepParticleResonanceFull{\PD}{}{\ast}{#1}{}{\pm}\Xspace}
-\DeclareRobustCommand{\PDstmP}[1]{\HepParticleResonanceFull{\PD}{}{\ast}{#1}{}{-}\Xspace}
-\DeclareRobustCommand{\PDstpP}[1]{\HepParticleResonanceFull{\PD}{}{\ast}{#1}{}{+}\Xspace}
-\DeclareRobustCommand{\PDzDoP}[1]{\HepParticleResonanceFull{\PD}{1}{}{#1}{}{0}\Xspace}
-\DeclareRobustCommand{\PDpmDoP}[1]{\HepParticleResonanceFull{\PD}{1}{}{#1}{}{\pm}\Xspace}
-\DeclareRobustCommand{\PDmDoP}[1]{\HepParticleResonanceFull{\PD}{1}{}{#1}{}{-}\Xspace}
-\DeclareRobustCommand{\PDpDoP}[1]{\HepParticleResonanceFull{\PD}{1}{}{#1}{}{+}\Xspace}
-\DeclareRobustCommand{\PDstzDtP}[1]{\HepParticleResonanceFull{\PD}{2}{\ast}{#1}{}{0}\Xspace}
-\DeclareRobustCommand{\PDstpmDtP}[1]{\HepParticleResonanceFull{\PD}{2}{\ast}{#1}{}{\pm}\Xspace}
-\DeclareRobustCommand{\PDstmDtP}[1]{\HepParticleResonanceFull{\PD}{2}{\ast}{#1}{}{-}\Xspace}
-\DeclareRobustCommand{\PDstpDtP}[1]{\HepParticleResonanceFull{\PD}{2}{\ast}{#1}{}{+}\Xspace}
+\NewParticle{\PD}{D}{}{}
+\NewParticle{\PDpm}{\PD}{}{\pm}
+\NewParticle{\PDmp}{\PD}{}{\mp}
+\NewParticle{\PDz}{\PD}{}{0}
+\NewParticle{\PDm}{\PD}{}{-}
+\NewParticle{\PDp}{\PD}{}{+}
+\NewParticle{\PDst}{\PD}{}{\ast}
+\NewParticle{\PDstm}{\PD}{}{\ast-}
+\NewParticle{\PDstp}{\PD}{}{\ast+}
+\NewParticle{\PDstpm}{\PD}{}{\ast\pm}
+\NewAntiParticle{\PAD}{\PD}{}{}
+\NewAntiParticle{\PADz}{\PD}{}{0}
+\NewParticleResonanceFull{\PDstzP}[1]{\PD}{}{\ast}{#1}{}{0}
+\NewParticleResonanceFull{\PDstpmP}[1]{\PD}{}{\ast}{#1}{}{\pm}
+\NewParticleResonanceFull{\PDstmP}[1]{\PD}{}{\ast}{#1}{}{-}
+\NewParticleResonanceFull{\PDstpP}[1]{\PD}{}{\ast}{#1}{}{+}
+\NewParticleResonanceFull{\PDzDoP}[1]{\PD}{1}{}{#1}{}{0}
+\NewParticleResonanceFull{\PDpmDoP}[1]{\PD}{1}{}{#1}{}{\pm}
+\NewParticleResonanceFull{\PDmDoP}[1]{\PD}{1}{}{#1}{}{-}
+\NewParticleResonanceFull{\PDpDoP}[1]{\PD}{1}{}{#1}{}{+}
+\NewParticleResonanceFull{\PDstzDtP}[1]{\PD}{2}{\ast}{#1}{}{0}
+\NewParticleResonanceFull{\PDstpmDtP}[1]{\PD}{2}{\ast}{#1}{}{\pm}
+\NewParticleResonanceFull{\PDstmDtP}[1]{\PD}{2}{\ast}{#1}{}{-}
+\NewParticleResonanceFull{\PDstpDtP}[1]{\PD}{2}{\ast}{#1}{}{+}
 
 % ---------------------------------------------------------------+
 %               Charmed, generic quarks (B=+-1)                   +
 % ---------------------------------------------------------------+
 
-\DeclareRobustCommand{\PDq}{\HepParticle{\PD}{q}{}\Xspace}
-\DeclareRobustCommand{\PDzq}{\HepParticle{\PD}{q}{0}\Xspace}
-\DeclareRobustCommand{\PADq}{\HepAntiParticle{\PD}{q}{}\Xspace}
-\DeclareRobustCommand{\PADzq}{\HepAntiParticle{\PD}{q}{0}\Xspace}
+\NewParticle{\PDq}{\PD}{q}{}
+\NewParticle{\PDzq}{\PD}{q}{0}
+\NewAntiParticle{\PADq}{\PD}{q}{}
+\NewAntiParticle{\PADzq}{\PD}{q}{0}
 
 % ---------------------------------------------------------------+
 %               Charmed, strange (C=S=+-1)                       +
 % ---------------------------------------------------------------+
 
 %%%% D mesons
-\DeclareRobustCommand{\PDs}{\HepParticle{\PD}{s}{}\Xspace}
-\DeclareRobustCommand{\PDms}{\HepParticle{\PD}{s}{-}\Xspace}
-\DeclareRobustCommand{\PDps}{\HepParticle{\PD}{s}{+}\Xspace}
-\DeclareRobustCommand{\PDpms}{\HepParticle{\PD}{s}{\pm}\Xspace}
-\DeclareRobustCommand{\PDstms}{\HepParticle{\PD}{s}{\ast-}\Xspace}
-\DeclareRobustCommand{\PDstps}{\HepParticle{\PD}{s}{\ast+}\Xspace}
-\DeclareRobustCommand{\PDstpms}{\HepParticle{\PD}{s}{\ast\pm}\Xspace}
-\DeclareRobustCommand{\PDstpmsJP}[1]{\HepParticleResonanceFull{\PD}{sJ}{\ast}{#1}{}{\pm}\Xspace}
-\DeclareRobustCommand{\PDstmsJP}[1]{\HepParticleResonanceFull{\PD}{sJ}{\ast}{#1}{}{-}\Xspace}
-\DeclareRobustCommand{\PDstpsJP}[1]{\HepParticleResonanceFull{\PD}{sJ}{\ast}{#1}{}{+}\Xspace}
-\DeclareRobustCommand{\PDpmsJP}[1]{\HepParticleResonanceFull{\PD}{sJ}{}{#1}{}{\pm}\Xspace}
-\DeclareRobustCommand{\PDmsJP}[1]{\HepParticleResonanceFull{\PD}{sJ}{}{#1}{}{-}\Xspace}
-\DeclareRobustCommand{\PDpsJP}[1]{\HepParticleResonanceFull{\PD}{sJ}{}{#1}{}{+}\Xspace}
-\DeclareRobustCommand{\PDpmsDoP}[1]{\HepParticleResonanceFull{\PD}{s1}{}{#1}{}{\pm}\Xspace}
-\DeclareRobustCommand{\PDmsDoP}[1]{\HepParticleResonanceFull{\PD}{s1}{}{#1}{}{-}\Xspace}
-\DeclareRobustCommand{\PDpsDoP}[1]{\HepParticleResonanceFull{\PD}{s1}{}{#1}{}{+}\Xspace}
-\DeclareRobustCommand{\PDpmsDtP}[1]{\HepParticleResonanceFull{\PD}{s2}{}{#1}{}{\pm}\Xspace}
-\DeclareRobustCommand{\PDmsDtP}[1]{\HepParticleResonanceFull{\PD}{s2}{}{#1}{}{-}\Xspace}
-\DeclareRobustCommand{\PDpsDtP}[1]{\HepParticleResonanceFull{\PD}{s2}{}{#1}{}{+}\Xspace}
+\NewParticle{\PDs}{\PD}{s}{}
+\NewParticle{\PDms}{\PD}{s}{-}
+\NewParticle{\PDps}{\PD}{s}{+}
+\NewParticle{\PDpms}{\PD}{s}{\pm}
+\NewParticle{\PDstms}{\PD}{s}{\ast-}
+\NewParticle{\PDstps}{\PD}{s}{\ast+}
+\NewParticle{\PDstpms}{\PD}{s}{\ast\pm}
+\NewParticleResonanceFull{\PDstpmsJP}[1]{\PD}{sJ}{\ast}{#1}{}{\pm}
+\NewParticleResonanceFull{\PDstmsJP}[1]{\PD}{sJ}{\ast}{#1}{}{-}
+\NewParticleResonanceFull{\PDstpsJP}[1]{\PD}{sJ}{\ast}{#1}{}{+}
+\NewParticleResonanceFull{\PDpmsJP}[1]{\PD}{sJ}{}{#1}{}{\pm}
+\NewParticleResonanceFull{\PDmsJP}[1]{\PD}{sJ}{}{#1}{}{-}
+\NewParticleResonanceFull{\PDpsJP}[1]{\PD}{sJ}{}{#1}{}{+}
+\NewParticleResonanceFull{\PDpmsDoP}[1]{\PD}{s1}{}{#1}{}{\pm}
+\NewParticleResonanceFull{\PDmsDoP}[1]{\PD}{s1}{}{#1}{}{-}
+\NewParticleResonanceFull{\PDpsDoP}[1]{\PD}{s1}{}{#1}{}{+}
+\NewParticleResonanceFull{\PDpmsDtP}[1]{\PD}{s2}{}{#1}{}{\pm}
+\NewParticleResonanceFull{\PDmsDtP}[1]{\PD}{s2}{}{#1}{}{-}
+\NewParticleResonanceFull{\PDpsDtP}[1]{\PD}{s2}{}{#1}{}{+}
 
 
 % ---------------------------------------------------------------+
@@ -794,152 +813,152 @@
 % ---------------------------------------------------------------+
 
 %% B mesons
-\DeclareRobustCommand{\PB}{\HepParticle{B}{}{}\Xspace}
-\DeclareRobustCommand{\PBpm}{\HepParticle{\PB}{}{\pm}\Xspace}
-\DeclareRobustCommand{\PBp}{\HepParticle{\PB}{}{+}\Xspace}
-\DeclareRobustCommand{\PBm}{\HepParticle{\PB}{}{-}\Xspace}
-\DeclareRobustCommand{\PBz}{\HepParticle{\PB}{}{0}\Xspace}
-\DeclareRobustCommand{\PBst}{\HepParticle{\PB}{}{\ast}\Xspace}
-\DeclareRobustCommand{\PBstp}{\HepParticle{\PB}{}{\ast{}+}\Xspace}
-\DeclareRobustCommand{\PBstz}{\HepParticle{\PB}{}{\ast{}0}\Xspace}
-\DeclareRobustCommand{\PBstDz}{\HepParticle{\PB}{0}{\ast{}}\Xspace}
-\DeclareRobustCommand{\PBstpDz}{\HepParticle{\PB}{0}{\ast{}+}\Xspace}
-\DeclareRobustCommand{\PBstzDz}{\HepParticle{\PB}{0}{\ast{}0}\Xspace}
-\DeclareRobustCommand{\PBstDo}{\HepParticle{\PB}{1}{\ast{}}\Xspace}
-\DeclareRobustCommand{\PBstpDo}{\HepParticle{\PB}{1}{\ast{}+}\Xspace}
-\DeclareRobustCommand{\PBstzDo}{\HepParticle{\PB}{1}{\ast{}0}\Xspace}
-\DeclareRobustCommand{\PBstDt}{\HepParticle{\PB}{2}{\ast{}}\Xspace}
-\DeclareRobustCommand{\PBstpDt}{\HepParticle{\PB}{2}{\ast{}+}\Xspace}
-\DeclareRobustCommand{\PBstzDt}{\HepParticle{\PB}{2}{\ast{}0}\Xspace}
-\DeclareRobustCommand{\PAB}{\HepAntiParticle{\PB}{}{}\Xspace}
-\DeclareRobustCommand{\PABz}{\HepAntiParticle{\PB}{}{0}\Xspace}
-\DeclareRobustCommand{\PBstJP}[1]{\HepParticleResonanceFull{\PB}{J}{\ast}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PBstpJP}[1]{\HepParticleResonanceFull{\PB}{J}{\ast}{#1}{}{+}\Xspace}
-\DeclareRobustCommand{\PBstzJP}[1]{\HepParticleResonanceFull{\PB}{J}{\ast}{#1}{}{0}\Xspace}
-\DeclareRobustCommand{\PBDoP}[1]{\HepParticleResonanceFull{\PB}{1}{}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PBpDoP}[1]{\HepParticleResonanceFull{\PB}{1}{}{#1}{}{+}\Xspace}
-\DeclareRobustCommand{\PBzDoP}[1]{\HepParticleResonanceFull{\PB}{1}{}{#1}{}{0}\Xspace}
+\NewParticle{\PB}{B}{}{}
+\NewParticle{\PBpm}{\PB}{}{\pm}
+\NewParticle{\PBp}{\PB}{}{+}
+\NewParticle{\PBm}{\PB}{}{-}
+\NewParticle{\PBz}{\PB}{}{0}
+\NewParticle{\PBst}{\PB}{}{\ast}
+\NewParticle{\PBstp}{\PB}{}{\ast{}+}
+\NewParticle{\PBstz}{\PB}{}{\ast{}0}
+\NewParticle{\PBstDz}{\PB}{0}{\ast{}}
+\NewParticle{\PBstpDz}{\PB}{0}{\ast{}+}
+\NewParticle{\PBstzDz}{\PB}{0}{\ast{}0}
+\NewParticle{\PBstDo}{\PB}{1}{\ast{}}
+\NewParticle{\PBstpDo}{\PB}{1}{\ast{}+}
+\NewParticle{\PBstzDo}{\PB}{1}{\ast{}0}
+\NewParticle{\PBstDt}{\PB}{2}{\ast{}}
+\NewParticle{\PBstpDt}{\PB}{2}{\ast{}+}
+\NewParticle{\PBstzDt}{\PB}{2}{\ast{}0}
+\NewAntiParticle{\PAB}{\PB}{}{}
+\NewAntiParticle{\PABz}{\PB}{}{0}
+\NewParticleResonanceFull{\PBstJP}[1]{\PB}{J}{\ast}{#1}{}{}
+\NewParticleResonanceFull{\PBstpJP}[1]{\PB}{J}{\ast}{#1}{}{+}
+\NewParticleResonanceFull{\PBstzJP}[1]{\PB}{J}{\ast}{#1}{}{0}
+\NewParticleResonanceFull{\PBDoP}[1]{\PB}{1}{}{#1}{}{}
+\NewParticleResonanceFull{\PBpDoP}[1]{\PB}{1}{}{#1}{}{+}
+\NewParticleResonanceFull{\PBzDoP}[1]{\PB}{1}{}{#1}{}{0}
 
 % ---------------------------------------------------------------+
 %               Bottom, strange (B=+-1,S=-+1)                    +
 % ---------------------------------------------------------------+
 
-\DeclareRobustCommand{\PBs}{\HepParticle{\PB}{s}{}\Xspace}
-\DeclareRobustCommand{\PBzs}{\HepParticle{\PB}{s}{0}\Xspace}
-\DeclareRobustCommand{\PABs}{\HepAntiParticle{\PB}{s}{}\Xspace}
-\DeclareRobustCommand{\PABzs}{\HepAntiParticle{\PB}{s}{0}\Xspace}
-\DeclareRobustCommand{\PBsts}{\HepParticle{\PB}{s}{\ast}\Xspace}
-\DeclareRobustCommand{\PBstzs}{\HepParticle{\PB}{s}{\ast{}0}\Xspace}
-\DeclareRobustCommand{\PBstsDz}{\HepParticle{\PB}{s0}{\ast}\Xspace}
-\DeclareRobustCommand{\PBstzsDz}{\HepParticle{\PB}{s0}{\ast{}0}\Xspace}
-\DeclareRobustCommand{\PBstsDo}{\HepParticle{\PB}{s1}{\ast}\Xspace}
-\DeclareRobustCommand{\PBstzsDo}{\HepParticle{\PB}{s1}{\ast{}0}\Xspace}
-\DeclareRobustCommand{\PBstsDt}{\HepParticle{\PB}{s2}{\ast}\Xspace}
-\DeclareRobustCommand{\PBstzsDt}{\HepParticle{\PB}{s2}{\ast{}0}\Xspace}
-\DeclareRobustCommand{\PBstsJP}[1]{\HepParticleResonanceFull{\PB}{sJ}{\ast}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PBstzsJP}[1]{\HepParticleResonanceFull{\PB}{sJ}{\ast}{#1}{}{0}\Xspace}
-\DeclareRobustCommand{\PBsDoP}[1]{\HepParticleResonanceFull{\PB}{s1}{}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PBzsDoP}[1]{\HepParticleResonanceFull{\PB}{s1}{}{#1}{}{0}\Xspace}
+\NewParticle{\PBs}{\PB}{s}{}
+\NewParticle{\PBzs}{\PB}{s}{0}
+\NewAntiParticle{\PABs}{\PB}{s}{}
+\NewAntiParticle{\PABzs}{\PB}{s}{0}
+\NewParticle{\PBsts}{\PB}{s}{\ast}
+\NewParticle{\PBstzs}{\PB}{s}{\ast{}0}
+\NewParticle{\PBstsDz}{\PB}{s0}{\ast}
+\NewParticle{\PBstzsDz}{\PB}{s0}{\ast{}0}
+\NewParticle{\PBstsDo}{\PB}{s1}{\ast}
+\NewParticle{\PBstzsDo}{\PB}{s1}{\ast{}0}
+\NewParticle{\PBstsDt}{\PB}{s2}{\ast}
+\NewParticle{\PBstzsDt}{\PB}{s2}{\ast{}0}
+\NewParticleResonanceFull{\PBstsJP}[1]{\PB}{sJ}{\ast}{#1}{}{}
+\NewParticleResonanceFull{\PBstzsJP}[1]{\PB}{sJ}{\ast}{#1}{}{0}
+\NewParticleResonanceFull{\PBsDoP}[1]{\PB}{s1}{}{#1}{}{}
+\NewParticleResonanceFull{\PBzsDoP}[1]{\PB}{s1}{}{#1}{}{0}
 
 
 % ---------------------------------------------------------------+
 %               Bottom, generic quarks (B=+-1)                   +
 % ---------------------------------------------------------------+
 
-\DeclareRobustCommand{\PBq}{\HepParticle{\PB}{q}{}\Xspace}
-\DeclareRobustCommand{\PBzq}{\HepParticle{\PB}{q}{0}\Xspace}
-\DeclareRobustCommand{\PABq}{\HepAntiParticle{\PB}{q}{}\Xspace}
-\DeclareRobustCommand{\PABzq}{\HepAntiParticle{\PB}{q}{0}\Xspace}
+\NewParticle{\PBq}{\PB}{q}{}
+\NewParticle{\PBzq}{\PB}{q}{0}
+\NewAntiParticle{\PABq}{\PB}{q}{}
+\NewAntiParticle{\PABzq}{\PB}{q}{0}
 
 % ---------------------------------------------------------------+
 %               Bottom, down (B=+-1,S=0)                         +
 % ---------------------------------------------------------------+
 
-\DeclareRobustCommand{\PBd}{\HepParticle{\PB}{d}{}\Xspace}
-\DeclareRobustCommand{\PBzd}{\HepParticle{\PB}{d}{0}\Xspace}
-\DeclareRobustCommand{\PABd}{\HepAntiParticle{\PB}{d}{}\Xspace}
-\DeclareRobustCommand{\PABzd}{\HepAntiParticle{\PB}{d}{0}\Xspace}
+\NewParticle{\PBd}{\PB}{d}{}
+\NewParticle{\PBzd}{\PB}{d}{0}
+\NewAntiParticle{\PABd}{\PB}{d}{}
+\NewAntiParticle{\PABzd}{\PB}{d}{0}
 
 % ---------------------------------------------------------------+
 %               Bottom, up (B=+-1,S=0)                           +
 % ---------------------------------------------------------------+
 
-\DeclareRobustCommand{\PBu}{\HepParticle{\PB}{u}{}\Xspace}
-\DeclareRobustCommand{\PBzu}{\HepParticle{\PB}{u}{0}\Xspace}
-\DeclareRobustCommand{\PABu}{\HepAntiParticle{\PB}{u}{}\Xspace}
-\DeclareRobustCommand{\PABzu}{\HepAntiParticle{\PB}{u}{0}\Xspace}
+\NewParticle{\PBu}{\PB}{u}{}
+\NewParticle{\PBzu}{\PB}{u}{0}
+\NewAntiParticle{\PABu}{\PB}{u}{}
+\NewAntiParticle{\PABzu}{\PB}{u}{0}
 
 % ---------------------------------------------------------------+
 %               Bottom, charmed (B=C=+-1)                        +
 % ---------------------------------------------------------------+
 
-\DeclareRobustCommand{\PBc}{\HepParticle{\PB}{c}{}\Xspace}
-\DeclareRobustCommand{\PBmc}{\HepParticle{\PB}{c}{-}\Xspace}
-\DeclareRobustCommand{\PBpc}{\HepParticle{\PB}{c}{+}\Xspace}
-\DeclareRobustCommand{\PBpmc}{\HepParticle{\PB}{c}{\pm}\Xspace}
-\DeclareRobustCommand{\PBstc}{\HepParticle{\PB}{c}{\ast}\Xspace}
-\DeclareRobustCommand{\PBstpc}{\HepParticle{\PB}{c}{\ast{}+}\Xspace}
-\DeclareRobustCommand{\PBstcDz}{\HepParticle{\PB}{c0}{\ast}\Xspace}
-\DeclareRobustCommand{\PBstpcDz}{\HepParticle{\PB}{c0}{\ast{}+}\Xspace}
-\DeclareRobustCommand{\PBstcDo}{\HepParticle{\PB}{c1}{\ast}\Xspace}
-\DeclareRobustCommand{\PBstpcDo}{\HepParticle{\PB}{c1}{\ast{}+}\Xspace}
-\DeclareRobustCommand{\PBstcDt}{\HepParticle{\PB}{c2}{\ast}\Xspace}
-\DeclareRobustCommand{\PBstpcDt}{\HepParticle{\PB}{c2}{\ast{}+}\Xspace}
-\DeclareRobustCommand{\PBcDoP}[1]{\HepParticleResonanceFull{\PB}{c1}{}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PBpcDoP}[1]{\HepParticleResonanceFull{\PB}{c1}{}{#1}{}{+}\Xspace}
+\NewParticle{\PBc}{\PB}{c}{}
+\NewParticle{\PBmc}{\PB}{c}{-}
+\NewParticle{\PBpc}{\PB}{c}{+}
+\NewParticle{\PBpmc}{\PB}{c}{\pm}
+\NewParticle{\PBstc}{\PB}{c}{\ast}
+\NewParticle{\PBstpc}{\PB}{c}{\ast{}+}
+\NewParticle{\PBstcDz}{\PB}{c0}{\ast}
+\NewParticle{\PBstpcDz}{\PB}{c0}{\ast{}+}
+\NewParticle{\PBstcDo}{\PB}{c1}{\ast}
+\NewParticle{\PBstpcDo}{\PB}{c1}{\ast{}+}
+\NewParticle{\PBstcDt}{\PB}{c2}{\ast}
+\NewParticle{\PBstpcDt}{\PB}{c2}{\ast{}+}
+\NewParticleResonanceFull{\PBcDoP}[1]{\PB}{c1}{}{#1}{}{}
+\NewParticleResonanceFull{\PBpcDoP}[1]{\PB}{c1}{}{#1}{}{+}
 
 % ---------------------------------------------------------------+
 %               charm/anticharm                                  +
 % ---------------------------------------------------------------+
 
 %% eta charm
-\DeclareRobustCommand{\PGhc}{\HepParticle{\PGh}{\PQc}{}\Xspace}
-\DeclareRobustCommand{\PGhcP}[1]{\HepParticleResonance{\PGhc}{#1}{}{}\Xspace}
+\NewParticle{\PGhc}{\PGh}{\PQc}{}
+\NewParticleResonance{\PGhcP}[1]{\PGhc}{#1}{}{}
 
 %% Psi and its resonances
-\DeclareRobustCommand{\PJGy}{\HepParticle{J\mspace{-2mu}/\mspace{-2mu}\uppsi}{}{}\Xspace}
-\DeclareRobustCommand{\PJGyP}[1]{\HepParticleResonance{\PJGy}{#1}{}{}\Xspace}
-\DeclareRobustCommand{\PGy}{\HepParticle{\uppsi}{}{}\Xspace}
-\DeclareRobustCommand{\PGyP}[1]{\HepParticleResonance{\PGy}{#1}{}{}\Xspace}% psi resonances
+\NewParticle{\PJGy}{J\mspace{-2mu}/\mspace{-2mu}\uppsi}{}{}
+\NewParticleResonance{\PJGyP}[1]{\PJGy}{#1}{}{}
+\NewParticle{\PGy}{\uppsi}{}{}
+\NewParticleResonance{\PGyP}[1]{\PGy}{#1}{}{}% psi resonances
 
 %% chi charm
-\DeclareRobustCommand{\PGc}{\HepParticle{\upchi}{}{}\Xspace}% chi
-\DeclareRobustCommand{\PGcc}{\HepParticle{\PGc}{c}{}\Xspace}
-\DeclareRobustCommand{\PGccDzP}[1]{\HepParticleResonanceFull{\PGc}{c0}{}{#1}{}{}\Xspace}% chi charm 0 resonance
-\DeclareRobustCommand{\PGccDoP}[1]{\HepParticleResonanceFull{\PGc}{c1}{}{#1}{}{}\Xspace}% chi charm 1 resonance
-\DeclareRobustCommand{\PGccDtP}[1]{\HepParticleResonanceFull{\PGc}{c2}{}{#1}{}{}\Xspace}% chi charm 2 resonance
+\NewParticle{\PGc}{\upchi}{}{}% chi
+\NewParticle{\PGcc}{\PGc}{c}{}
+\NewParticleResonanceFull{\PGccDzP}[1]{\PGc}{c0}{}{#1}{}{}% chi charm 0 resonance
+\NewParticleResonanceFull{\PGccDoP}[1]{\PGc}{c1}{}{#1}{}{}% chi charm 1 resonance
+\NewParticleResonanceFull{\PGccDtP}[1]{\PGc}{c2}{}{#1}{}{}% chi charm 2 resonance
 
 %% h charm meson
-\DeclareRobustCommand{\Phc}{\HepParticle{\Ph}{c}{}\Xspace}
-\DeclareRobustCommand{\PhcP}[1]{\HepParticleResonanceFull{\Ph}{c}{}{#1}{}{}\Xspace}% h c resonance
+\NewParticle{\Phc}{\Ph}{c}{}
+\NewParticleResonanceFull{\PhcP}[1]{\Ph}{c}{}{#1}{}{}% h c resonance
 
 %% X meson
-\DeclareRobustCommand{\PX}{\HepParticle{X}{}{}\Xspace}
-\DeclareRobustCommand{\PXP}[1]{\HepParticleResonanceFull{\PX}{}{}{#1}{}{}\Xspace}% X resonance
+\NewParticle{\PX}{X}{}{}
+\NewParticleResonanceFull{\PXP}[1]{\PX}{}{}{#1}{}{}% X resonance
 
 % ---------------------------------------------------------------+
 %               bottom/antibottom                                +
 % ---------------------------------------------------------------+
 
 %% eta bottom
-\DeclareRobustCommand{\PGhb}{\HepParticle{\PGh}{\PQb}{}\Xspace}
-\DeclareRobustCommand{\PGhbP}[1]{\HepParticleResonance{\PGhb}{#1}{}{}\Xspace}
+\NewParticle{\PGhb}{\PGh}{\PQb}{}
+\NewParticleResonance{\PGhbP}[1]{\PGhb}{#1}{}{}
 
 %% Upsilon
-\DeclareRobustCommand{\PGU}{\HepParticle{\Upupsilon}{}{}\Xspace}
-\DeclareRobustCommand{\PGUP}[1]{\HepParticleResonance{\PGU}{#1}{}{}\Xspace}
+\NewParticle{\PGU}{\Upupsilon}{}{}
+\NewParticleResonance{\PGUP}[1]{\PGU}{#1}{}{}
 
 %% Upsilon primes
-\DeclareRobustCommand{\PGUpr}{\HepParticle{\Upupsilon}{}{\prime}\Xspace}
-\DeclareRobustCommand{\PGUprpr}{\HepParticle{\Upupsilon}{}{\prime\prime}\Xspace}
-\DeclareRobustCommand{\PGUprprpr}{\HepParticle{\Upupsilon}{}{\prime\prime\prime}\Xspace}
-\DeclareRobustCommand{\PGUprprprpr}{\HepParticle{\Upupsilon}{}{\prime\prime\prime\prime}\Xspace}
+\NewParticle{\PGUpr}{\Upupsilon}{}{\prime}
+\NewParticle{\PGUprpr}{\Upupsilon}{}{\prime\prime}
+\NewParticle{\PGUprprpr}{\Upupsilon}{}{\prime\prime\prime}
+\NewParticle{\PGUprprprpr}{\Upupsilon}{}{\prime\prime\prime\prime}
 
 %% chi charm
-\DeclareRobustCommand{\PGcb}{\HepParticle{\PGc}{\PQb}{}\Xspace}
-\DeclareRobustCommand{\PGcbDzP}[1]{\HepParticleResonanceFull{\PGc}{b0}{}{#1}{}{}\Xspace}% chi charm 0 resonance
-\DeclareRobustCommand{\PGcbDoP}[1]{\HepParticleResonanceFull{\PGc}{b1}{}{#1}{}{}\Xspace}% chi charm 1 resonance
-\DeclareRobustCommand{\PGcbDtP}[1]{\HepParticleResonanceFull{\PGc}{b2}{}{#1}{}{}\Xspace}% chi charm 2 resonance
+\NewParticle{\PGcb}{\PGc}{\PQb}{}
+\NewParticleResonanceFull{\PGcbDzP}[1]{\PGc}{b0}{}{#1}{}{}% chi charm 0 resonance
+\NewParticleResonanceFull{\PGcbDoP}[1]{\PGc}{b1}{}{#1}{}{}% chi charm 1 resonance
+\NewParticleResonanceFull{\PGcbDtP}[1]{\PGc}{b2}{}{#1}{}{}% chi charm 2 resonance
 
 % ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 %                          SUSY particles                        +
@@ -947,159 +966,159 @@
 
 %% Higgses
 
-\DeclareRobustCommand{\PSH}{\HepParticle{H}{}{}\Xspace} % charged Higgs
-\DeclareRobustCommand{\PSHpm}{\HepParticle{\PSH}{}{\pm}\Xspace}
-\DeclareRobustCommand{\PSHp}{\HepParticle{\PSH}{}{+}\Xspace}
-\DeclareRobustCommand{\PSHm}{\HepParticle{\PSH}{}{-}\Xspace}
-\DeclareRobustCommand{\PSHpmpm}{\HepParticle{\PSH}{}{\pm\pm}\Xspace} % doubly charged Higgs +-
-\DeclareRobustCommand{\PSHpp}{\HepParticle{\PSH}{}{++}\Xspace}% doubly charged Higgs ++
-\DeclareRobustCommand{\PSHmm}{\HepParticle{\PSH}{}{--}\Xspace}% doubly charged Higgs --
+\NewParticle{\PSH}{H}{}{} % charged Higgs
+\NewParticle{\PSHpm}{\PSH}{}{\pm}
+\NewParticle{\PSHp}{\PSH}{}{+}
+\NewParticle{\PSHm}{\PSH}{}{-}
+\NewParticle{\PSHpmpm}{\PSH}{}{\pm\pm} % doubly charged Higgs +-
+\NewParticle{\PSHpp}{\PSH}{}{++}% doubly charged Higgs ++
+\NewParticle{\PSHmm}{\PSH}{}{--}% doubly charged Higgs --
 
-\DeclareRobustCommand{\PSh}{\HepParticle{h}{}{}\Xspace} % light Higgs
-\DeclareRobustCommand{\PShz}{\HepParticle{\PSh}{}{0}\Xspace} % explicitly neutral light Higgs
+\NewParticle{\PSh}{h}{}{} % light Higgs
+\NewParticle{\PShz}{\PSh}{}{0} % explicitly neutral light Higgs
 
-\DeclareRobustCommand{\PSA}{\HepParticle{A}{}{}\Xspace} % pseudo-scalar A Higgs
-\DeclareRobustCommand{\PSAz}{\HepParticle{\PSA}{}{0}\Xspace} % pseudo-scalar A-zero Higgs
+\NewParticle{\PSA}{A}{}{} % pseudo-scalar A Higgs
+\NewParticle{\PSAz}{\PSA}{}{0} % pseudo-scalar A-zero Higgs
 
-\DeclareRobustCommand{\PSHzDo}{\HepParticle{\PSH}{1}{0}\Xspace} % H-zero 1
-\DeclareRobustCommand{\PSHzDt}{\HepParticle{\PSH}{2}{0}\Xspace} % H-zero 2
-\DeclareRobustCommand{\PSHzDT}{\HepParticle{\PSH}{3}{0}\Xspace} % H-zero 3
+\NewParticle{\PSHzDo}{\PSH}{1}{0} % H-zero 1
+\NewParticle{\PSHzDt}{\PSH}{2}{0} % H-zero 2
+\NewParticle{\PSHzDT}{\PSH}{3}{0} % H-zero 3
 
 %% Gauge bosons
-\DeclareRobustCommand{\PSGg}{\HepSusyParticle{\PGg}{}{}\Xspace} % photino
-\DeclareRobustCommand{\PSg}{\HepSusyParticle{\Pg}{}{}\Xspace} % gluino
+\NewSusyParticle{\PSGg}{\PGg}{}{} % photino
+\NewSusyParticle{\PSg}{\Pg}{}{} % gluino
 
-\DeclareRobustCommand{\PSW}{\HepSusyParticle{W}{}{}\Xspace} % winoes
-\DeclareRobustCommand{\PSWm}{\HepParticle{\PSW}{}{-}\Xspace}
-\DeclareRobustCommand{\PSWp}{\HepParticle{\PSW}{}{+}\Xspace}
-\DeclareRobustCommand{\PSWpm}{\HepParticle{\PSW}{}{\pm}\Xspace}
+\NewSusyParticle{\PSW}{W}{}{} % winoes
+\NewParticle{\PSWm}{\PSW}{}{-}
+\NewParticle{\PSWp}{\PSW}{}{+}
+\NewParticle{\PSWpm}{\PSW}{}{\pm}
 
-\DeclareRobustCommand{\PSZ}{\HepSusyParticle{Z}{}{}\Xspace} % zinoes
-\DeclareRobustCommand{\PSZz}{\HepParticle{\PSZ}{}{0}\Xspace} % zino
+\NewSusyParticle{\PSZ}{Z}{}{} % zinoes
+\NewParticle{\PSZz}{\PSZ}{}{0} % zino
 
-\DeclareRobustCommand{\PSGc}{\HepSusyParticle{\upchi}{}{}\Xspace} % chargino/neutralino
-\DeclareRobustCommand{\PSGcz}{\HepParticle{\PSGc}{}{0}\Xspace} % neutralino
-\DeclareRobustCommand{\PSGczDo}{\HepParticle{\PSGc}{1}{0}\Xspace}
-\DeclareRobustCommand{\PSGczDt}{\HepParticle{\PSGc}{2}{0}\Xspace}
-\DeclareRobustCommand{\PSGczDT}{\HepParticle{\PSGc}{3}{0}\Xspace}
-\DeclareRobustCommand{\PSGczDf}{\HepParticle{\PSGc}{4}{0}\Xspace}
-\DeclareRobustCommand{\PSGcm}{\HepParticle{\PSGc}{}{-}\Xspace} % chargino -
-\DeclareRobustCommand{\PSGcp}{\HepParticle{\PSGc}{}{+}\Xspace} % chargino +
-\DeclareRobustCommand{\PSGcpm}{\HepParticle{\PSGc}{}{\pm}\Xspace} % chargino
-\DeclareRobustCommand{\PSGcmDo}{\HepParticle{\PSGc}{1}{-}\Xspace}
-\DeclareRobustCommand{\PSGcpDo}{\HepParticle{\PSGc}{1}{+}\Xspace}
-\DeclareRobustCommand{\PSGcpmDo}{\HepParticle{\PSGc}{1}{\pm}\Xspace}
-\DeclareRobustCommand{\PSGcmDt}{\HepParticle{\PSGc}{2}{-}\Xspace}
-\DeclareRobustCommand{\PSGcpDt}{\HepParticle{\PSGc}{2}{+}\Xspace}
-\DeclareRobustCommand{\PSGcpmDt}{\HepParticle{\PSGc}{2}{\pm}\Xspace}
+\NewSusyParticle{\PSGc}{\upchi}{}{} % chargino/neutralino
+\NewParticle{\PSGcz}{\PSGc}{}{0} % neutralino
+\NewParticle{\PSGczDo}{\PSGc}{1}{0}
+\NewParticle{\PSGczDt}{\PSGc}{2}{0}
+\NewParticle{\PSGczDT}{\PSGc}{3}{0}
+\NewParticle{\PSGczDf}{\PSGc}{4}{0}
+\NewParticle{\PSGcm}{\PSGc}{}{-} % chargino -
+\NewParticle{\PSGcp}{\PSGc}{}{+} % chargino +
+\NewParticle{\PSGcpm}{\PSGc}{}{\pm} % chargino
+\NewParticle{\PSGcmDo}{\PSGc}{1}{-}
+\NewParticle{\PSGcpDo}{\PSGc}{1}{+}
+\NewParticle{\PSGcpmDo}{\PSGc}{1}{\pm}
+\NewParticle{\PSGcmDt}{\PSGc}{2}{-}
+\NewParticle{\PSGcpDt}{\PSGc}{2}{+}
+\NewParticle{\PSGcpmDt}{\PSGc}{2}{\pm}
 
 %% Sleptons
 
-\DeclareRobustCommand{\PSl}{\HepSusyParticle{\Pl}{}{}\Xspace} % slepton (generic)
-\DeclareRobustCommand{\PASl}{\HepSusyAntiParticle{\Pl}{}{}\Xspace} % anti-slepton (generic)
-\DeclareRobustCommand{\PSlL}{\HepSusyParticle{\Pl}{L}{}\Xspace} % slepton (generic)
-\DeclareRobustCommand{\PSlR}{\HepSusyParticle{\Pl}{R}{}\Xspace} % slepton (generic)
+\NewSusyParticle{\PSl}{\Pl}{}{} % slepton (generic)
+\NewSusyAntiParticle{\PASl}{\Pl}{}{} % anti-slepton (generic)
+\NewSusyParticle{\PSlL}{\Pl}{L}{} % slepton (generic)
+\NewSusyParticle{\PSlR}{\Pl}{R}{} % slepton (generic)
 
-\DeclareRobustCommand{\PSe}{\HepSusyParticle{\Pe}{}{}\Xspace} % selectron
-\DeclareRobustCommand{\PSemL}{\HepSusyParticle{\Pe}{L}{-}\Xspace}
-\DeclareRobustCommand{\PSemR}{\HepSusyParticle{\Pe}{R}{-}\Xspace}
-\DeclareRobustCommand{\PSeL}{\HepSusyParticle{\Pe}{L}{}\Xspace}
-\DeclareRobustCommand{\PSeR}{\HepSusyParticle{\Pe}{R}{}\Xspace}
+\NewSusyParticle{\PSe}{\Pe}{}{} % selectron
+\NewSusyParticle{\PSemL}{\Pe}{L}{-}
+\NewSusyParticle{\PSemR}{\Pe}{R}{-}
+\NewSusyParticle{\PSeL}{\Pe}{L}{}
+\NewSusyParticle{\PSeR}{\Pe}{R}{}
 
-\DeclareRobustCommand{\PSGm}{\HepSusyParticle{\PGm}{}{}\Xspace} % smuon
-\DeclareRobustCommand{\PSGmmL}{\HepSusyParticle{\PGm}{L}{-}\Xspace}
-\DeclareRobustCommand{\PSGmmR}{\HepSusyParticle{\PGm}{R}{-}\Xspace}
-\DeclareRobustCommand{\PSGmL}{\HepSusyParticle{\PGm}{L}{}\Xspace}
-\DeclareRobustCommand{\PSGmR}{\HepSusyParticle{\PGm}{R}{}\Xspace}
+\NewSusyParticle{\PSGm}{\PGm}{}{} % smuon
+\NewSusyParticle{\PSGmmL}{\PGm}{L}{-}
+\NewSusyParticle{\PSGmmR}{\PGm}{R}{-}
+\NewSusyParticle{\PSGmL}{\PGm}{L}{}
+\NewSusyParticle{\PSGmR}{\PGm}{R}{}
 
-\DeclareRobustCommand{\PSGt}{\HepSusyParticle{\PGt}{}{}\Xspace} % stau
-\DeclareRobustCommand{\PSGtmDo}{\HepSusyParticle{\PGt}{1}{-}\Xspace} % stau
-\DeclareRobustCommand{\PSGtmDt}{\HepSusyParticle{\PGt}{2}{-}\Xspace} % stau
-\DeclareRobustCommand{\PSGtL}{\HepSusyParticle{\PGt}{L}{}\Xspace} % stau
-\DeclareRobustCommand{\PSGtR}{\HepSusyParticle{\PGt}{R}{}\Xspace} % stau
-\DeclareRobustCommand{\PSGtDo}{\HepSusyParticle{\PGt}{1}{}\Xspace} % stau
-\DeclareRobustCommand{\PSGtDt}{\HepSusyParticle{\PGt}{2}{}\Xspace} % stau
+\NewSusyParticle{\PSGt}{\PGt}{}{} % stau
+\NewSusyParticle{\PSGtmDo}{\PGt}{1}{-} % stau
+\NewSusyParticle{\PSGtmDt}{\PGt}{2}{-} % stau
+\NewSusyParticle{\PSGtL}{\PGt}{L}{} % stau
+\NewSusyParticle{\PSGtR}{\PGt}{R}{} % stau
+\NewSusyParticle{\PSGtDo}{\PGt}{1}{} % stau
+\NewSusyParticle{\PSGtDt}{\PGt}{2}{} % stau
 
-\DeclareRobustCommand{\PSGn}{\HepSusyParticle{\PGn}{}{}\Xspace} % sneutrino
-\DeclareRobustCommand{\PASGn}{\HepSusyAntiParticle{\PGn}{}{}\Xspace} % anti-sneutrino
+\NewSusyParticle{\PSGn}{\PGn}{}{} % sneutrino
+\NewSusyAntiParticle{\PASGn}{\PGn}{}{} % anti-sneutrino
 
-\DeclareRobustCommand{\PSGne}{\HepSusyParticle{\PGn}{\Pe}{}\Xspace} % electron sneutrino
-\DeclareRobustCommand{\PSGneL}{\HepSusyParticle{\PGn}{{\Pe}L}{}\Xspace}
-\DeclareRobustCommand{\PSGneR}{\HepSusyParticle{\PGn}{{\Pe}R}{}\Xspace}
+\NewSusyParticle{\PSGne}{\PGn}{\Pe}{} % electron sneutrino
+\NewSusyParticle{\PSGneL}{\PGn}{{\Pe}L}{}
+\NewSusyParticle{\PSGneR}{\PGn}{{\Pe}R}{}
 
-\DeclareRobustCommand{\PSGnGm}{\HepSusyParticle{\PGn}{{\PGm}}{}\Xspace} % muon sneutrino
-\DeclareRobustCommand{\PSGnGmL}{\HepSusyParticle{\PGn}{{\PGm}L}{}\Xspace}
-\DeclareRobustCommand{\PSGnGmR}{\HepSusyParticle{\PGn}{{\PGm}R}{}\Xspace}
+\NewSusyParticle{\PSGnGm}{\PGn}{{\PGm}}{} % muon sneutrino
+\NewSusyParticle{\PSGnGmL}{\PGn}{{\PGm}L}{}
+\NewSusyParticle{\PSGnGmR}{\PGn}{{\PGm}R}{}
 
-\DeclareRobustCommand{\PSGnGt}{\HepSusyParticle{\PGn}{{\PGt}}{}\Xspace} % tau sneutrino
-\DeclareRobustCommand{\PSGnGtDo}{\HepSusyParticle{\PGn}{{\PGt}1}{}\Xspace}
-\DeclareRobustCommand{\PSGnGtDt}{\HepSusyParticle{\PGn}{{\PGt}2}{}\Xspace}
+\NewSusyParticle{\PSGnGt}{\PGn}{{\PGt}}{} % tau sneutrino
+\NewSusyParticle{\PSGnGtDo}{\PGn}{{\PGt}1}{}
+\NewSusyParticle{\PSGnGtDt}{\PGn}{{\PGt}2}{}
 
 %% Squarks
-\DeclareRobustCommand{\PSQ}{\HepSusyParticle{\PQq}{}{}\Xspace} % squark (generic)
-\DeclareRobustCommand{\PSQL}{\HepSusyParticle{\PQq}{L}{}\Xspace}
-\DeclareRobustCommand{\PSQR}{\HepSusyParticle{\PQq}{R}{}\Xspace}
+\NewSusyParticle{\PSQ}{\PQq}{}{} % squark (generic)
+\NewSusyParticle{\PSQL}{\PQq}{L}{}
+\NewSusyParticle{\PSQR}{\PQq}{R}{}
 
-\DeclareRobustCommand{\PSQd}{\HepSusyParticle{\PQd}{}{}\Xspace} % down squark
-\DeclareRobustCommand{\PSQdL}{\HepSusyParticle{\PQd}{L}{}\Xspace}
-\DeclareRobustCommand{\PSQdR}{\HepSusyParticle{\PQd}{R}{}\Xspace}
-\DeclareRobustCommand{\PSQu}{\HepSusyParticle{\PQu}{}{}\Xspace} % up squark
-\DeclareRobustCommand{\PSQuL}{\HepSusyParticle{\PQu}{L}{}\Xspace}
-\DeclareRobustCommand{\PSQuR}{\HepSusyParticle{\PQu}{R}{}\Xspace}
-\DeclareRobustCommand{\PSQs}{\HepSusyParticle{\PQs}{}{}\Xspace} % strange squark
-\DeclareRobustCommand{\PSQsL}{\HepSusyParticle{\PQs}{L}{}\Xspace}
-\DeclareRobustCommand{\PSQsR}{\HepSusyParticle{\PQs}{R}{}\Xspace}
-\DeclareRobustCommand{\PSQc}{\HepSusyParticle{\PQc}{}{}\Xspace} % charm squark
-\DeclareRobustCommand{\PSQcL}{\HepSusyParticle{\PQc}{L}{}\Xspace}
-\DeclareRobustCommand{\PSQcR}{\HepSusyParticle{\PQc}{R}{}\Xspace}
-\DeclareRobustCommand{\PSQb}{\HepSusyParticle{\PQb}{}{}\Xspace} % bottom squark (sbottom)
-\DeclareRobustCommand{\PSQbL}{\HepSusyParticle{\PQb}{L}{}\Xspace}
-\DeclareRobustCommand{\PSQbR}{\HepSusyParticle{\PQb}{R}{}\Xspace}
-\DeclareRobustCommand{\PSQbDo}{\HepSusyParticle{\PQb}{1}{}\Xspace}
-\DeclareRobustCommand{\PSQbDt}{\HepSusyParticle{\PQb}{2}{}\Xspace}
-\DeclareRobustCommand{\PSQt}{\HepSusyParticle{\PQt}{}{}\Xspace} % top squark (stop)
-\DeclareRobustCommand{\PSQtL}{\HepSusyParticle{\PQt}{L}{}\Xspace}
-\DeclareRobustCommand{\PSQtR}{\HepSusyParticle{\PQt}{R}{}\Xspace}
-\DeclareRobustCommand{\PSQtDo}{\HepSusyParticle{\PQt}{1}{}\Xspace}
-\DeclareRobustCommand{\PSQtDt}{\HepSusyParticle{\PQt}{2}{}\Xspace}
+\NewSusyParticle{\PSQd}{\PQd}{}{} % down squark
+\NewSusyParticle{\PSQdL}{\PQd}{L}{}
+\NewSusyParticle{\PSQdR}{\PQd}{R}{}
+\NewSusyParticle{\PSQu}{\PQu}{}{} % up squark
+\NewSusyParticle{\PSQuL}{\PQu}{L}{}
+\NewSusyParticle{\PSQuR}{\PQu}{R}{}
+\NewSusyParticle{\PSQs}{\PQs}{}{} % strange squark
+\NewSusyParticle{\PSQsL}{\PQs}{L}{}
+\NewSusyParticle{\PSQsR}{\PQs}{R}{}
+\NewSusyParticle{\PSQc}{\PQc}{}{} % charm squark
+\NewSusyParticle{\PSQcL}{\PQc}{L}{}
+\NewSusyParticle{\PSQcR}{\PQc}{R}{}
+\NewSusyParticle{\PSQb}{\PQb}{}{} % bottom squark (sbottom)
+\NewSusyParticle{\PSQbL}{\PQb}{L}{}
+\NewSusyParticle{\PSQbR}{\PQb}{R}{}
+\NewSusyParticle{\PSQbDo}{\PQb}{1}{}
+\NewSusyParticle{\PSQbDt}{\PQb}{2}{}
+\NewSusyParticle{\PSQt}{\PQt}{}{} % top squark (stop)
+\NewSusyParticle{\PSQtL}{\PQt}{L}{}
+\NewSusyParticle{\PSQtR}{\PQt}{R}{}
+\NewSusyParticle{\PSQtDo}{\PQt}{1}{}
+\NewSusyParticle{\PSQtDt}{\PQt}{2}{}
 
 %% anti-squarks
-\DeclareRobustCommand{\PASQ}{\HepSusyAntiParticle{\PQq}{}{}\Xspace} % anti-squark (generic)
-\DeclareRobustCommand{\PASQL}{\HepSusyAntiParticle{\PQq}{L}{}\Xspace}
-\DeclareRobustCommand{\PASQR}{\HepSusyAntiParticle{\PQq}{R}{}\Xspace}
+\NewSusyAntiParticle{\PASQ}{\PQq}{}{} % anti-squark (generic)
+\NewSusyAntiParticle{\PASQL}{\PQq}{L}{}
+\NewSusyAntiParticle{\PASQR}{\PQq}{R}{}
 
-\DeclareRobustCommand{\PASQd}{\HepSusyAntiParticle{\PQd}{}{}\Xspace} % anti-down squark
-\DeclareRobustCommand{\PASQdL}{\HepSusyAntiParticle{\PQd}{L}{}\Xspace}
-\DeclareRobustCommand{\PASQdR}{\HepSusyAntiParticle{\PQd}{R}{}\Xspace}
-\DeclareRobustCommand{\PASQu}{\HepSusyAntiParticle{\PQu}{}{}\Xspace} % anti-up squark
-\DeclareRobustCommand{\PASQuL}{\HepSusyAntiParticle{\PQu}{L}{}\Xspace}
-\DeclareRobustCommand{\PASQuR}{\HepSusyAntiParticle{\PQu}{R}{}\Xspace}
-\DeclareRobustCommand{\PASQs}{\HepSusyAntiParticle{\PQs}{}{}\Xspace} % anti-strange squark
-\DeclareRobustCommand{\PASQsL}{\HepSusyAntiParticle{\PQs}{L}{}\Xspace}
-\DeclareRobustCommand{\PASQsR}{\HepSusyAntiParticle{\PQs}{R}{}\Xspace}
-\DeclareRobustCommand{\PASQc}{\HepSusyAntiParticle{\PQc}{}{}\Xspace} % anti-charm squark
-\DeclareRobustCommand{\PASQcL}{\HepSusyAntiParticle{\PQc}{L}{}\Xspace}
-\DeclareRobustCommand{\PASQcR}{\HepSusyAntiParticle{\PQc}{R}{}\Xspace}
-\DeclareRobustCommand{\PASQb}{\HepSusyAntiParticle{\PQb}{}{}\Xspace} % anti-bottom squark
-\DeclareRobustCommand{\PASQbL}{\HepSusyAntiParticle{\PQb}{L}{}\Xspace}
-\DeclareRobustCommand{\PASQbR}{\HepSusyAntiParticle{\PQb}{R}{}\Xspace}
-\DeclareRobustCommand{\PASQbDo}{\HepSusyAntiParticle{\PQb}{1}{}\Xspace}
-\DeclareRobustCommand{\PASQbDt}{\HepSusyAntiParticle{\PQb}{2}{}\Xspace}
-\DeclareRobustCommand{\PASQt}{\HepSusyAntiParticle{\PQt}{}{}\Xspace} % anti-top squark (stop)
-\DeclareRobustCommand{\PASQtL}{\HepSusyAntiParticle{\PQt}{L}{}\Xspace}
-\DeclareRobustCommand{\PASQtR}{\HepSusyAntiParticle{\PQt}{R}{}\Xspace}
-\DeclareRobustCommand{\PASQtDo}{\HepSusyAntiParticle{\PQt}{1}{}\Xspace}
-\DeclareRobustCommand{\PASQtDt}{\HepSusyAntiParticle{\PQt}{2}{}\Xspace}
+\NewSusyAntiParticle{\PASQd}{\PQd}{}{} % anti-down squark
+\NewSusyAntiParticle{\PASQdL}{\PQd}{L}{}
+\NewSusyAntiParticle{\PASQdR}{\PQd}{R}{}
+\NewSusyAntiParticle{\PASQu}{\PQu}{}{} % anti-up squark
+\NewSusyAntiParticle{\PASQuL}{\PQu}{L}{}
+\NewSusyAntiParticle{\PASQuR}{\PQu}{R}{}
+\NewSusyAntiParticle{\PASQs}{\PQs}{}{} % anti-strange squark
+\NewSusyAntiParticle{\PASQsL}{\PQs}{L}{}
+\NewSusyAntiParticle{\PASQsR}{\PQs}{R}{}
+\NewSusyAntiParticle{\PASQc}{\PQc}{}{} % anti-charm squark
+\NewSusyAntiParticle{\PASQcL}{\PQc}{L}{}
+\NewSusyAntiParticle{\PASQcR}{\PQc}{R}{}
+\NewSusyAntiParticle{\PASQb}{\PQb}{}{} % anti-bottom squark
+\NewSusyAntiParticle{\PASQbL}{\PQb}{L}{}
+\NewSusyAntiParticle{\PASQbR}{\PQb}{R}{}
+\NewSusyAntiParticle{\PASQbDo}{\PQb}{1}{}
+\NewSusyAntiParticle{\PASQbDt}{\PQb}{2}{}
+\NewSusyAntiParticle{\PASQt}{\PQt}{}{} % anti-top squark (stop)
+\NewSusyAntiParticle{\PASQtL}{\PQt}{L}{}
+\NewSusyAntiParticle{\PASQtR}{\PQt}{R}{}
+\NewSusyAntiParticle{\PASQtDo}{\PQt}{1}{}
+\NewSusyAntiParticle{\PASQtDt}{\PQt}{2}{}
 
 %% Random things
-\DeclareRobustCommand{\PEz}{\HepParticle{E}{}{0}\Xspace}
-\DeclareRobustCommand{\PgA}{\HepParticle{\Pg}{A}{0}\Xspace}
+\NewParticle{\PEz}{E}{}{0}
+\NewParticle{\PgA}{\Pg}{A}{0}
 
 %% Special cases (falling outside naming scheme)
 
-\DeclareRobustCommand{\PXXA}{\HepParticle{A}{}{}\Xspace} % axion
-\DeclareRobustCommand{\PXXAz}{\HepParticle{\PXXA}{}{\mspace{-2mu}0}\Xspace}% axion 0
-\DeclareRobustCommand{\PXXG}{\HepParticle{G}{}{}\Xspace} % graviton
-\DeclareRobustCommand{\PXXSG}{\HepSusyParticle{\PXXG}{}{}\Xspace} % graviton
+\NewParticle{\PXXA}{A}{}{} % axion
+\NewParticle{\PXXAz}{\PXXA}{}{\mspace{-2mu}0}% axion 0
+\NewParticle{\PXXG}{G}{}{} % graviton
+\NewSusyParticle{\PXXSG}{\PXXG}{}{} % graviton
 
 \endinput
