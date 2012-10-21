@@ -242,9 +242,9 @@
 
 % commands for defining new SUSY particles and antiparticles
 \DeclareDocumentCommand\NewSusyParticle{ m m m m }%
-{\DeclareRobustCommand{\PSGmmR}{\HepSusyParticle{\PGm}{R}{-}\Xspace}}
+{\DeclareRobustCommand{#1}{\HepSusyParticle{#2}{#3}{#4}\Xspace}}
 \DeclareDocumentCommand\NewSusyAntiParticle{ m m m m }%
-{\DeclareRobustCommand{\PASQR}{\HepSusyAntiParticle{\PQq}{R}{}\Xspace}}
+{\DeclareRobustCommand{#1}{\HepSusyAntiParticle{#2}{#3}{#4}\Xspace}}
 
 %% -------------------------------------------------------------
 %% The particles...
