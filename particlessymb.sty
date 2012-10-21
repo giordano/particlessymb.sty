@@ -228,23 +228,66 @@
 
 \let\Xspace\xspace
 
-% commands for defining new particles and antiparticles
-\DeclareDocumentCommand\NewParticle{ m m m m }%
-{\DeclareRobustCommand{#1}{\HepParticle{#2}{#3}{#4}\Xspace}}
-\DeclareDocumentCommand\NewAntiParticle{ m m m m }%
-{\DeclareRobustCommand{#1}{\HepAntiParticle{#2}{#3}{#4}\Xspace}}
+% \NewParticle defines a new particle command which takes no arguments.  Starred
+% version \NewParticle* defines a new antiparticle command which takes no
+% arguments.  The main part of an antiparticle symbol has a bar over it.
+% Arguments of \NewParticle{}{}{}{} command and its starred version:
+%   1st: name of the command including backslash
+%   2nd: main part of the symbol
+%   3rd: subscript after main part of the symbol
+%   4th: superscript after main part of the symbol
+\DeclareDocumentCommand\NewParticle{ s m m m m }
+{
+  \IfBooleanTF{#1}
+  { \DeclareDocumentCommand{#2}{}{\HepAntiParticle{#3}{#4}{#5}\Xspace} }
+  { \DeclareDocumentCommand{#2}{}{\HepParticle{#3}{#4}{#5}\Xspace} }
+}
 
-% commands for defining new particles with resonance
-\DeclareDocumentCommand\NewParticleResonance{ m o m m m m }%
-{\DeclareRobustCommand{#1}[#2]{\HepParticleResonance{#3}{#4}{#5}{#6}\Xspace}}
-\DeclareDocumentCommand\NewParticleResonanceFull{ m o m m m m m m }%
-{\DeclareRobustCommand{#1}[#2]{\HepParticleResonanceFull{#3}{#4}{#5}{#6}{#7}{#8}\Xspace}}
+% \NewParticleResonance defines a new resonant particle which takes as only
+% argument the resonance specifier.  This specifier will be written in
+% parentheses.  Starred version \NewParticleResonance* allow to insert a
+% subscript and a superscript after the main part of the symbol.
+% Arguments of \NewParticleResonance{}{}{}{}{} command:
+%   1st: name of the command including backslash
+%   2nd: main part of the symbol
+%   3rd: specifier of the resonance
+%   4th: subscript after parentheses
+%   5th: superscript after parentheses
+% Arguments of \NewParticleResonance*{}{}{}{}{}{}{} command:
+%   1st: name of the command including backslash
+%   2nd: main part of the symbol
+%   3rd: subscript after the main part of the symbol and before parentheses
+%   4th: superscript after the main part of the symbol and before parentheses
+%   5th: specifier of the resonance
+%   6th: subscript after parentheses
+%   7th: superscript after parentheses
+\DeclareDocumentCommand\NewParticleResonance{ s m m m m m g g }
+{
+  \IfBooleanTF{#1}
+  { \DeclareDocumentCommand{#2}{ m }
+    { \HepParticleResonanceFull{#3}{#4}{#5}{#6}{#7}{#8}\Xspace}
+  }
+  { \DeclareDocumentCommand{#2}{ m }
+    { \HepParticleResonance{#3}{#4}{#5}{#6}\Xspace }
+  }
+}
 
-% commands for defining new SUSY particles and antiparticles
-\DeclareDocumentCommand\NewSusyParticle{ m m m m }%
-{\DeclareRobustCommand{#1}{\HepSusyParticle{#2}{#3}{#4}\Xspace}}
-\DeclareDocumentCommand\NewSusyAntiParticle{ m m m m }%
-{\DeclareRobustCommand{#1}{\HepSusyAntiParticle{#2}{#3}{#4}\Xspace}}
+% \NewSusyParticle defines a new supersymmetric particle which takes no
+% arguments.  The main part of the supersymmetric particle symbol has a tilde
+% over it.  Starred version \NewSusyParticle* defines a new supersymmetric
+% antiparticle command which takes no arguments.  The main part of a
+% supersymmetric antiparticle has a bar over tilde.
+% Arguments of \NewSusyParticle{}{}{}{} command and its starred version:
+%   1st: name of the command including backslash
+%   2nd: main part of the symbol
+%   3rd: subscript after main part of the symbol
+%   4th: superscript after main part of the symbol
+\DeclareDocumentCommand\NewSusyParticle{ s m m m m }
+{
+  \IfBooleanTF{#1}
+  { \DeclareRobustCommand{#2}{\HepSusyAntiParticle{#3}{#4}{#5}\Xspace} }
+  { \DeclareRobustCommand{#2}{\HepSusyParticle{#3}{#4}{#5}\Xspace} }
+}
 
 %% -------------------------------------------------------------
 %% The particles...
@@ -303,9 +346,9 @@
 \NewParticle{\Plp}{\Pl}{}{+} % positive lepton
 \NewParticle{\Plm}{\Pl}{}{-} % negative lepton
 \NewParticle{\PlmR}{\Pl}{R}{-} % right-handed negative lepton
-\NewAntiParticle{\PAl}{\Pl}{}{} % anti-lepton
+\NewParticle*{\PAl}{\Pl}{}{} % anti-lepton
 \NewParticle{\PGnl}{\PGn}{l}{} % neutrino (for lepton l)
-\NewAntiParticle{\PAGnl}{\PGn}{l}{} % anti-neutrino (for lepton l)
+\NewParticle*{\PAGnl}{\PGn}{l}{} % anti-neutrino (for lepton l)
 
 \NewParticle{\Pe}{e}{}{} % electron
 \NewParticle{\Pepm}{\Pe}{}{\pm} % e plus/minus
@@ -337,11 +380,11 @@
 \NewParticle{\PGnGt}{\PGn}{\!\PGt}{} % tau neutrino
 \NewParticle{\PGnGtpr}{\PGn}{\!\PGtpr}{} % tau prime neutrino
 
-\NewAntiParticle{\PAGn}{\PGn}{}{} % anti-neutrino
-\NewAntiParticle{\PAGne}{\PGn}{\!\Pe}{} % electron anti-neutrino
-\NewAntiParticle{\PAGnGm}{\PGn}{\!\PGm}{} % muon anti-neutrino
-\NewAntiParticle{\PAGnGt}{\PGn}{\!\PGt}{} % tau anti-neutrino
-\NewAntiParticle{\PAGnGtpr}{\PGn}{\!\PGtpr}{} % tau prime anti-neutrino
+\NewParticle*{\PAGn}{\PGn}{}{} % anti-neutrino
+\NewParticle*{\PAGne}{\PGn}{\!\Pe}{} % electron anti-neutrino
+\NewParticle*{\PAGnGm}{\PGn}{\!\PGm}{} % muon anti-neutrino
+\NewParticle*{\PAGnGt}{\PGn}{\!\PGt}{} % tau anti-neutrino
+\NewParticle*{\PAGnGtpr}{\PGn}{\!\PGtpr}{} % tau prime anti-neutrino
 
 %%% Heavy leptons
 \NewParticle{\PL}{L}{}{}
@@ -349,7 +392,7 @@
 \NewParticle{\PLp}{L}{}{\mspace{-1mu}+}
 \NewParticle{\PLz}{L}{}{\mspace{-1mu}0}
 \NewParticle{\PLpm}{L}{}{\mspace{-1mu}\pm}
-\NewAntiParticle{\PAL}{L}{}{}
+\NewParticle*{\PAL}{L}{}{}
 
 % ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 %                          QUARKS                                +
@@ -365,15 +408,15 @@
 \NewParticle{\PQbpr}{\PQb}{}{\prime} % bottom prime quark
 \NewParticle{\PQtpr}{\PQt}{}{\prime} % top prime quark
 
-\NewAntiParticle{\PAQq}{\PQq}{}{} % anti-quark (generic)
-\NewAntiParticle{\PAQd}{\PQd}{}{} % down anti-quark
-\NewAntiParticle{\PAQu}{\PQu}{}{} % up anti-quark
-\NewAntiParticle{\PAQs}{\PQs}{}{} % strange anti-quark
-\NewAntiParticle{\PAQc}{\PQc}{}{} % charm anti-quark
-\NewAntiParticle{\PAQb}{\PQb}{}{} % bottom anti-quark
-\NewAntiParticle{\PAQt}{\PQt}{}{} % top anti-quark
-\NewAntiParticle{\PAQbpr}{\PQb}{}{\prime} % bottom prime anti-quark
-\NewAntiParticle{\PAQtpr}{\PQt}{}{\prime} % top prime anti-quark
+\NewParticle*{\PAQq}{\PQq}{}{} % anti-quark (generic)
+\NewParticle*{\PAQd}{\PQd}{}{} % down anti-quark
+\NewParticle*{\PAQu}{\PQu}{}{} % up anti-quark
+\NewParticle*{\PAQs}{\PQs}{}{} % strange anti-quark
+\NewParticle*{\PAQc}{\PQc}{}{} % charm anti-quark
+\NewParticle*{\PAQb}{\PQb}{}{} % bottom anti-quark
+\NewParticle*{\PAQt}{\PQt}{}{} % top anti-quark
+\NewParticle*{\PAQbpr}{\PQb}{}{\prime} % bottom prime anti-quark
+\NewParticle*{\PAQtpr}{\PQt}{}{\prime} % top prime anti-quark
 
 % Versions generic quark with quark identifier as subscript
 \NewParticle{\PQqb}{\PQq}{\PQb}{}
@@ -387,14 +430,14 @@
 \NewParticle{\PQqu}{\PQq}{\PQu}{}
 \NewParticle{\PQquR}{\PQq}{{\PQu}R}{}
 
-\NewAntiParticle{\PAQqb}{\PQq}{\PQb}{}
-\NewAntiParticle{\PAQqbpr}{\PQq}{\PQbpr}{}
-\NewAntiParticle{\PAQqc}{\PQq}{\PQc}{}
-\NewAntiParticle{\PAQqd}{\PQq}{\PQd}{}
-\NewAntiParticle{\PAQqs}{\PQq}{\PQs}{}
-\NewAntiParticle{\PAQqt}{\PQq}{\PQt}{}
-\NewAntiParticle{\PAQqtpr}{\PQq}{\PQtpr}{}
-\NewAntiParticle{\PAQqu}{\PQq}{\PQu}{}
+\NewParticle*{\PAQqb}{\PQq}{\PQb}{}
+\NewParticle*{\PAQqbpr}{\PQq}{\PQbpr}{}
+\NewParticle*{\PAQqc}{\PQq}{\PQc}{}
+\NewParticle*{\PAQqd}{\PQq}{\PQd}{}
+\NewParticle*{\PAQqs}{\PQq}{\PQs}{}
+\NewParticle*{\PAQqt}{\PQq}{\PQt}{}
+\NewParticle*{\PAQqtpr}{\PQq}{\PQtpr}{}
+\NewParticle*{\PAQqu}{\PQq}{\PQu}{}
 
 % ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 %                          BARYONS                               +
@@ -403,17 +446,17 @@
 % Nucleons
 \NewParticle{\Pp}{p}{}{} % proton
 \NewParticle{\Pn}{n}{}{} % neutron
-\NewAntiParticle{\PAp}{\Pp}{}{} % anti-proton
-\NewAntiParticle{\PAn}{\Pn}{}{} % anti-neutron
+\NewParticle*{\PAp}{\Pp}{}{} % anti-proton
+\NewParticle*{\PAn}{\Pn}{}{} % anti-neutron
 \NewParticle{\PGa}{\upalpha}{}{} % alpha
 
 %% N resonances
 \NewParticle{\PN}{N}{}{}
 \NewParticle{\PNp}{\PN}{}{+}
 \NewParticle{\PNz}{\PN}{}{0}
-\NewParticleResonance{\PNP}[1]{\PN}{#1}{}{}
-\NewParticleResonance{\PNpP}[1]{\PN}{#1}{}{+}
-\NewParticleResonance{\PNzP}[1]{\PN}{#1}{}{-}
+\NewParticleResonance{\PNP}{\PN}{#1}{}{}
+\NewParticleResonance{\PNpP}{\PN}{#1}{}{+}
+\NewParticleResonance{\PNzP}{\PN}{#1}{}{-}
 
 %% Delta baryons
 \NewParticle{\PGD}{\Updelta}{}{}
@@ -421,25 +464,25 @@
 \NewParticle{\PGDp}{\PGD}{}{+}
 \NewParticle{\PGDz}{\PGD}{}{0}
 \NewParticle{\PGDm}{\PGD}{}{-}
-\NewParticleResonance{\PGDP}[1]{\PGD}{#1}{}{}
-\NewParticleResonanceFull{\PGDppP}[1]{\PGD}{}{}{#1}{}{++}
-\NewParticleResonanceFull{\PGDpP}[1]{\PGD}{}{}{#1}{}{+}
-\NewParticleResonanceFull{\PGDzP}[1]{\PGD}{}{}{#1}{}{0}
-\NewParticleResonanceFull{\PGDmP}[1]{\PGD}{}{}{#1}{}{-}
+\NewParticleResonance{\PGDP}{\PGD}{#1}{}{}
+\NewParticleResonance*{\PGDppP}{\PGD}{}{}{#1}{}{++}
+\NewParticleResonance*{\PGDpP}{\PGD}{}{}{#1}{}{+}
+\NewParticleResonance*{\PGDzP}{\PGD}{}{}{#1}{}{0}
+\NewParticleResonance*{\PGDmP}{\PGD}{}{}{#1}{}{-}
 
 %% Theta and fi resonances
-\NewParticleResonanceFull{\PGQpP}[1]{\Uptheta}{}{}{#1}{}{+}
-\NewParticleResonanceFull{\PGFP}[1]{\Upphi}{}{}{#1}{}{}
+\NewParticleResonance*{\PGQpP}{\Uptheta}{}{}{#1}{}{+}
+\NewParticleResonance*{\PGFP}{\Upphi}{}{}{#1}{}{}
 
 %% Lambda strange
 \NewParticle{\PGL}{\Uplambda}{}{} %% Lambda
-\NewAntiParticle{\PAGL}{\PGL}{}{} %% Anti-lambda
-\NewParticleResonance{\PGLP}[1]{\PGL}{#1}{}{}
+\NewParticle*{\PAGL}{\PGL}{}{} %% Anti-lambda
+\NewParticleResonance{\PGLP}{\PGL}{#1}{}{}
 
 %% Lambda charmed
 \NewParticle{\PGLc}{\PGL}{c}{} %% Lambda_c
 \NewParticle{\PGLpc}{\PGL}{c}{+} %% Lambda_c +
-\NewParticleResonance{\PGLpcP}[1]{\PGLc}{#1}{}{+}
+\NewParticleResonance{\PGLpcP}{\PGLc}{#1}{}{+}
 
 %% Lambda bottom
 \NewParticle{\PGLb}{\PGL}{b}{}
@@ -447,7 +490,7 @@
 
 %% Sigma strange
 \NewParticle{\PGS}{\Upsigma}{}{} %% Sigma
-\NewAntiParticle{\PAGS}{\PGS}{}{}
+\NewParticle*{\PAGS}{\PGS}{}{}
 \NewParticle{\PGSpm}{\PGS}{}{\pm} %% charged Sigma
 \NewParticle{\PGSm}{\PGS}{}{-}
 \NewParticle{\PGSp}{\PGS}{}{+}
@@ -455,27 +498,27 @@
 \NewParticle{\PGSstm}{\PGS}{}{\ast-}
 \NewParticle{\PGSstp}{\PGS}{}{\ast+}
 \NewParticle{\PGSstz}{\PGS}{}{\ast0}
-\NewParticleResonance{\PGSP}[1]{\PGS}{#1}{}{}
-\NewParticleResonanceFull{\PGSmP}[1]{\PGS}{}{}{#1}{}{-}
-\NewParticleResonanceFull{\PGSpP}[1]{\PGS}{}{}{#1}{}{+}
-\NewParticleResonanceFull{\PGSzP}[1]{\PGS}{}{}{#1}{}{0}
+\NewParticleResonance{\PGSP}{\PGS}{#1}{}{}
+\NewParticleResonance*{\PGSmP}{\PGS}{}{}{#1}{}{-}
+\NewParticleResonance*{\PGSpP}{\PGS}{}{}{#1}{}{+}
+\NewParticleResonance*{\PGSzP}{\PGS}{}{}{#1}{}{0}
 %% Sigma charm
 \NewParticle{\PGSc}{\PGS}{c}{}
 \NewParticle{\PGSppc}{\PGS}{c}{++}
 \NewParticle{\PGSpc}{\PGS}{c}{+}
 \NewParticle{\PGSzc}{\PGS}{c}{0}
-\NewParticleResonance{\PGScP}[1]{\PGSc}{#1}{}{}
-\NewParticleResonance{\PGSppcP}[1]{\PGSc}{#1}{}{++}
-\NewParticleResonance{\PGSpcP}[1]{\PGSc}{#1}{}{+}
-\NewParticleResonance{\PGSzcP}[1]{\PGSc}{#1}{}{0}
+\NewParticleResonance{\PGScP}{\PGSc}{#1}{}{}
+\NewParticleResonance{\PGSppcP}{\PGSc}{#1}{}{++}
+\NewParticleResonance{\PGSpcP}{\PGSc}{#1}{}{+}
+\NewParticleResonance{\PGSzcP}{\PGSc}{#1}{}{0}
 \NewParticle{\PGSstc}{\PGSc}{}{\ast}
 \NewParticle{\PGSstppc}{\PGSstc}{}{++}
 \NewParticle{\PGSstpc}{\PGSstc}{}{+}
 \NewParticle{\PGSstzc}{\PGSstc}{}{0}
-\NewParticleResonance{\PGSstcP}[1]{\PGSstc}{#1}{}{}
-\NewParticleResonance{\PGSstppcP}[1]{\PGSstc}{#1}{}{++}
-\NewParticleResonance{\PGSstpcP}[1]{\PGSstc}{#1}{}{+}
-\NewParticleResonance{\PGSstzcP}[1]{\PGSstc}{#1}{}{0}
+\NewParticleResonance{\PGSstcP}{\PGSstc}{#1}{}{}
+\NewParticleResonance{\PGSstppcP}{\PGSstc}{#1}{}{++}
+\NewParticleResonance{\PGSstpcP}{\PGSstc}{#1}{}{+}
+\NewParticleResonance{\PGSstzcP}{\PGSstc}{#1}{}{0}
 %% Sigma bottom
 \NewParticle{\PGSb}{\PGS}{b}{}
 \NewParticle{\PGSmb}{\PGS}{b}{-}
@@ -488,23 +531,23 @@
 
 %% Xi
 \NewParticle{\PGX}{\Upxi}{}{}
-\NewAntiParticle{\PAGX}{\PGX}{}{}
+\NewParticle*{\PAGX}{\PGX}{}{}
 %% Xi strange
 \NewParticle{\PGXm}{\PGX}{}{-}
 \NewParticle{\PGXz}{\PGX}{}{0}
 \NewParticle{\PGXstm}{\PGX}{}{\ast-}
 \NewParticle{\PGXstz}{\PGX}{}{\ast0}
-\NewParticleResonanceFull{\PGXP}[1]{\PGX}{}{}{#1}{}{}
-\NewParticleResonanceFull{\PGXmP}[1]{\PGX}{}{}{#1}{}{-}
-\NewParticleResonanceFull{\PGXzP}[1]{\PGX}{}{}{#1}{}{0}
-\NewParticleResonanceFull{\PGXstmP}[1]{\PGX}{}{\ast}{#1}{}{-}
-\NewParticleResonanceFull{\PGXstzP}[1]{\PGX}{}{\ast}{#1}{}{0}
+\NewParticleResonance*{\PGXP}{\PGX}{}{}{#1}{}{}
+\NewParticleResonance*{\PGXmP}{\PGX}{}{}{#1}{}{-}
+\NewParticleResonance*{\PGXzP}{\PGX}{}{}{#1}{}{0}
+\NewParticleResonance*{\PGXstmP}{\PGX}{}{\ast}{#1}{}{-}
+\NewParticleResonance*{\PGXstzP}{\PGX}{}{\ast}{#1}{}{0}
 
 %% Xi charm
 \NewParticle{\PGXc}{\PGX}{c}{}
 \NewParticle{\PGXpc}{\PGX}{c}{+}
 \NewParticle{\PGXzc}{\PGX}{c}{0}
-\NewParticleResonanceFull{\PGXcP}[1]{\PGX}{c}{}{#1}{}{}
+\NewParticleResonance*{\PGXcP}{\PGX}{c}{}{#1}{}{}
 \NewParticle{\PGXprc}{\PGX}{c}{\prime{}}
 \NewParticle{\PGXprpc}{\PGX}{c}{\prime{}+}
 \NewParticle{\PGXprzc}{\PGX}{c}{\prime{}0}
@@ -551,10 +594,10 @@
 
 %% Omega strange
 \NewParticle{\PGO}{\Upomega}{}{} %% Omega
-\NewAntiParticle{\PAGO}{\PGO}{}{} % new %% anti-Omega
+\NewParticle*{\PAGO}{\PGO}{}{} % new %% anti-Omega
 \NewParticle{\PGOm}{\PGO}{}{-} %% Omega-minus
-\NewParticleResonanceFull{\PGOP}[1]{\PGO}{}{}{#1}{}{}
-\NewParticleResonanceFull{\PGOmP}[1]{\PGO}{}{}{#1}{}{-}
+\NewParticleResonance*{\PGOP}{\PGO}{}{}{#1}{}{}
+\NewParticleResonance*{\PGOmP}{\PGO}{}{}{#1}{}{-}
 
 %% Omega charm
 \NewParticle{\PGOc}{\PGO}{c}{}
@@ -627,82 +670,82 @@
 \NewParticle{\PGpm}{\PGp}{}{-} % negative pion
 \NewParticle{\PGpp}{\PGp}{}{+} % positive pion
 \NewParticle{\PGpz}{\PGp}{}{0} % neutral pion
-\NewParticleResonanceFull{\PGpP}[1]{\PGp}{}{}{#1}{}{}% pi resonance
-\NewParticleResonanceFull{\PGppP}[1]{\PGp}{}{+}{#1}{}{}
-\NewParticleResonanceFull{\PGpzP}[1]{\PGp}{}{0}{#1}{}{}
-\NewParticleResonanceFull{\PGpDoP}[1]{\PGp}{1}{}{#1}{}{}% pi one resonance
-\NewParticleResonanceFull{\PGppDoP}[1]{\PGp}{1}{+}{#1}{}{}
-\NewParticleResonanceFull{\PGpzDoP}[1]{\PGp}{1}{0}{#1}{}{}
-\NewParticleResonanceFull{\PGpDtP}[1]{\PGp}{2}{}{#1}{}{}% pi two resonance
-\NewParticleResonanceFull{\PGppDtP}[1]{\PGp}{2}{+}{#1}{}{}
-\NewParticleResonanceFull{\PGpzDtP}[1]{\PGp}{2}{0}{#1}{}{}
+\NewParticleResonance*{\PGpP}{\PGp}{}{}{#1}{}{}% pi resonance
+\NewParticleResonance*{\PGppP}{\PGp}{}{+}{#1}{}{}
+\NewParticleResonance*{\PGpzP}{\PGp}{}{0}{#1}{}{}
+\NewParticleResonance*{\PGpDoP}{\PGp}{1}{}{#1}{}{}% pi one resonance
+\NewParticleResonance*{\PGppDoP}{\PGp}{1}{+}{#1}{}{}
+\NewParticleResonance*{\PGpzDoP}{\PGp}{1}{0}{#1}{}{}
+\NewParticleResonance*{\PGpDtP}{\PGp}{2}{}{#1}{}{}% pi two resonance
+\NewParticleResonance*{\PGppDtP}{\PGp}{2}{+}{#1}{}{}
+\NewParticleResonance*{\PGpzDtP}{\PGp}{2}{0}{#1}{}{}
 
 %% Eta mesons
 \NewParticle{\PGh}{\upeta}{}{}% eta
 \NewParticle{\PGhpr}{\PGh}{}{\prime}% eta prime
-\NewParticleResonance{\PGhP}[1]{\PGh}{#1}{}{}% eta resonance
-\NewParticleResonance{\PGhprP}[1]{\PGhpr}{#1}{}{}% eta resonance
-\NewParticleResonanceFull{\PGhDtP}[1]{\PGh}{2}{}{#1}{}{}% eta 2 resonance
+\NewParticleResonance{\PGhP}{\PGh}{#1}{}{}% eta resonance
+\NewParticleResonance{\PGhprP}{\PGhpr}{#1}{}{}% eta resonance
+\NewParticleResonance*{\PGhDtP}{\PGh}{2}{}{#1}{}{}% eta 2 resonance
 
 %% f mesons
 \NewParticle{\Pf}{f}{}{}% f
-\NewParticleResonanceFull{\PfDzP}[1]{\Pf}{0}{}{#1}{}{}% f zero resonance
-\NewParticleResonanceFull{\PfDoP}[1]{\Pf}{1}{}{#1}{}{}% f one resonance
-\NewParticleResonanceFull{\PfDtP}[1]{\Pf}{2}{}{#1}{}{}% f two resonance
-\NewParticleResonanceFull{\PfprDtP}[1]{\Pf}{2}{\prime}{#1}{}{}% f prime two resonance
-\NewParticleResonanceFull{\PfDfP}[1]{\Pf}{4}{}{#1}{}{}% f four resonance
-\NewParticleResonanceFull{\PfDsP}[1]{\Pf}{6}{}{#1}{}{}% f six resonance
-\NewParticleResonanceFull{\PfJP}[1]{\Pf}{\,J}{}{#1}{}{}% f J resonance
+\NewParticleResonance*{\PfDzP}{\Pf}{0}{}{#1}{}{}% f zero resonance
+\NewParticleResonance*{\PfDoP}{\Pf}{1}{}{#1}{}{}% f one resonance
+\NewParticleResonance*{\PfDtP}{\Pf}{2}{}{#1}{}{}% f two resonance
+\NewParticleResonance*{\PfprDtP}{\Pf}{2}{\prime}{#1}{}{}% f prime two resonance
+\NewParticleResonance*{\PfDfP}{\Pf}{4}{}{#1}{}{}% f four resonance
+\NewParticleResonance*{\PfDsP}{\Pf}{6}{}{#1}{}{}% f six resonance
+\NewParticleResonance*{\PfJP}{\Pf}{\,J}{}{#1}{}{}% f J resonance
 
 %% rho mesons
 \NewParticle{\PGr}{\uprho}{}{}
-\NewParticleResonanceFull{\PGrP}[1]{\PGr}{}{}{#1}{}{}% rho resonance
-\NewParticleResonanceFull{\PGrpP}[1]{\PGr}{}{+}{#1}{}{}
-\NewParticleResonanceFull{\PGrzP}[1]{\PGr}{}{0}{#1}{}{}
-\NewParticleResonanceFull{\PGrDTP}[1]{\PGr}{3}{}{#1}{}{}% rho three resonance
-\NewParticleResonanceFull{\PGrpDTP}[1]{\PGr}{3}{+}{#1}{}{}
-\NewParticleResonanceFull{\PGrzDTP}[1]{\PGr}{3}{0}{#1}{}{}
-\NewParticleResonanceFull{\PGrDFP}[1]{\PGr}{5}{}{#1}{}{}% rho five resonance
-\NewParticleResonanceFull{\PGrpDFP}[1]{\PGr}{5}{+}{#1}{}{}
-\NewParticleResonanceFull{\PGrzDFP}[1]{\PGr}{5}{0}{#1}{}{}
+\NewParticleResonance*{\PGrP}{\PGr}{}{}{#1}{}{}% rho resonance
+\NewParticleResonance*{\PGrpP}{\PGr}{}{+}{#1}{}{}
+\NewParticleResonance*{\PGrzP}{\PGr}{}{0}{#1}{}{}
+\NewParticleResonance*{\PGrDTP}{\PGr}{3}{}{#1}{}{}% rho three resonance
+\NewParticleResonance*{\PGrpDTP}{\PGr}{3}{+}{#1}{}{}
+\NewParticleResonance*{\PGrzDTP}{\PGr}{3}{0}{#1}{}{}
+\NewParticleResonance*{\PGrDFP}{\PGr}{5}{}{#1}{}{}% rho five resonance
+\NewParticleResonance*{\PGrpDFP}{\PGr}{5}{+}{#1}{}{}
+\NewParticleResonance*{\PGrzDFP}{\PGr}{5}{0}{#1}{}{}
 
 %% omega mesons
 \NewParticle{\PGo}{\upomega}{}{}
-\NewParticleResonance{\PGoP}[1]{\PGo}{#1}{}{}% omega resonance
-\NewParticleResonanceFull{\PGoDTP}[1]{\PGo}{3}{}{#1}{}{}% omega three resonance
+\NewParticleResonance{\PGoP}{\PGo}{#1}{}{}% omega resonance
+\NewParticleResonance*{\PGoDTP}{\PGo}{3}{}{#1}{}{}% omega three resonance
 
 %% a mesons
 \NewParticle{\Pa}{a}{}{}% a
-\NewParticleResonanceFull{\PaDzP}[1]{\Pa}{0}{}{#1}{}{}% a zero resonance
-\NewParticleResonanceFull{\PapDzP}[1]{\Pa}{0}{+}{#1}{}{}
-\NewParticleResonanceFull{\PazDzP}[1]{\Pa}{0}{0}{#1}{}{}
-\NewParticleResonanceFull{\PaDoP}[1]{\Pa}{1}{}{#1}{}{}% a one resonance
-\NewParticleResonanceFull{\PapDoP}[1]{\Pa}{1}{+}{#1}{}{}
-\NewParticleResonanceFull{\PazDoP}[1]{\Pa}{1}{0}{#1}{}{}
-\NewParticleResonanceFull{\PaDtP}[1]{\Pa}{2}{}{#1}{}{}% a two resonance
-\NewParticleResonanceFull{\PapDtP}[1]{\Pa}{2}{+}{#1}{}{}
-\NewParticleResonanceFull{\PazDtP}[1]{\Pa}{2}{0}{#1}{}{}
-\NewParticleResonanceFull{\PaDfP}[1]{\Pa}{4}{}{#1}{}{}% a four resonance
-\NewParticleResonanceFull{\PapDfP}[1]{\Pa}{4}{+}{#1}{}{}
-\NewParticleResonanceFull{\PazDfP}[1]{\Pa}{4}{0}{#1}{}{}
-\NewParticleResonanceFull{\PaDsP}[1]{\Pa}{6}{}{#1}{}{}% a six resonance
-\NewParticleResonanceFull{\PapDsP}[1]{\Pa}{6}{+}{#1}{}{}
-\NewParticleResonanceFull{\PazDsP}[1]{\Pa}{6}{0}{#1}{}{}
+\NewParticleResonance*{\PaDzP}{\Pa}{0}{}{#1}{}{}% a zero resonance
+\NewParticleResonance*{\PapDzP}{\Pa}{0}{+}{#1}{}{}
+\NewParticleResonance*{\PazDzP}{\Pa}{0}{0}{#1}{}{}
+\NewParticleResonance*{\PaDoP}{\Pa}{1}{}{#1}{}{}% a one resonance
+\NewParticleResonance*{\PapDoP}{\Pa}{1}{+}{#1}{}{}
+\NewParticleResonance*{\PazDoP}{\Pa}{1}{0}{#1}{}{}
+\NewParticleResonance*{\PaDtP}{\Pa}{2}{}{#1}{}{}% a two resonance
+\NewParticleResonance*{\PapDtP}{\Pa}{2}{+}{#1}{}{}
+\NewParticleResonance*{\PazDtP}{\Pa}{2}{0}{#1}{}{}
+\NewParticleResonance*{\PaDfP}{\Pa}{4}{}{#1}{}{}% a four resonance
+\NewParticleResonance*{\PapDfP}{\Pa}{4}{+}{#1}{}{}
+\NewParticleResonance*{\PazDfP}{\Pa}{4}{0}{#1}{}{}
+\NewParticleResonance*{\PaDsP}{\Pa}{6}{}{#1}{}{}% a six resonance
+\NewParticleResonance*{\PapDsP}{\Pa}{6}{+}{#1}{}{}
+\NewParticleResonance*{\PazDsP}{\Pa}{6}{0}{#1}{}{}
 
 %% fi mesons
 \NewParticle{\PGf}{\upphi}{}{}
-\NewParticleResonance{\PGfP}[1]{\PGf}{#1}{}{}
-\NewParticleResonanceFull{\PGfDTP}[1]{\PGf}{3}{}{#1}{}{}
+\NewParticleResonance{\PGfP}{\PGf}{#1}{}{}
+\NewParticleResonance*{\PGfDTP}{\PGf}{3}{}{#1}{}{}
 
 %% h meson
 \NewParticle{\Ph}{h}{}{}% h
-\NewParticleResonanceFull{\PhDoP}[1]{\Ph}{1}{}{#1}{}{}% h one resonance
+\NewParticleResonance*{\PhDoP}{\Ph}{1}{}{#1}{}{}% h one resonance
 
 %% b meson
 \NewParticle{\Pb}{b}{}{}% b
-\NewParticleResonanceFull{\PbDoP}[1]{\Pb}{1}{}{#1}{}{}% b one resonance
-\NewParticleResonanceFull{\PbpDoP}[1]{\Pb}{1}{+}{#1}{}{}
-\NewParticleResonanceFull{\PbzDoP}[1]{\Pb}{1}{0}{#1}{}{}
+\NewParticleResonance*{\PbDoP}{\Pb}{1}{}{#1}{}{}% b one resonance
+\NewParticleResonance*{\PbpDoP}{\Pb}{1}{+}{#1}{}{}
+\NewParticleResonance*{\PbzDoP}{\Pb}{1}{0}{#1}{}{}
 
 % ---------------------------------------------------------------+
 %               Strange (S=+-1,C=B=0)                            +
@@ -720,23 +763,23 @@
 \NewParticle{\PKz}{\PK}{}{0} % neutral kaon
 \NewParticle{\PKzL}{\PK}{L}{0} % neutral K-long
 \NewParticle{\PKzS}{\PK}{S}{0} % neutral K-short
-\NewAntiParticle{\PAK}{\PK}{}{} % neutral anti-kaon
-\NewAntiParticle{\PAKst}{\PK}{}{\ast} % neutral anti-kaon
-\NewAntiParticle{\PAKz}{\PK}{}{0} % neutral anti-kaon
+\NewParticle*{\PAK}{\PK}{}{} % neutral anti-kaon
+\NewParticle*{\PAKst}{\PK}{}{\ast} % neutral anti-kaon
+\NewParticle*{\PAKz}{\PK}{}{0} % neutral anti-kaon
 
-\NewParticleResonanceFull{\PKP}[1]{\PK}{}{}{#1}{}{}
-\NewParticleResonanceFull{\PKDzP}[1]{\PK}{0}{}{#1}{}{}
-\NewParticleResonanceFull{\PKDoP}[1]{\PK}{1}{}{#1}{}{}
-\NewParticleResonanceFull{\PKDtP}[1]{\PK}{2}{}{#1}{}{}
-\NewParticleResonanceFull{\PKDTP}[1]{\PK}{3}{}{#1}{}{}
-\NewParticleResonanceFull{\PKDfP}[1]{\PK}{4}{}{#1}{}{}
-\NewParticleResonanceFull{\PKstP}[1]{\PK}{}{\ast}{#1}{}{}
-\NewParticleResonanceFull{\PKstDzP}[1]{\PK}{0}{\ast}{#1}{}{}
-\NewParticleResonanceFull{\PKstDoP}[1]{\PK}{1}{\ast}{#1}{}{}
-\NewParticleResonanceFull{\PKstDtP}[1]{\PK}{2}{\ast}{#1}{}{}
-\NewParticleResonanceFull{\PKstDTP}[1]{\PK}{3}{\ast}{#1}{}{}
-\NewParticleResonanceFull{\PKstDfP}[1]{\PK}{4}{\ast}{#1}{}{}
-\NewParticleResonanceFull{\PKstDFP}[1]{\PK}{5}{\ast}{#1}{}{}
+\NewParticleResonance*{\PKP}{\PK}{}{}{#1}{}{}
+\NewParticleResonance*{\PKDzP}{\PK}{0}{}{#1}{}{}
+\NewParticleResonance*{\PKDoP}{\PK}{1}{}{#1}{}{}
+\NewParticleResonance*{\PKDtP}{\PK}{2}{}{#1}{}{}
+\NewParticleResonance*{\PKDTP}{\PK}{3}{}{#1}{}{}
+\NewParticleResonance*{\PKDfP}{\PK}{4}{}{#1}{}{}
+\NewParticleResonance*{\PKstP}{\PK}{}{\ast}{#1}{}{}
+\NewParticleResonance*{\PKstDzP}{\PK}{0}{\ast}{#1}{}{}
+\NewParticleResonance*{\PKstDoP}{\PK}{1}{\ast}{#1}{}{}
+\NewParticleResonance*{\PKstDtP}{\PK}{2}{\ast}{#1}{}{}
+\NewParticleResonance*{\PKstDTP}{\PK}{3}{\ast}{#1}{}{}
+\NewParticleResonance*{\PKstDfP}{\PK}{4}{\ast}{#1}{}{}
+\NewParticleResonance*{\PKstDFP}{\PK}{5}{\ast}{#1}{}{}
 
 \NewParticle{\PKeiii}{\PK}{\Pe3}{}
 \NewParticle{\PKgmiii}{\PK}{\PGm3}{}
@@ -758,20 +801,20 @@
 \NewParticle{\PDstm}{\PD}{}{\ast-}
 \NewParticle{\PDstp}{\PD}{}{\ast+}
 \NewParticle{\PDstpm}{\PD}{}{\ast\pm}
-\NewAntiParticle{\PAD}{\PD}{}{}
-\NewAntiParticle{\PADz}{\PD}{}{0}
-\NewParticleResonanceFull{\PDstzP}[1]{\PD}{}{\ast}{#1}{}{0}
-\NewParticleResonanceFull{\PDstpmP}[1]{\PD}{}{\ast}{#1}{}{\pm}
-\NewParticleResonanceFull{\PDstmP}[1]{\PD}{}{\ast}{#1}{}{-}
-\NewParticleResonanceFull{\PDstpP}[1]{\PD}{}{\ast}{#1}{}{+}
-\NewParticleResonanceFull{\PDzDoP}[1]{\PD}{1}{}{#1}{}{0}
-\NewParticleResonanceFull{\PDpmDoP}[1]{\PD}{1}{}{#1}{}{\pm}
-\NewParticleResonanceFull{\PDmDoP}[1]{\PD}{1}{}{#1}{}{-}
-\NewParticleResonanceFull{\PDpDoP}[1]{\PD}{1}{}{#1}{}{+}
-\NewParticleResonanceFull{\PDstzDtP}[1]{\PD}{2}{\ast}{#1}{}{0}
-\NewParticleResonanceFull{\PDstpmDtP}[1]{\PD}{2}{\ast}{#1}{}{\pm}
-\NewParticleResonanceFull{\PDstmDtP}[1]{\PD}{2}{\ast}{#1}{}{-}
-\NewParticleResonanceFull{\PDstpDtP}[1]{\PD}{2}{\ast}{#1}{}{+}
+\NewParticle*{\PAD}{\PD}{}{}
+\NewParticle*{\PADz}{\PD}{}{0}
+\NewParticleResonance*{\PDstzP}{\PD}{}{\ast}{#1}{}{0}
+\NewParticleResonance*{\PDstpmP}{\PD}{}{\ast}{#1}{}{\pm}
+\NewParticleResonance*{\PDstmP}{\PD}{}{\ast}{#1}{}{-}
+\NewParticleResonance*{\PDstpP}{\PD}{}{\ast}{#1}{}{+}
+\NewParticleResonance*{\PDzDoP}{\PD}{1}{}{#1}{}{0}
+\NewParticleResonance*{\PDpmDoP}{\PD}{1}{}{#1}{}{\pm}
+\NewParticleResonance*{\PDmDoP}{\PD}{1}{}{#1}{}{-}
+\NewParticleResonance*{\PDpDoP}{\PD}{1}{}{#1}{}{+}
+\NewParticleResonance*{\PDstzDtP}{\PD}{2}{\ast}{#1}{}{0}
+\NewParticleResonance*{\PDstpmDtP}{\PD}{2}{\ast}{#1}{}{\pm}
+\NewParticleResonance*{\PDstmDtP}{\PD}{2}{\ast}{#1}{}{-}
+\NewParticleResonance*{\PDstpDtP}{\PD}{2}{\ast}{#1}{}{+}
 
 % ---------------------------------------------------------------+
 %               Charmed, generic quarks (B=+-1)                   +
@@ -779,8 +822,8 @@
 
 \NewParticle{\PDq}{\PD}{q}{}
 \NewParticle{\PDzq}{\PD}{q}{0}
-\NewAntiParticle{\PADq}{\PD}{q}{}
-\NewAntiParticle{\PADzq}{\PD}{q}{0}
+\NewParticle*{\PADq}{\PD}{q}{}
+\NewParticle*{\PADzq}{\PD}{q}{0}
 
 % ---------------------------------------------------------------+
 %               Charmed, strange (C=S=+-1)                       +
@@ -794,18 +837,18 @@
 \NewParticle{\PDstms}{\PD}{s}{\ast-}
 \NewParticle{\PDstps}{\PD}{s}{\ast+}
 \NewParticle{\PDstpms}{\PD}{s}{\ast\pm}
-\NewParticleResonanceFull{\PDstpmsJP}[1]{\PD}{sJ}{\ast}{#1}{}{\pm}
-\NewParticleResonanceFull{\PDstmsJP}[1]{\PD}{sJ}{\ast}{#1}{}{-}
-\NewParticleResonanceFull{\PDstpsJP}[1]{\PD}{sJ}{\ast}{#1}{}{+}
-\NewParticleResonanceFull{\PDpmsJP}[1]{\PD}{sJ}{}{#1}{}{\pm}
-\NewParticleResonanceFull{\PDmsJP}[1]{\PD}{sJ}{}{#1}{}{-}
-\NewParticleResonanceFull{\PDpsJP}[1]{\PD}{sJ}{}{#1}{}{+}
-\NewParticleResonanceFull{\PDpmsDoP}[1]{\PD}{s1}{}{#1}{}{\pm}
-\NewParticleResonanceFull{\PDmsDoP}[1]{\PD}{s1}{}{#1}{}{-}
-\NewParticleResonanceFull{\PDpsDoP}[1]{\PD}{s1}{}{#1}{}{+}
-\NewParticleResonanceFull{\PDpmsDtP}[1]{\PD}{s2}{}{#1}{}{\pm}
-\NewParticleResonanceFull{\PDmsDtP}[1]{\PD}{s2}{}{#1}{}{-}
-\NewParticleResonanceFull{\PDpsDtP}[1]{\PD}{s2}{}{#1}{}{+}
+\NewParticleResonance*{\PDstpmsJP}{\PD}{sJ}{\ast}{#1}{}{\pm}
+\NewParticleResonance*{\PDstmsJP}{\PD}{sJ}{\ast}{#1}{}{-}
+\NewParticleResonance*{\PDstpsJP}{\PD}{sJ}{\ast}{#1}{}{+}
+\NewParticleResonance*{\PDpmsJP}{\PD}{sJ}{}{#1}{}{\pm}
+\NewParticleResonance*{\PDmsJP}{\PD}{sJ}{}{#1}{}{-}
+\NewParticleResonance*{\PDpsJP}{\PD}{sJ}{}{#1}{}{+}
+\NewParticleResonance*{\PDpmsDoP}{\PD}{s1}{}{#1}{}{\pm}
+\NewParticleResonance*{\PDmsDoP}{\PD}{s1}{}{#1}{}{-}
+\NewParticleResonance*{\PDpsDoP}{\PD}{s1}{}{#1}{}{+}
+\NewParticleResonance*{\PDpmsDtP}{\PD}{s2}{}{#1}{}{\pm}
+\NewParticleResonance*{\PDmsDtP}{\PD}{s2}{}{#1}{}{-}
+\NewParticleResonance*{\PDpsDtP}{\PD}{s2}{}{#1}{}{+}
 
 
 % ---------------------------------------------------------------+
@@ -830,14 +873,14 @@
 \NewParticle{\PBstDt}{\PB}{2}{\ast{}}
 \NewParticle{\PBstpDt}{\PB}{2}{\ast{}+}
 \NewParticle{\PBstzDt}{\PB}{2}{\ast{}0}
-\NewAntiParticle{\PAB}{\PB}{}{}
-\NewAntiParticle{\PABz}{\PB}{}{0}
-\NewParticleResonanceFull{\PBstJP}[1]{\PB}{J}{\ast}{#1}{}{}
-\NewParticleResonanceFull{\PBstpJP}[1]{\PB}{J}{\ast}{#1}{}{+}
-\NewParticleResonanceFull{\PBstzJP}[1]{\PB}{J}{\ast}{#1}{}{0}
-\NewParticleResonanceFull{\PBDoP}[1]{\PB}{1}{}{#1}{}{}
-\NewParticleResonanceFull{\PBpDoP}[1]{\PB}{1}{}{#1}{}{+}
-\NewParticleResonanceFull{\PBzDoP}[1]{\PB}{1}{}{#1}{}{0}
+\NewParticle*{\PAB}{\PB}{}{}
+\NewParticle*{\PABz}{\PB}{}{0}
+\NewParticleResonance*{\PBstJP}{\PB}{J}{\ast}{#1}{}{}
+\NewParticleResonance*{\PBstpJP}{\PB}{J}{\ast}{#1}{}{+}
+\NewParticleResonance*{\PBstzJP}{\PB}{J}{\ast}{#1}{}{0}
+\NewParticleResonance*{\PBDoP}{\PB}{1}{}{#1}{}{}
+\NewParticleResonance*{\PBpDoP}{\PB}{1}{}{#1}{}{+}
+\NewParticleResonance*{\PBzDoP}{\PB}{1}{}{#1}{}{0}
 
 % ---------------------------------------------------------------+
 %               Bottom, strange (B=+-1,S=-+1)                    +
@@ -845,8 +888,8 @@
 
 \NewParticle{\PBs}{\PB}{s}{}
 \NewParticle{\PBzs}{\PB}{s}{0}
-\NewAntiParticle{\PABs}{\PB}{s}{}
-\NewAntiParticle{\PABzs}{\PB}{s}{0}
+\NewParticle*{\PABs}{\PB}{s}{}
+\NewParticle*{\PABzs}{\PB}{s}{0}
 \NewParticle{\PBsts}{\PB}{s}{\ast}
 \NewParticle{\PBstzs}{\PB}{s}{\ast{}0}
 \NewParticle{\PBstsDz}{\PB}{s0}{\ast}
@@ -855,10 +898,10 @@
 \NewParticle{\PBstzsDo}{\PB}{s1}{\ast{}0}
 \NewParticle{\PBstsDt}{\PB}{s2}{\ast}
 \NewParticle{\PBstzsDt}{\PB}{s2}{\ast{}0}
-\NewParticleResonanceFull{\PBstsJP}[1]{\PB}{sJ}{\ast}{#1}{}{}
-\NewParticleResonanceFull{\PBstzsJP}[1]{\PB}{sJ}{\ast}{#1}{}{0}
-\NewParticleResonanceFull{\PBsDoP}[1]{\PB}{s1}{}{#1}{}{}
-\NewParticleResonanceFull{\PBzsDoP}[1]{\PB}{s1}{}{#1}{}{0}
+\NewParticleResonance*{\PBstsJP}{\PB}{sJ}{\ast}{#1}{}{}
+\NewParticleResonance*{\PBstzsJP}{\PB}{sJ}{\ast}{#1}{}{0}
+\NewParticleResonance*{\PBsDoP}{\PB}{s1}{}{#1}{}{}
+\NewParticleResonance*{\PBzsDoP}{\PB}{s1}{}{#1}{}{0}
 
 
 % ---------------------------------------------------------------+
@@ -867,8 +910,8 @@
 
 \NewParticle{\PBq}{\PB}{q}{}
 \NewParticle{\PBzq}{\PB}{q}{0}
-\NewAntiParticle{\PABq}{\PB}{q}{}
-\NewAntiParticle{\PABzq}{\PB}{q}{0}
+\NewParticle*{\PABq}{\PB}{q}{}
+\NewParticle*{\PABzq}{\PB}{q}{0}
 
 % ---------------------------------------------------------------+
 %               Bottom, down (B=+-1,S=0)                         +
@@ -876,8 +919,8 @@
 
 \NewParticle{\PBd}{\PB}{d}{}
 \NewParticle{\PBzd}{\PB}{d}{0}
-\NewAntiParticle{\PABd}{\PB}{d}{}
-\NewAntiParticle{\PABzd}{\PB}{d}{0}
+\NewParticle*{\PABd}{\PB}{d}{}
+\NewParticle*{\PABzd}{\PB}{d}{0}
 
 % ---------------------------------------------------------------+
 %               Bottom, up (B=+-1,S=0)                           +
@@ -885,8 +928,8 @@
 
 \NewParticle{\PBu}{\PB}{u}{}
 \NewParticle{\PBzu}{\PB}{u}{0}
-\NewAntiParticle{\PABu}{\PB}{u}{}
-\NewAntiParticle{\PABzu}{\PB}{u}{0}
+\NewParticle*{\PABu}{\PB}{u}{}
+\NewParticle*{\PABzu}{\PB}{u}{0}
 
 % ---------------------------------------------------------------+
 %               Bottom, charmed (B=C=+-1)                        +
@@ -904,8 +947,8 @@
 \NewParticle{\PBstpcDo}{\PB}{c1}{\ast{}+}
 \NewParticle{\PBstcDt}{\PB}{c2}{\ast}
 \NewParticle{\PBstpcDt}{\PB}{c2}{\ast{}+}
-\NewParticleResonanceFull{\PBcDoP}[1]{\PB}{c1}{}{#1}{}{}
-\NewParticleResonanceFull{\PBpcDoP}[1]{\PB}{c1}{}{#1}{}{+}
+\NewParticleResonance*{\PBcDoP}{\PB}{c1}{}{#1}{}{}
+\NewParticleResonance*{\PBpcDoP}{\PB}{c1}{}{#1}{}{+}
 
 % ---------------------------------------------------------------+
 %               charm/anticharm                                  +
@@ -913,28 +956,28 @@
 
 %% eta charm
 \NewParticle{\PGhc}{\PGh}{\PQc}{}
-\NewParticleResonance{\PGhcP}[1]{\PGhc}{#1}{}{}
+\NewParticleResonance{\PGhcP}{\PGhc}{#1}{}{}
 
 %% Psi and its resonances
 \NewParticle{\PJGy}{J\mspace{-2mu}/\mspace{-2mu}\uppsi}{}{}
-\NewParticleResonance{\PJGyP}[1]{\PJGy}{#1}{}{}
+\NewParticleResonance{\PJGyP}{\PJGy}{#1}{}{}
 \NewParticle{\PGy}{\uppsi}{}{}
-\NewParticleResonance{\PGyP}[1]{\PGy}{#1}{}{}% psi resonances
+\NewParticleResonance{\PGyP}{\PGy}{#1}{}{}% psi resonances
 
 %% chi charm
 \NewParticle{\PGc}{\upchi}{}{}% chi
 \NewParticle{\PGcc}{\PGc}{c}{}
-\NewParticleResonanceFull{\PGccDzP}[1]{\PGc}{c0}{}{#1}{}{}% chi charm 0 resonance
-\NewParticleResonanceFull{\PGccDoP}[1]{\PGc}{c1}{}{#1}{}{}% chi charm 1 resonance
-\NewParticleResonanceFull{\PGccDtP}[1]{\PGc}{c2}{}{#1}{}{}% chi charm 2 resonance
+\NewParticleResonance*{\PGccDzP}{\PGc}{c0}{}{#1}{}{}% chi charm 0 resonance
+\NewParticleResonance*{\PGccDoP}{\PGc}{c1}{}{#1}{}{}% chi charm 1 resonance
+\NewParticleResonance*{\PGccDtP}{\PGc}{c2}{}{#1}{}{}% chi charm 2 resonance
 
 %% h charm meson
 \NewParticle{\Phc}{\Ph}{c}{}
-\NewParticleResonanceFull{\PhcP}[1]{\Ph}{c}{}{#1}{}{}% h c resonance
+\NewParticleResonance*{\PhcP}{\Ph}{c}{}{#1}{}{}% h c resonance
 
 %% X meson
 \NewParticle{\PX}{X}{}{}
-\NewParticleResonanceFull{\PXP}[1]{\PX}{}{}{#1}{}{}% X resonance
+\NewParticleResonance*{\PXP}{\PX}{}{}{#1}{}{}% X resonance
 
 % ---------------------------------------------------------------+
 %               bottom/antibottom                                +
@@ -942,11 +985,11 @@
 
 %% eta bottom
 \NewParticle{\PGhb}{\PGh}{\PQb}{}
-\NewParticleResonance{\PGhbP}[1]{\PGhb}{#1}{}{}
+\NewParticleResonance{\PGhbP}{\PGhb}{#1}{}{}
 
 %% Upsilon
 \NewParticle{\PGU}{\Upupsilon}{}{}
-\NewParticleResonance{\PGUP}[1]{\PGU}{#1}{}{}
+\NewParticleResonance{\PGUP}{\PGU}{#1}{}{}
 
 %% Upsilon primes
 \NewParticle{\PGUpr}{\Upupsilon}{}{\prime}
@@ -956,9 +999,9 @@
 
 %% chi charm
 \NewParticle{\PGcb}{\PGc}{\PQb}{}
-\NewParticleResonanceFull{\PGcbDzP}[1]{\PGc}{b0}{}{#1}{}{}% chi charm 0 resonance
-\NewParticleResonanceFull{\PGcbDoP}[1]{\PGc}{b1}{}{#1}{}{}% chi charm 1 resonance
-\NewParticleResonanceFull{\PGcbDtP}[1]{\PGc}{b2}{}{#1}{}{}% chi charm 2 resonance
+\NewParticleResonance*{\PGcbDzP}{\PGc}{b0}{}{#1}{}{}% chi charm 0 resonance
+\NewParticleResonance*{\PGcbDoP}{\PGc}{b1}{}{#1}{}{}% chi charm 1 resonance
+\NewParticleResonance*{\PGcbDtP}{\PGc}{b2}{}{#1}{}{}% chi charm 2 resonance
 
 % ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 %                          SUSY particles                        +
@@ -1015,7 +1058,7 @@
 %% Sleptons
 
 \NewSusyParticle{\PSl}{\Pl}{}{} % slepton (generic)
-\NewSusyAntiParticle{\PASl}{\Pl}{}{} % anti-slepton (generic)
+\NewSusyParticle*{\PASl}{\Pl}{}{} % anti-slepton (generic)
 \NewSusyParticle{\PSlL}{\Pl}{L}{} % slepton (generic)
 \NewSusyParticle{\PSlR}{\Pl}{R}{} % slepton (generic)
 
@@ -1040,7 +1083,7 @@
 \NewSusyParticle{\PSGtDt}{\PGt}{2}{} % stau
 
 \NewSusyParticle{\PSGn}{\PGn}{}{} % sneutrino
-\NewSusyAntiParticle{\PASGn}{\PGn}{}{} % anti-sneutrino
+\NewSusyParticle*{\PASGn}{\PGn}{}{} % anti-sneutrino
 
 \NewSusyParticle{\PSGne}{\PGn}{\Pe}{} % electron sneutrino
 \NewSusyParticle{\PSGneL}{\PGn}{{\Pe}L}{}
@@ -1083,32 +1126,32 @@
 \NewSusyParticle{\PSQtDt}{\PQt}{2}{}
 
 %% anti-squarks
-\NewSusyAntiParticle{\PASQ}{\PQq}{}{} % anti-squark (generic)
-\NewSusyAntiParticle{\PASQL}{\PQq}{L}{}
-\NewSusyAntiParticle{\PASQR}{\PQq}{R}{}
+\NewSusyParticle*{\PASQ}{\PQq}{}{} % anti-squark (generic)
+\NewSusyParticle*{\PASQL}{\PQq}{L}{}
+\NewSusyParticle*{\PASQR}{\PQq}{R}{}
 
-\NewSusyAntiParticle{\PASQd}{\PQd}{}{} % anti-down squark
-\NewSusyAntiParticle{\PASQdL}{\PQd}{L}{}
-\NewSusyAntiParticle{\PASQdR}{\PQd}{R}{}
-\NewSusyAntiParticle{\PASQu}{\PQu}{}{} % anti-up squark
-\NewSusyAntiParticle{\PASQuL}{\PQu}{L}{}
-\NewSusyAntiParticle{\PASQuR}{\PQu}{R}{}
-\NewSusyAntiParticle{\PASQs}{\PQs}{}{} % anti-strange squark
-\NewSusyAntiParticle{\PASQsL}{\PQs}{L}{}
-\NewSusyAntiParticle{\PASQsR}{\PQs}{R}{}
-\NewSusyAntiParticle{\PASQc}{\PQc}{}{} % anti-charm squark
-\NewSusyAntiParticle{\PASQcL}{\PQc}{L}{}
-\NewSusyAntiParticle{\PASQcR}{\PQc}{R}{}
-\NewSusyAntiParticle{\PASQb}{\PQb}{}{} % anti-bottom squark
-\NewSusyAntiParticle{\PASQbL}{\PQb}{L}{}
-\NewSusyAntiParticle{\PASQbR}{\PQb}{R}{}
-\NewSusyAntiParticle{\PASQbDo}{\PQb}{1}{}
-\NewSusyAntiParticle{\PASQbDt}{\PQb}{2}{}
-\NewSusyAntiParticle{\PASQt}{\PQt}{}{} % anti-top squark (stop)
-\NewSusyAntiParticle{\PASQtL}{\PQt}{L}{}
-\NewSusyAntiParticle{\PASQtR}{\PQt}{R}{}
-\NewSusyAntiParticle{\PASQtDo}{\PQt}{1}{}
-\NewSusyAntiParticle{\PASQtDt}{\PQt}{2}{}
+\NewSusyParticle*{\PASQd}{\PQd}{}{} % anti-down squark
+\NewSusyParticle*{\PASQdL}{\PQd}{L}{}
+\NewSusyParticle*{\PASQdR}{\PQd}{R}{}
+\NewSusyParticle*{\PASQu}{\PQu}{}{} % anti-up squark
+\NewSusyParticle*{\PASQuL}{\PQu}{L}{}
+\NewSusyParticle*{\PASQuR}{\PQu}{R}{}
+\NewSusyParticle*{\PASQs}{\PQs}{}{} % anti-strange squark
+\NewSusyParticle*{\PASQsL}{\PQs}{L}{}
+\NewSusyParticle*{\PASQsR}{\PQs}{R}{}
+\NewSusyParticle*{\PASQc}{\PQc}{}{} % anti-charm squark
+\NewSusyParticle*{\PASQcL}{\PQc}{L}{}
+\NewSusyParticle*{\PASQcR}{\PQc}{R}{}
+\NewSusyParticle*{\PASQb}{\PQb}{}{} % anti-bottom squark
+\NewSusyParticle*{\PASQbL}{\PQb}{L}{}
+\NewSusyParticle*{\PASQbR}{\PQb}{R}{}
+\NewSusyParticle*{\PASQbDo}{\PQb}{1}{}
+\NewSusyParticle*{\PASQbDt}{\PQb}{2}{}
+\NewSusyParticle*{\PASQt}{\PQt}{}{} % anti-top squark (stop)
+\NewSusyParticle*{\PASQtL}{\PQt}{L}{}
+\NewSusyParticle*{\PASQtR}{\PQt}{R}{}
+\NewSusyParticle*{\PASQtDo}{\PQt}{1}{}
+\NewSusyParticle*{\PASQtDt}{\PQt}{2}{}
 
 %% Random things
 \NewParticle{\PEz}{E}{}{0}
